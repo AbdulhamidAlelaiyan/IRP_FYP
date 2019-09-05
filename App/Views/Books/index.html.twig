@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Books list{% endblock %}
+
+{% block body %}
+    {%  for book in books %}
+        {{ book.title }}
+    {% endfor %}
+    <div class="m-4"></div>
+    {{ links|raw }}
+{% endblock %}

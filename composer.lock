@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1df6a649cee0b368503308d0a6ce6e91",
+    "content-hash": "fcec854d7c8f4a0bc4b65b5eea90d2b1",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -910,6 +910,52 @@
             ],
             "description": "A polyfill for getallheaders.",
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "stefangabos/zebra_pagination",
+            "version": "2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stefangabos/Zebra_Pagination.git",
+                "reference": "4a003961cfb21c628a299cefee070f15ed504e67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stefangabos/Zebra_Pagination/zipball/4a003961cfb21c628a299cefee070f15ed504e67",
+                "reference": "4a003961cfb21c628a299cefee070f15ed504e67",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Zebra_Pagination.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Stefan Gabos",
+                    "role": "Developer",
+                    "email": "contact@stefangabos.ro",
+                    "homepage": "https://github.com/stefangabos"
+                }
+            ],
+            "description": "A generic, Twitter Bootsrap compatible, PHP pagination library that automatically generates navigation links",
+            "homepage": "https://github.com/stefangabos/Zebra_Pagination",
+            "keywords": [
+                "paginate",
+                "pagination",
+                "paginator",
+                "paging",
+                "php"
+            ],
+            "time": "2018-07-04T21:02:46+00:00"
         },
         {
             "name": "symfony/options-resolver",
