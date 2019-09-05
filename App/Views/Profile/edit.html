@@ -82,8 +82,10 @@
             <input type="password" id="inputPassword" name="password" placeholder="Password" aria-describedby="helpBlock" />
             <span id="helpBlock">Leave blank to keep current password</span>
         </div>
+        <input type="hidden" name="token" value="{{ csrf_token }}">
+        <input type="text" name="spam-protection" value="" class="hidden-form">
 
-        <button type="submit">Save</button>
+        <input type="submit" value="Save">
         <a href="/profile/show">Cancel</a>
 
     </form>

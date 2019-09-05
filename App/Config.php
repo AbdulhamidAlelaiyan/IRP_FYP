@@ -14,25 +14,25 @@ class Config
      * Database host
      * @var string
      */
-    const DB_HOST = 'your-database-host';
+    const DB_HOST = 'localhost';
 
     /**
      * Database name
      * @var string
      */
-    const DB_NAME = 'your-database-name';
+    const DB_NAME = 'IRP';
 
     /**
      * Database user
      * @var string
      */
-    const DB_USER = 'your-database-user';
+    const DB_USER = 'root';
 
     /**
      * Database password
      * @var string
      */
-    const DB_PASSWORD = 'your-database-password';
+    const DB_PASSWORD = 'root';
 
     /**
      * Show or hide error messages on screen
@@ -44,19 +44,19 @@ class Config
      * Secret key for hashing
      * @var boolean
      */
-    const SECRET_KEY = 'your-secret-key';
+    const SECRET_KEY = 'gWSDiNtyInt1WSMUXB0osXB9tcA8VGOR';
 
     /**
      * Mailgun API key
      *
      * @var string
      */
-    const MAILGUN_API_KEY = 'your-mailgun-api-key';
+    const MAILGUN_API_KEY = '3c855ccef662c332c9bf67e2c1f7b274-19f318b0-4c35faaa';
 
     /**
      * Mailgun domain
      *
      * @var string
      */
-    const MAILGUN_DOMAIN = 'your-mailgun-domain';
+    const MAILGUN_DOMAIN = 'sandboxb5a9fb98392e4b7da7a95660e08cbd54.mailgun.org';
 }

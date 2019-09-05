@@ -57,18 +57,21 @@ class Profile extends Authenticated
      */
     public function updateAction()
     {
-        if ($this->user->updateProfile($_POST)) {
+		if(hash_equals($_SESSION['csrf_token'], $_POST['token']) && $_POST['spam-protection'] === '')
+		{
+			if ($this->user->updateProfile($_POST)) {
 
-            Flash::addMessage('Changes saved');
+				Flash::addMessage('Changes saved');
 
-            $this->redirect('/profile/show');
+				$this->redirect('/profile/show');
 
-        } else {
+			} else {
 
-            View::renderTemplate('Profile/edit.html', [
-                'user' => $this->user
-            ]);
+				View::renderTemplate('Profile/edit.html', [
+					'user' => $this->user
+				]);
 
-        }
+			}
+		}
     }
 }

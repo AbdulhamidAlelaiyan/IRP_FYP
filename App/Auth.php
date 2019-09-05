@@ -25,6 +25,8 @@ class Auth
         session_regenerate_id(true);
 
         $_SESSION['user_id'] = $user->id;
+		$csrfToken = new Token();
+		$_SESSION['csrf_token'] = $csrfToken->getValue();
 
         if ($remember_me) {
 

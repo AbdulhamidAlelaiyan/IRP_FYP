@@ -2,6 +2,10 @@
 
 namespace Core;
 
+use App\Auth;
+use App\Flash;
+use App\Token;
+
 /**
  * View
  *
@@ -59,9 +63,10 @@ class View
         if ($twig === null) {
             $loader = new \Twig_Loader_Filesystem(dirname(__DIR__) . '/App/Views');
             $twig = new \Twig_Environment($loader);
-            $twig->addGlobal('current_user', \App\Auth::getUser());
-            $twig->addGlobal('flash_messages', \App\Flash::getMessages());
-        }
+            $twig->addGlobal('current_user', Auth::getUser());
+            $twig->addGlobal('flash_messages', Flash::getMessages());
+			$twig->addGlobal('csrf_token', Token::getCsrfToken());
+		}
 
         return $twig->render($template, $args);
     }

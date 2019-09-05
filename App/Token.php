@@ -54,4 +54,22 @@ class Token
     {
         return hash_hmac('sha256', $this->token, \App\Config::SECRET_KEY);  // sha256 = 64 chars
     }
+
+	/**
+	 * Get the token of CSRF Protection
+	 *
+	 * @return string The csrf form token
+	 */
+	public static function getCsrfToken()
+	{
+		if(isset($_SESSION['csrf_token']))
+		{
+			return $_SESSION['csrf_token'];
+		}
+		else
+		{
+			$_SESSION['csrf_token'] = '';
+			return $_SESSION['csrf_token'];
+		}
+	}
 }
