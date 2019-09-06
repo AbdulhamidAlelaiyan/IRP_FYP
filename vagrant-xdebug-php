@@ -1,0 +1,47 @@
+
+
+update /etc/apt/sources.list by removing everything and adding those lines:
+
+#------------------------------------------------------------------------------#
+#                            OFFICIAL UBUNTU REPOS                             #
+#------------------------------------------------------------------------------#
+
+
+###### Ubuntu Main Repos
+deb http://sa.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse 
+deb-src http://sa.archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse 
+
+###### Ubuntu Update Repos
+deb http://sa.archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse 
+deb http://sa.archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse 
+deb http://sa.archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse 
+deb http://sa.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse 
+deb-src http://sa.archive.ubuntu.com/ubuntu/ bionic-security main restricted universe multiverse 
+deb-src http://sa.archive.ubuntu.com/ubuntu/ bionic-updates main restricted universe multiverse 
+deb-src http://sa.archive.ubuntu.com/ubuntu/ bionic-proposed main restricted universe multiverse 
+deb-src http://sa.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse 
+
+-------------------
+
+sudo apt update
+sudo apt install php-xdebug 
+
+-------------------
+in /etc/php/7.2/mods-available/xdebug.ini
+add those lines 
+
+xdebug.remote_host=10.0.2.2
+xdebug.remote_enable=1
+xdebug.remote_connect_back=1
+xdebug.remote_port=9000
+xdebug.idekey="PHPSTORM"
+
+--------------------
+exit 
+vagrant reload 
+
+in phpstorm do the following after finishing up with the vagrant box:
+preferences -> languages & frameworks -> php -> cli interpeters ... -> + -> vagrant -> add 
+Run Menu -> Edit Configuration -> + -> PHP Web Page -> Server ... -> Set path mapping -> Apply -> Ok -> Start URL = \
+
+And VOILLA !!!!! ENJOY :)

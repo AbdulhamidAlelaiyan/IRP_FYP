@@ -3,7 +3,6 @@
 
 namespace App\Controllers;
 
-
 use App\Models\Book;
 use Core\View;
 

@@ -4,7 +4,8 @@
         "mailgun/mailgun-php": "^2.1",
         "php-http/guzzle6-adapter": "^1.1",
         "php-http/message": "^1.4",
-        "stefangabos/zebra_pagination": "^2.3"
+        "stefangabos/zebra_pagination": "^2.3",
+        "monolog/monolog": "^1.24"
     },
     "autoload": {
         "psr-4": {
