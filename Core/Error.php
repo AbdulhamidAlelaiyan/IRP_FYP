@@ -2,6 +2,15 @@
 
 namespace Core;
 
+use App\Auth;
+use Monolog\Formatter\HtmlFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Monolog\Processor\MemoryUsageProcessor;
+use Monolog\Processor\PsrLogMessageProcessor;
+use Monolog\Processor\UidProcessor;
+use Monolog\Processor\WebProcessor;
+
 /**
  * Error and exception handler
  *
@@ -50,15 +59,34 @@ class Error
             echo "<p>Stack trace:<pre>" . $exception->getTraceAsString() . "</pre></p>";
             echo "<p>Thrown in '" . $exception->getFile() . "' on line " . $exception->getLine() . "</p>";
         } else {
-            $log = dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.txt';
-            ini_set('error_log', $log);
+//            $log = dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.txt';
+//            ini_set('error_log', $log);
+//
+//            $message = "Uncaught exception: '" . get_class($exception) . "'";
+//            $message .= " with message '" . $exception->getMessage() . "'";
+//            $message .= "\nStack trace: " . $exception->getTraceAsString();
+//            $message .= "\nThrown in '" . $exception->getFile() . "' on line " . $exception->getLine();
+//
+//            error_log($message);
 
-            $message = "Uncaught exception: '" . get_class($exception) . "'";
-            $message .= " with message '" . $exception->getMessage() . "'";
-            $message .= "\nStack trace: " . $exception->getTraceAsString();
-            $message .= "\nThrown in '" . $exception->getFile() . "' on line " . $exception->getLine();
+            $Errorlogger = new Logger('Exception-Handler');
+            $fileHandler = new StreamHandler(dirname(__DIR__) . '/logs/ERROR.html', Logger::ERROR);
+            $fileHandler->setFormatter(new HtmlFormatter());
+            $Errorlogger->pushHandler($fileHandler);
+            $Errorlogger->pushProcessor(new WebProcessor());
+            $Errorlogger->pushProcessor(new UidProcessor());
+            $Errorlogger->pushProcessor(new MemoryUsageProcessor());
+            $Errorlogger->pushProcessor(new PsrLogMessageProcessor());
+            $currentUser = Auth::getUser();
+            $userEmail = $currentUser->email ?? '';
 
-            error_log($message);
+            $Errorlogger->addError('Exception Occurred',
+                ['user-email' => $userEmail,
+                    'exception-class' => get_class($exception),
+                    'exception-message' => $exception->getMessage(),
+                    'exception-trace' => $exception->getTraceAsString(),
+                    'exception-file' => $exception->getFile(),
+                    'exception-line' => $exception->getLine()]);
 
             View::renderTemplate("$code.html");
         }

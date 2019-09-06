@@ -4,6 +4,14 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Auth;
+use Monolog\Formatter\HtmlFormatter;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Processor\IntrospectionProcessor;
+use Monolog\Processor\MemoryUsageProcessor;
+use Monolog\Processor\PsrLogMessageProcessor;
+use Monolog\Processor\UidProcessor;
+use Monolog\Processor\WebProcessor;
 
 /**
  * Home controller

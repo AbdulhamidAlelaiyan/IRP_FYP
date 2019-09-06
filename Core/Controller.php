@@ -4,6 +4,14 @@ namespace Core;
 
 use \App\Auth;
 use \App\Flash;
+use GuzzleHttp\Psr7\Stream;
+use Monolog\Formatter\HtmlFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Monolog\Processor\MemoryUsageProcessor;
+use Monolog\Processor\PsrLogMessageProcessor;
+use Monolog\Processor\UidProcessor;
+use Monolog\Processor\WebProcessor;
 
 /**
  * Base controller
@@ -18,6 +26,12 @@ abstract class Controller
      * @var array
      */
     protected $route_params = [];
+
+    /**
+     * Logger for the controller
+     * @var Logger
+     */
+//    protected $logger;
 
     /**
      * Class constructor
