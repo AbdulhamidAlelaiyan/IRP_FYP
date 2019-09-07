@@ -281,8 +281,8 @@ class User extends \Core\Model
     {
         $url = 'http://' . $_SERVER['HTTP_HOST'] . '/password/reset/' . $this->password_reset_token;
 
-        $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
-        $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
+        $text = View::getTemplate('Password/reset_email.txt.twig', ['url' => $url]);
+        $html = View::getTemplate('Password/reset_email.html.twig', ['url' => $url]);
 
         Mail::send($this->email, 'Password reset', $text, $html);
     }
@@ -368,8 +368,8 @@ class User extends \Core\Model
     {
         $url = 'http://' . $_SERVER['HTTP_HOST'] . '/signup/activate/' . $this->activation_token;
 
-        $text = View::getTemplate('Signup/activation_email.txt', ['url' => $url]);
-        $html = View::getTemplate('Signup/activation_email.html', ['url' => $url]);
+        $text = View::getTemplate('Signup/activation_email.txt.twig', ['url' => $url]);
+        $html = View::getTemplate('Signup/activation_email.html.twig', ['url' => $url]);
 
         Mail::send($this->email, 'Account activation', $text, $html);
     }

@@ -88,7 +88,7 @@ class Error
                     'exception-file' => $exception->getFile(),
                     'exception-line' => $exception->getLine()]);
 
-            View::renderTemplate("$code.html");
+            View::renderTemplate("$code.html.twig");
         }
     }
 }

@@ -33,7 +33,7 @@ class Items extends Authenticated
      */
     public function indexAction()
     {
-        View::renderTemplate('Item/index.html');
+        View::renderTemplate('Items/index.html.twig');
     }
 
     /**

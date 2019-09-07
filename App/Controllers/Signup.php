@@ -20,7 +20,7 @@ class Signup extends \Core\Controller
      */
     public function newAction()
     {
-        View::renderTemplate('Signup/new.html');
+        View::renderTemplate('Signup/new.html.twig');
     }
 
     /**
@@ -40,7 +40,7 @@ class Signup extends \Core\Controller
 
         } else {
 
-            View::renderTemplate('Signup/new.html', [
+            View::renderTemplate('Signup/new.html.twig', [
                 'user' => $user
             ]);
 
@@ -54,7 +54,7 @@ class Signup extends \Core\Controller
      */
     public function successAction()
     {
-        View::renderTemplate('Signup/success.html');
+        View::renderTemplate('Signup/success.html.twig');
     }
 
     /**
@@ -76,6 +76,6 @@ class Signup extends \Core\Controller
      */
     public function activatedAction()
     {
-        View::renderTemplate('Signup/activated.html');
+        View::renderTemplate('Signup/activated.html.twig');
     }
 }
