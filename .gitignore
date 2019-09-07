@@ -112,3 +112,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Ignoring logs of the applicaation
+#logs/ERROR.html
+#logs/INFO.html
