@@ -23,7 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="" integrity="" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" integrity="" crossorigin="anonymous">
 
     <!-- Paper Kit CSS -->
     <link rel="stylesheet" href="/assets/css/paper-kit.css">
@@ -31,7 +31,6 @@
     <!--     Fonts and icons     -->
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-
 
 </head>
 <body>
@@ -45,17 +44,16 @@
         {% endif %}
     </ul>
 </nav>
-
 {% for message in flash_messages %}
 <div class="alert alert-{{ message.type }}">
     {{ message.body }}
 </div>
 {% endfor %}
 
-<div class="container">
+{#<div class="container">#}
     {% block body %}
     {% endblock %}
-</div>
+{#</div>#}
 
 {% block footer %}
 {% endblock %}
