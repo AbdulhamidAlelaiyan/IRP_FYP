@@ -3,54 +3,6 @@
 {% block title %}Profile{% endblock %}
 
 {% block footer %}
-    <script src="/js/hideShowPassword.min.js"></script>
-    <script src="/js/app.js"></script>
-
-    <script>
-        $(document).ready(function() {
-
-            var userId = '{{ user.id }}';
-
-            /**
-             * Validate the form
-             */
-            $('#formProfile').validate({
-                rules: {
-                    name: 'required',
-                    email: {
-                        required: true,
-                        email: true,
-                        remote: {
-                            url: '/account/validate-email',
-                            data: {
-                                ignore_id: function() {
-                                    return userId;
-                                }
-                            }
-                        }
-                    },
-                    password: {
-                        minlength: 6,
-                        validPassword: true
-                    }
-                },
-                messages: {
-                    email: {
-                        remote: 'email already taken'
-                    }
-                }
-            });
-
-
-            /**
-              * Show password toggle button
-              */
-            $('#inputPassword').hideShowPassword({
-                show: false,
-                innerToggle: 'focus'
-            });
-        });
-    </script>
 
 {% endblock %}
 
@@ -83,7 +35,7 @@
             <span id="helpBlock">Leave blank to keep current password</span>
         </div>
         <input type="hidden" name="token" value="{{ csrf_token }}">
-        <input type="text" name="spam-protection" value="" class="hidden-form">
+        <input type="text" name="spam-protection" value="" style="display: none;">
 
         <input type="submit" value="Save">
         <a href="/profile/show">Cancel</a>

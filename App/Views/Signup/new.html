@@ -3,47 +3,6 @@
 {% block title %}Sign up{% endblock %}
 
 {% block footer %}
-    <script src="/js/hideShowPassword.min.js"></script>
-    <script src="/js/app.js"></script>
-
-    <script>
-        $(document).ready(function() {
-
-            /**
-             * Validate the form
-             */
-            $('#formSignup').validate({
-                rules: {
-                    name: 'required',
-                    email: {
-                        required: true,
-                        email: true,
-                        remote: '/account/validate-email'
-                    },
-                    password: {
-                        required: true,
-                        minlength: 6,
-                        validPassword: true
-                    }
-                },
-                messages: {
-                    email: {
-                        remote: 'email already taken'
-                    }
-                }
-            });
-
-
-            /**
-              * Show password toggle button
-              */
-            $('#inputPassword').hideShowPassword({
-                show: false,
-                innerToggle: 'focus'
-            });
-        });
-    </script>
-
 {% endblock %}
 
 {% block body %}
