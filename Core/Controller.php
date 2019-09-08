@@ -29,7 +29,7 @@ abstract class Controller
     protected $route_params = [];
 
     /**
-     * Logger for the controller
+     * Loggers for the controller
      * @var Logger
      */
     protected $logger;
@@ -43,7 +43,28 @@ abstract class Controller
      */
     public function __construct($route_params)
     {
+        // Set the parameters
         $this->route_params = $route_params;
+        // Set the loggers
+        $this->logger = new Logger('Controller');
+        // Info file handler
+        $infoFileHandler = new StreamHandler(dirname(__DIR__) . '/logs/INFO.html', Logger::INFO);
+        $infoFileHandler->setFormatter(new HtmlFormatter());
+        $this->logger->pushHandler($infoFileHandler);
+        // Debug file handler
+        $debugFileHandler = new StreamHandler(dirname(__DIR__) . '/logs/DEBUG.html', Logger::DEBUG);
+        $debugFileHandler->setFormatter(new HtmlFormatter());
+        $this->logger->pushHandler($debugFileHandler);
+        // Notice file handler
+        $noticeFileHandler = new StreamHandler(dirname(__DIR__) . '/logs/NOTICE.html', Logger::NOTICE);
+        $noticeFileHandler->setFormatter(new HtmlFormatter());
+        $this->logger->pushHandler($noticeFileHandler);
+        // Pushing processors of controller logger
+        $this->logger->pushProcessor(new WebProcessor());
+        $this->logger->pushProcessor(new UidProcessor());
+        $this->logger->pushProcessor(new MemoryUsageProcessor());
+        $this->logger->pushProcessor(new PsrLogMessageProcessor());
+        $this->logger->pushProcessor(new IntrospectionProcessor());
     }
 
     /**
@@ -63,16 +84,6 @@ abstract class Controller
         $method = $name . 'Action';
 
         if (method_exists($this, $method)) {
-            // Set the logger
-            $this->logger = new Logger('Controller');
-            $fileHandler = new StreamHandler(dirname(__DIR__) . '/logs/INFO.html', Logger::INFO);
-            $fileHandler->setFormatter(new HtmlFormatter());
-            $this->logger->pushHandler($fileHandler);
-            $this->logger->pushProcessor(new WebProcessor());
-            $this->logger->pushProcessor(new UidProcessor());
-            $this->logger->pushProcessor(new MemoryUsageProcessor());
-            $this->logger->pushProcessor(new PsrLogMessageProcessor());
-            $this->logger->pushProcessor(new IntrospectionProcessor());
             $user = Auth::getUser();
             if($user)
             {
@@ -82,15 +93,15 @@ abstract class Controller
             {
                 $userEmail = 'No User Session';
             }
-            $this->logger->addInfo($method . ' action was requested', ['user-email' => $userEmail]); // TODO: add the arguments in the log message.
+            $this->logger->addDebug($method . ' action was requested', ['user-email' => $userEmail]); // TODO: add the arguments in the log message.
 
             // Call the action filters
             if ($this->before() !== false) {
-                $this->logger->addInfo($method . ' action filter (before) passed', ['user-email' => $userEmail]);
+                $this->logger->addDebug($method . ' action filter (before) passed', ['user-email' => $userEmail]);
                 call_user_func_array([$this, $method], $args);
-                $this->logger->addInfo($method . ' action executed', ['user-email' => $userEmail]);
+                $this->logger->addDebug($method . ' action executed', ['user-email' => $userEmail]);
                 $this->after();
-                $this->logger->addInfo($method . ' action filter (after) passed', ['user-email' => $userEmail]);
+                $this->logger->addDebug($method . ' action filter (after) passed', ['user-email' => $userEmail]);
             }
         } else {
             throw new \Exception("Method $method not found in controller " . get_class($this));
