@@ -7,24 +7,24 @@
     <h1>Log in</h1>
 
     <form action="/login/create" method="post">
-
-        <div>
+        <div class="form-group">
             <label for="inputEmail">Email address</label>
-            <input type="email" id="inputEmail" name="email" placeholder="Email address" autofocus value="{{ email }}" />
+            <input type="email" name="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email"
+                   autofocus value="{{ email }}">
         </div>
-        <div>
+        <div class="form-group">
             <label for="inputPassword">Password</label>
-            <input type="password" id="inputPassword" name="password" placeholder="Password" />
+            <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password">
         </div>
-        <div>
-            <label>
-                <input type="checkbox" name="remember_me" {% if remember_me %} checked="checked"{% endif %} /> Remember me
+
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="remember_me" {% if remember_me %} checked="checked"{% endif %}>
+                Remember Me
+                <span class="form-check-sign"></span>
             </label>
         </div>
-
-        <button type="submit">Log in</button>
-        <a href="/password/forgot">Forgot password?</a>
-
+        <button type="submit" class="btn btn-primary">Login</button>
     </form>
 
 {% endblock %}

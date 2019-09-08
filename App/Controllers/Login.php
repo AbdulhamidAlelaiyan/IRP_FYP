@@ -22,7 +22,14 @@ class Login extends \Core\Controller
      */
     public function newAction()
     {
-        View::renderTemplate('Login/new.html.twig');
+        if(!Auth::getUser())
+        {
+            View::renderTemplate('Login/new.html.twig');
+        }
+        else
+        {
+            $this->redirect('/');
+        }
     }
 
     /**
