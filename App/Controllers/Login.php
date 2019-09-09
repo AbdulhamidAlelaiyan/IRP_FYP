@@ -24,10 +24,12 @@ class Login extends \Core\Controller
     {
         if(!Auth::getUser())
         {
+            $this->logger->addInfo('Login form requested by unsigned user', ['user-email' => Auth::getUserEmailForLogger()]);
             View::renderTemplate('Login/new.html.twig');
         }
         else
         {
+            $this->logger->addInfo('Login from requested by signed user', ['user-email' => Auth::getUserEmailForLogger()]);
             $this->redirect('/');
         }
     }
@@ -46,13 +48,13 @@ class Login extends \Core\Controller
         if ($user) {
 
             Auth::login($user, $remember_me);
-
+            $this->logger->addInfo('User logged in successfully', ['user-email' => Auth::getUserEmailForLogger()]);
             Flash::addMessage('Login successful');
 
             $this->redirect(Auth::getReturnToPage());
 
         } else {
-
+            $this->logger->addInfo('Unsuccessful login attempt');
             Flash::addMessage('Login unsuccessful, please try again', Flash::WARNING);
 
             View::renderTemplate('Login/new.html.twig', [
@@ -70,7 +72,7 @@ class Login extends \Core\Controller
     public function destroyAction()
     {
         Auth::logout();
-
+        $this->logger->addInfo('User logged out', ['user-email' => Auth::getUserEmailForLogger()]);
         $this->redirect('/login/show-logout-message');
     }
 

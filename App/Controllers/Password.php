@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Auth;
 use \Core\View;
 use \App\Models\User;
 
@@ -20,6 +21,7 @@ class Password extends \Core\Controller
      */
     public function forgotAction()
     {
+        $this->logger->addInfo('Forget form requested');
         View::renderTemplate('Password/forgot.html.twig');
     }
 
@@ -31,7 +33,7 @@ class Password extends \Core\Controller
     public function requestResetAction()
     {
         User::sendPasswordReset($_POST['email']);
-
+        $this->logger->addInfo('Password reset sent', ['user-email', Auth::getUserEmailForLogger()]);
         View::renderTemplate('Password/reset_requested.html.twig');
     }
 
@@ -64,11 +66,10 @@ class Password extends \Core\Controller
 
         if ($user->resetPassword($_POST['password'])) {
 
-            //echo "password valid";
+            $this->logger->addInfo('Password got reset for ' . $user->email, ['user-email', Auth::getUserEmailForLogger()]);
             View::renderTemplate('Password/reset_success.html.twig');
         
         } else {
-
             View::renderTemplate('Password/reset.html.twig', [
                 'token' => $token,
                 'user' => $user
@@ -92,7 +93,7 @@ class Password extends \Core\Controller
             return $user;
 
         } else {
-
+            $this->logger->addInfo('Password reset request failed with token ' . $token, ['user-email' => Auth::getUserEmailForLogger()]);
             View::renderTemplate('Password/token_expired.html.twig');
             exit;
 

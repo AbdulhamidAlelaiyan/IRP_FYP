@@ -84,15 +84,7 @@ abstract class Controller
         $method = $name . 'Action';
 
         if (method_exists($this, $method)) {
-            $user = Auth::getUser();
-            if($user)
-            {
-                $userEmail = $user->email;
-            }
-            else
-            {
-                $userEmail = 'No User Session';
-            }
+            $userEmail = Auth::getUserEmailForLogger();
             $this->logger->addDebug($method . ' action was requested', ['user-email' => $userEmail]); // TODO: add the arguments in the log message.
 
             // Call the action filters

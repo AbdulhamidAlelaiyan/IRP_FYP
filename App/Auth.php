@@ -107,6 +107,23 @@ class Auth
     }
 
     /**
+     * Get the current logged-in user, from the session for the remember-me cookie, if there is none it will return 'no user session'
+     *
+     * @return mixed The user if logged in or 'no user session' if not
+     */
+    public static function getUserEmailForLogger()
+    {
+        if($user = static::getUser())
+        {
+            return $user->email;
+        }
+        else
+        {
+            return 'no user session';
+        }
+    }
+
+    /**
      * Login the user from a remembered login cookie
      *
      * @return mixed The user model if login cookie found; null otherwise
