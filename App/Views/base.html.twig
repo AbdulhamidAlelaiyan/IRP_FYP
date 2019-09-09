@@ -17,7 +17,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Hello, world!</title>
+    <title>IRP</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,6 +32,8 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
 
+    <!-- Summernote style and icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.css" rel="stylesheet">
 </head>
 <body>
 
@@ -84,5 +86,14 @@
 
 <!--  for Jasny fileupload -->
 <script src="/assets/js/plugins/jasny-bootstrap.min.js"></script>
+
+<!-- for Summernote Editor -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.js"></script>
+<script>
+    $('#summernote').summernote({
+        tabsize: 2,
+        height: 100
+    });
+</script>
 </body>
 </html>

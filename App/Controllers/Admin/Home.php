@@ -8,7 +8,7 @@ use \Core\View;
 class Home extends AdminController
 {
 
-    protected function indexAction()
+    public function indexAction()
     {
         View::renderTemplate('Admin/base.html.twig');
     }
