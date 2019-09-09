@@ -1,0 +1,47 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    {% if errors %}
+        {% for error in errors %}
+            <div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="nc-icon nc-simple-remove"></i>
+                </button>
+                <span> {{ error }} </span>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="card ">
+        <div class="card-header ">
+            <h4 class="card-title">New Book</h4>
+        </div>
+        <div class="card-body ">
+            <form method="post" action="/admin/books/create">
+                <label>Title</label>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Title of the book" name="title" required>
+                </div>
+                <label>ISBN</label>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="ISBN-10" minlength="10" maxlength="10" name="isbn" required>
+                </div>
+                <label>Author/s</label>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="author-1, author-2, ..." name="authors" required>
+                </div>
+                <label>Publication Date</label>
+                <div class="form-group">
+                    <input type="text" class="form-control datepicker" name="date" required>
+                </div>
+                <label>Edition</label>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="e.g. 3rd edition" name="edition" required>
+                </div>
+                <div class="card-footer ">
+                    <button type="submit" class="btn btn-info btn-round">Add Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

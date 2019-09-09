@@ -83,8 +83,8 @@ The above copyright notice and this permission notice shall be included in all c
                 </div>
             </div>
             <ul class="nav">
-                <li class="active">
-                    <a href="../examples/dashboard.html">
+                <li>
+                    <a href="/admin/">
                         <i class="nc-icon nc-bank"></i>
                         <p>Dashboard</p>
                     </a>
@@ -100,33 +100,21 @@ The above copyright notice and this permission notice shall be included in all c
                     <div class="collapse " id="pagesExamples">
                         <ul class="nav">
                             <li>
-                                <a href="../examples/pages/timeline.html">
-                                    <span class="sidebar-mini-icon">T</span>
-                                    <span class="sidebar-normal"> Timeline </span>
+                                <a href="/admin/books/new">
+                                    <span class="sidebar-mini-icon">Add</span>
+                                    <span class="sidebar-normal"> Add New Books </span>
                                 </a>
                             </li>
                             <li>
-                                <a href="../examples/pages/login.html">
-                                    <span class="sidebar-mini-icon">L</span>
-                                    <span class="sidebar-normal"> Login </span>
+                                <a href="">
+                                    <span class="sidebar-mini-icon">Edit</span>
+                                    <span class="sidebar-normal"> Edit a Book </span>
                                 </a>
                             </li>
                             <li>
-                                <a href="../examples/pages/register.html">
-                                    <span class="sidebar-mini-icon">R</span>
-                                    <span class="sidebar-normal"> Register </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../examples/pages/lock.html">
-                                    <span class="sidebar-mini-icon">LS</span>
-                                    <span class="sidebar-normal"> Lock Screen </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../examples/pages/user.html">
-                                    <span class="sidebar-mini-icon">UP</span>
-                                    <span class="sidebar-normal"> User Profile </span>
+                                <a href="">
+                                    <span class="sidebar-mini-icon">View</span>
+                                    <span class="sidebar-normal"> View Books </span>
                                 </a>
                             </li>
                         </ul>
@@ -275,8 +263,10 @@ The above copyright notice and this permission notice shall be included in all c
     <div class="main-panel">
     {% include('Admin/navbar.twig') %}
 
+    <div class="content">
 {% block body %}
 {% endblock %}
+    </div>
 
 <!--   Core JS Files   -->
 <script src="/admin_assets/js/core/jquery.min.js"></script>
@@ -326,6 +316,13 @@ The above copyright notice and this permission notice shall be included in all c
 
         demo.initVectorMap();
 
+    });
+    $(document).ready(function() {
+        // initialise Datetimepicker and Sliders
+        demo.initDateTimePicker();
+        if ($('.slider').length != 0) {
+            demo.initSliders();
+        }
     });
 </script>
 </body>
