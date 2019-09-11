@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admin;
 
+use App\Flash;
 use App\Models\Book;
 use \Core\View;
 
@@ -162,5 +163,31 @@ class Books extends AdminController
     public function editSuccessAction()
     {
         View::renderTemplate('Admin/Books/edit-success.html.twig');
+    }
+
+    /**
+     * Delete the specified book
+     *
+     * @return void
+     */
+    public function destroyAction()
+    {
+        $isbn = filter_input(INPUT_POST, 'isbn', FILTER_SANITIZE_STRING);
+        Book::deleteBook($isbn);
+        $this->redirect('/admin/books/index');
+    }
+
+    /**
+     * Load the view of delete confirmation
+     *
+     * @return void
+     */
+    public function deleteAction()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $book = Book::getBookByISBN($isbn);
+        View::renderTemplate('Admin/Books/delete.html.twig',[
+            'book' => $book,
+        ]);
     }
 }

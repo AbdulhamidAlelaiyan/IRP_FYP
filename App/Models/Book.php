@@ -216,4 +216,20 @@ edition = :edition WHERE isbn = :isbn';
             return $stmt->execute();
         }
     }
+
+    /**
+     * Delete book
+     *
+     * @param int isbn
+     *
+     * @return boolean True if success, False otherwise
+     */
+    public static function deleteBook($isbn)
+    {
+        $db = static::getDB();
+        $sql = 'DELETE FROM books_information WHERE isbn = :isbn';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+       return $stmt->execute();
+    }
 }
