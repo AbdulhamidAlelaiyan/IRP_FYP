@@ -7,12 +7,6 @@ use \Core\View;
 
 class Books extends AdminController
 {
-    public function indexAction()
-    {
-        echo 'Admin namespace, Books controller, index action';
-    }
-
-
     /**
      * Load the view of new book form
      *
@@ -52,5 +46,121 @@ class Books extends AdminController
     public function addSuccessAction()
     {
         View::renderTemplate('Admin/Books/add-success.html.twig');
+    }
+
+    /**
+     * Load the edit view
+     *
+     * @return void
+     */
+    public function indexAction()
+    {
+        $booksWithPagination = Book::getBooks();
+        $books = $booksWithPagination[0];
+        $pagination = $booksWithPagination[1];
+        View::renderTemplate('Admin/Books/index.html.twig', [
+            'books' => $books,
+            'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * return search results based on either ISBN, Title
+     *
+     * @return void
+     */
+    public function searchAction()
+    {
+        if($isbn = filter_input(INPUT_GET, 'isbn', FILTER_SANITIZE_STRING))
+        {
+            $bookfound = Book::getBookByISBN($isbn);
+            $books[0] = $bookfound;
+        }
+        elseif($title = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_STRING))
+        {
+            $books = Book::getBooksByTitle($title);
+        }
+
+        $pagination = new \Zebra_Pagination();
+        $pagination->records(count($books));
+        $pagination->records_per_page(10);
+
+        $books = array_slice(
+            $books,
+            (($pagination->get_page() - 1) * 10),
+            10
+        );
+
+        $pagination = $pagination->render(true);
+        View::renderTemplate('Admin/Books/index.html.twig', [
+            'books' => $books,
+            'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * Show the book information view
+     *
+     * @return void
+     */
+    public function viewAction()
+    {
+        // TODO: Implement the view action.
+    }
+
+    /**
+     * Load the view of the edit function
+     *
+     * @return void
+     */
+    public function editAction()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $book = Book::getBookByISBN($isbn); // TODO: Fix the issue of the publication date format.
+        if($book)
+        {
+            View::renderTemplate('Admin/Books/edit.html.twig', [
+                'book' => $book,
+            ]);
+        }
+    }
+
+    /**
+     * Update book information
+     *
+     * @return void
+     */
+    public function updateAction()
+    {
+        $data['isbn'] = filter_input(INPUT_POST, 'isbn', FILTER_SANITIZE_STRING);
+        if($data['isbn'])
+        {
+            $data['title'] = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+            $data['date'] = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING);
+            $data['edition'] = filter_input(INPUT_POST, 'edition', FILTER_SANITIZE_STRING);
+            $data['authors'] = filter_input(INPUT_POST, 'authors', FILTER_SANITIZE_STRING);
+            $updatedBook = new Book($data);
+            if($updatedBook->updateBook())
+            {
+                $this->redirect('/admin/books/edit-success');
+            }
+            else
+            {
+                View::renderTemplate('Admin/Books/edit.html.twig',
+                [
+                    'errors' => $updatedBook->getErrors(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * Update success View
+     *
+     * @return void
+     */
+    public function editSuccessAction()
+    {
+        View::renderTemplate('Admin/Books/edit-success.html.twig');
     }
 }

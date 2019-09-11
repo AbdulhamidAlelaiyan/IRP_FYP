@@ -37,7 +37,7 @@ class Book extends \Core\Model
     /**
      * Validation of the data fed to the Book object, if any error it will be stored in $errors array
      *
-     * @return void
+     * @return boolean True if everything is ok
      */
     protected function validate()
     {
@@ -78,8 +78,10 @@ class Book extends \Core\Model
         else
         {
             $this->date = strtotime($this->date);
-            $this->date = date('Y-m-d');
+            $this->date = date('Y-m-d', $this->date);
         }
+
+        return true;
     }
 
     /**
@@ -108,5 +110,110 @@ class Book extends \Core\Model
         }
 
         return false;
+    }
+
+    /**
+     * Return the books with pagination markup
+     *
+     * @param int $booksPerPage number of books for each page
+     *
+     * @return array
+     */
+    public static function getBooks($booksPerPage = 10)
+    {
+        $numberOfBooks = static::getNumberOfBooks();
+        $paginator = new \Zebra_Pagination();
+        $page = $paginator->get_page();
+        $paginator->records($numberOfBooks);
+        $paginator->records_per_page($booksPerPage);
+        $sqlPage = ($page - 1) * $booksPerPage;
+        $sql = "SELECT * FROM books_information LIMIT $sqlPage, $booksPerPage";
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        return [$result, $paginator->render(true)];
+    }
+
+    /**
+     * Get the number of books stored in the database
+     *
+     * @return int Number of books
+     */
+    public static function getNumberOfBooks()
+    {
+        $db = static::getDB();
+        $sql = 'SELECT count(*) AS count FROM books_information';
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+        $result =  $stmt->fetch();
+        return $result->count;
+    }
+
+    /**
+     * Get the book by the ISBN number
+     *
+     * @param string isbn
+     *
+     * @return mixed the book with the isbn, false otherwise
+     */
+    public static function getBookByISBN($isbn)
+    {
+        $db = static::getDB();
+        $sql = 'SELECT * FROM books_information WHERE isbn = :isbn';
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+        if(!$stmt->execute()) return false;
+        return $stmt->fetch();
+    }
+
+    /**
+     * Get book/s by title
+     *
+     * @param string book
+     *
+     * @return mixed Book/s that have same or similar title, false otherwise
+     */
+    public static function getBooksByTitle($title)
+    {
+        $db = static::getDB();
+        $sql = "SELECT * FROM books_information WHERE title LIKE '%$title%'";
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->bindValue(':title', $title, PDO::PARAM_STR);
+        if(!$stmt->execute()) return false;
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Update book information
+     *
+     * @return boolean True if success, false otherwise
+     */
+    public function updateBook()
+    {
+//        $this->authors = $data['authors'];
+//        $this->title = $data['title'];
+//        $this->publication_date =$data['publication_date'];
+//        $this->edition = $data['edition'];
+//        $this->isbn = $data['isbn'];
+        if(!$this->validate()) return false;
+        if(empty($this->erorrs))
+        {
+            $db = static::getDB();
+            $sql = 'UPDATE books_information SET title = :title, authors = :authors, publication_date = :date,
+edition = :edition WHERE isbn = :isbn';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
+            $stmt->bindValue(':authors', $this->authors, PDO::PARAM_STR);
+            $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);
+            $stmt->bindValue(':edition', $this->edition, PDO::PARAM_STR);
+            $stmt->bindValue(':isbn', $this->isbn, PDO::PARAM_STR);
+            return $stmt->execute();
+        }
     }
 }
