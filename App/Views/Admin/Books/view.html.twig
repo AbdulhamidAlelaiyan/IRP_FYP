@@ -11,6 +11,14 @@
             <span class="font-weight-bold">Authors:</span>  {{ book.authors }} <br>
             <span class="font-weight-bold">Publication Date:</span>  {{ book.publication_date }} <br>
             <span class="font-weight-bold">Edition:</span>  {{ book.edition }} <br>
+            {% if files %}
+            <span class="font-weight-bold">Files:</span> <br>
+            <ul>
+                {% for file in files %}
+                    <li><a href="/resources/{{ book.isbn }}/{{ file }}">{{ file }}</a></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </p>
         </div>
     </div>

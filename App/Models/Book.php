@@ -197,11 +197,6 @@ class Book extends \Core\Model
      */
     public function updateBook()
     {
-//        $this->authors = $data['authors'];
-//        $this->title = $data['title'];
-//        $this->publication_date =$data['publication_date'];
-//        $this->edition = $data['edition'];
-//        $this->isbn = $data['isbn'];
         if(!$this->validate()) return false;
         if(empty($this->erorrs))
         {
@@ -214,8 +209,25 @@ edition = :edition WHERE isbn = :isbn';
             $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);
             $stmt->bindValue(':edition', $this->edition, PDO::PARAM_STR);
             $stmt->bindValue(':isbn', $this->isbn, PDO::PARAM_STR);
-            return $stmt->execute();
+            if($stmt->execute()) return (isset($this->files) ?  $this->deleteFiles($this->files, $this->isbn) : true);
         }
+    }
+
+    /**
+     * Delete book files
+     *
+     * @param array $files
+     *
+     * @param $isbn
+     * @return boolean True if successfully deleted files, false otherwise
+     */
+    protected function deleteFiles($files, $isbn)
+    {
+        foreach($files as $file)
+        {
+            unlink(Config::APP_DIRECTORY . 'public/resources/' . $isbn . '/' . $file);
+        }
+        return true;
     }
 
     /**
@@ -260,7 +272,10 @@ edition = :edition WHERE isbn = :isbn';
                 ];
             if(in_array($_FILES['upload']['type'], $allowed_mime_types))
             {
-                mkdir(Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/');
+                if(!file_exists(Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/'))
+                {
+                    mkdir(Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/');
+                }
                 if(move_uploaded_file($_FILES['upload']['tmp_name'],
                     Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/' . $_FILES['upload']['name']))
                 {
@@ -272,6 +287,31 @@ edition = :edition WHERE isbn = :isbn';
                 return false;
             }
         }
+    }
+
+    /**
+     * Get all files of a book
+     *
+     * @param string $isbn
+     *
+     * @return mixed
+     */
+    public static function getBookFiles($isbn)
+    {
+        if(file_exists(Config::APP_DIRECTORY . 'public/resources/' . $isbn . '/'))
+        {
+            $files = array_diff(scandir(Config::APP_DIRECTORY . 'public/resources/' . $isbn . '/'),
+                ['.', '..']);
+            if(count($files) == 0)
+            {
+                $files =  false;
+            }
+        }
+        else
+        {
+            $files = false;
+        }
+        return $files;
     }
 
 }

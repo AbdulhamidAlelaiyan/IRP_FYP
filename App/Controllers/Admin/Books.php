@@ -109,9 +109,11 @@ class Books extends AdminController
     {
         $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
         $book = Book::getBookByISBN($isbn);
+        $files = Book::getBookFiles($isbn);
         View::renderTemplate('Admin/Books/view.html.twig',
             [
-                'book' => $book
+                'book' => $book,
+                'files' => $files,
             ]);
     }
 
@@ -124,10 +126,12 @@ class Books extends AdminController
     {
         $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
         $book = Book::getBookByISBN($isbn); // TODO: Fix the issue of the publication date format.
+        $files = Book::getBookFiles($isbn);
         if($book)
         {
             View::renderTemplate('Admin/Books/edit.html.twig', [
                 'book' => $book,
+                'files' => $files,
             ]);
         }
     }
@@ -146,6 +150,8 @@ class Books extends AdminController
             $data['date'] = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING);
             $data['edition'] = filter_input(INPUT_POST, 'edition', FILTER_SANITIZE_STRING);
             $data['authors'] = filter_input(INPUT_POST, 'authors', FILTER_SANITIZE_STRING);
+            $files = isset($_POST['files']) ? $_POST['files'] : null;
+            $data['files'] = is_array($files) ? $_POST['files'] : null;
             $updatedBook = new Book($data);
             if($updatedBook->updateBook())
             {
