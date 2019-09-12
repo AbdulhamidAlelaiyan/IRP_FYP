@@ -1,4 +1,89 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block body %}
+    <div class="card">
+        <div class="card-header ">
+            <h2 class="card-title">{{ book.title }}</h2>
+        </div>
+        <div class="card-body ">
+        <p class="lead">
+            <span class="font-weight-bold">ISBN:</span> {{ book.isbn }} <br>
+            <span class="font-weight-bold">Authors:</span>  {{ book.authors }} <br>
+            <span class="font-weight-bold">Publication Date:</span>  {{ book.publication_date }} <br>
+            <span class="font-weight-bold">Edition:</span>  {{ book.edition }} <br>
+        </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title text-center">Content</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="text-primary">
+                    <tr><th class="text-center">
+                            #
+                        </th>
+                        <th class="text-center">
+                            Title
+                        </th>
+                        <th class="text-center">
+                            Video URL
+                        </th>
+                        <th class="text-center">
+                            Actions
+                        </th>
+                    </tr></thead>
+                    <tbody>
+
+                    {% for book in books %}
+                        <tr>
+                            <td class="text-center">
+                                {{ book.isbn }}
+                            </td>
+                            <td class="text-center">
+                                {{ book.title }}
+                            </td>
+                            <td class="text-center">
+                                {{ book.authors }}
+                            </td>
+                            <td class="text-center">
+                                {{ book.publication_date }}
+                            </td>
+                            <td class="text-center">
+                                {{ book.edition }}
+                            </td>
+                            <td class="text-center">
+                                <form action="" class="mb-1 d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-info  btn-sm d-inline" data-original-title="" title="View Chapter">
+                                        View
+                                    </button>
+                                </form>
+                                <form action="" class="mb-1 d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-success btn-sm d-inline" data-original-title="" title="Edit Chapter">
+                                        Edit
+                                    </button>
+                                </form>
+                                <form action="" class="d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-danger btn-sm d-inline" data-original-title="" title="Delete Chapter">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="row text-center">
+                    <div class="col">
+                        <a href="/admin/books/add-chapter" class="btn btn-primary">Add Chapter</a>
+                    </div>
+                </div>
+
+                {{ pagination|raw }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

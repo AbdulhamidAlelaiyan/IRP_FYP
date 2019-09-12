@@ -114,3 +114,6 @@ Temporary Items
 
 # Ignoring logs of the applicaation
 logs/
+
+# Ignoring file uploads
+public/resources/

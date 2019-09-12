@@ -76,6 +76,11 @@
                                 Delete
                             </button>
                             </form>
+                            <form action="/admin/books/add-file/{{ book.isbn }}" class="d-inline">
+                            <button type="submit" rel="tooltip" class="btn btn-file btn-sm d-inline" data-original-title="" title="Add File">
+                                Upload File
+                            </button>
+                            </form>
                         </td>
                     </tr>
                     {% endfor %}

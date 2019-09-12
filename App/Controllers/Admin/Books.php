@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admin;
 
+use App\Config;
 use App\Flash;
 use App\Models\Book;
 use \Core\View;
@@ -106,7 +107,12 @@ class Books extends AdminController
      */
     public function viewAction()
     {
-        // TODO: Implement the view action.
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $book = Book::getBookByISBN($isbn);
+        View::renderTemplate('Admin/Books/view.html.twig',
+            [
+                'book' => $book
+            ]);
     }
 
     /**
@@ -189,5 +195,89 @@ class Books extends AdminController
         View::renderTemplate('Admin/Books/delete.html.twig',[
             'book' => $book,
         ]);
+    }
+
+    /**
+     * Load the view of uploading files
+     *
+     * @return void
+     */
+    public function addFile()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        View::renderTemplate('Admin/Books/add-file.html.twig', [
+            'isbn' => $isbn,
+        ]);
+    }
+
+    /**
+     * Upload the file for the specified book.
+     *
+     *
+     * @return void
+     */
+    public function uploadFile()
+    {
+        if(!isset($_POST['isbn']))
+        {
+            $this->redirect('/admin/books/file-failure');
+        }
+        if(isset($_FILES['upload']))
+        {
+            $isbn = filter_input(INPUT_POST, 'isbn', FILTER_SANITIZE_STRING);
+            $allowed_mime_types =
+                [
+                'application/zip',
+                'application/pdf',
+                'application/msword',
+                'text/plain',
+                'image/jpeg',
+                'image/tiff',
+                'image/webp',
+                ];
+            if(in_array($_FILES['upload']['type'], $allowed_mime_types))
+            {
+                mkdir(Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/');
+                if(move_uploaded_file($_FILES['upload']['tmp_name'],
+                    Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/' . $_FILES['upload']['name']))
+                {
+                    $this->redirect('/admin/books/file-success');
+                }
+            }
+            else
+            {
+                $this->redirect('/admin/books/file-failure');
+            }
+        }
+    }
+
+    /**
+     * File success view
+     *
+     * @return void
+     */
+    public function fileSuccessAction()
+    {
+        View::renderTemplate('Admin/Books/upload-success.html.twig');
+    }
+
+    /**
+     * File failure view
+     *
+     * @return void
+     */
+    public function fileFailureAction()
+    {
+        View::renderTemplate('Admin/Books/upload-failure.html.twig');
+    }
+
+    /**
+     * Load the view adding book chapter
+     *
+     * @return void
+     */
+    public function addChapter()
+    {
+        // TODO: Implement the method.
     }
 }

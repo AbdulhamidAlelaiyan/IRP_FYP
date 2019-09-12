@@ -59,4 +59,11 @@ class Config
      * @var string
      */
     const MAILGUN_DOMAIN = 'sandboxb5a9fb98392e4b7da7a95660e08cbd54.mailgun.org';
+
+    /**
+     * Directory of Web Application on the Web Server filesystem
+     *
+     * @var string
+     */
+    const APP_DIRECTORY = '/var/www/';
 }
