@@ -209,7 +209,7 @@ edition = :edition WHERE isbn = :isbn';
             $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);
             $stmt->bindValue(':edition', $this->edition, PDO::PARAM_STR);
             $stmt->bindValue(':isbn', $this->isbn, PDO::PARAM_STR);
-            if($stmt->execute()) return (isset($this->files) ?  $this->deleteFiles($this->files, $this->isbn) : true);
+            if($stmt->execute()) return (isset($this->files) ?  static::deleteFiles($this->files, $this->isbn) : true);
         }
     }
 
@@ -221,13 +221,20 @@ edition = :edition WHERE isbn = :isbn';
      * @param $isbn
      * @return boolean True if successfully deleted files, false otherwise
      */
-    protected function deleteFiles($files, $isbn)
+    protected static function deleteFiles($files, $isbn)
     {
-        foreach($files as $file)
+        if($files)
         {
-            unlink(Config::APP_DIRECTORY . 'public/resources/' . $isbn . '/' . $file);
+            foreach($files as $file)
+            {
+                unlink(Config::APP_DIRECTORY . 'public/resources/' . $isbn . '/' . $file);
+            }
+            return true;
         }
-        return true;
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -243,7 +250,7 @@ edition = :edition WHERE isbn = :isbn';
         $sql = 'DELETE FROM books_information WHERE isbn = :isbn';
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
-       return $stmt->execute();
+        if($stmt->execute()) return static::deleteFiles(static::getBookFiles($isbn), $isbn);
     }
 
     /**
