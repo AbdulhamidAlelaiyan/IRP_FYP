@@ -218,36 +218,13 @@ class Books extends AdminController
      */
     public function uploadFile()
     {
-        if(!isset($_POST['isbn']))
+        if(Book::storeFile())
+        {
+            $this->redirect('/admin/books/file-success');
+        }
+        else
         {
             $this->redirect('/admin/books/file-failure');
-        }
-        if(isset($_FILES['upload']))
-        {
-            $isbn = filter_input(INPUT_POST, 'isbn', FILTER_SANITIZE_STRING);
-            $allowed_mime_types =
-                [
-                'application/zip',
-                'application/pdf',
-                'application/msword',
-                'text/plain',
-                'image/jpeg',
-                'image/tiff',
-                'image/webp',
-                ];
-            if(in_array($_FILES['upload']['type'], $allowed_mime_types))
-            {
-                mkdir(Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/');
-                if(move_uploaded_file($_FILES['upload']['tmp_name'],
-                    Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/' . $_FILES['upload']['name']))
-                {
-                    $this->redirect('/admin/books/file-success');
-                }
-            }
-            else
-            {
-                $this->redirect('/admin/books/file-failure');
-            }
         }
     }
 

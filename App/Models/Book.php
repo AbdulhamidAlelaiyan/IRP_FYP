@@ -3,6 +3,7 @@
 
 namespace App\Models;
 
+use App\Config;
 use Core\View;
 use \PDO;
 
@@ -232,4 +233,45 @@ edition = :edition WHERE isbn = :isbn';
         $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
        return $stmt->execute();
     }
+
+    /**
+     * Add Book files to the resources directory
+     *
+     * @return boolean True if Successfully stored the file, false otherwise
+     */
+    public static function storeFile()
+    {
+        if(!isset($_POST['isbn']))
+        {
+            return false;
+        }
+        if(isset($_FILES['upload']))
+        {
+            $isbn = filter_input(INPUT_POST, 'isbn', FILTER_SANITIZE_STRING);
+            $allowed_mime_types =
+                [
+                    'application/zip',
+                    'application/pdf',
+                    'application/msword',
+                    'text/plain',
+                    'image/jpeg',
+                    'image/tiff',
+                    'image/webp',
+                ];
+            if(in_array($_FILES['upload']['type'], $allowed_mime_types))
+            {
+                mkdir(Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/');
+                if(move_uploaded_file($_FILES['upload']['tmp_name'],
+                    Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/' . $_FILES['upload']['name']))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
 }
