@@ -110,10 +110,12 @@ class Books extends AdminController
         $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
         $book = Book::getBookByISBN($isbn);
         $files = Book::getBookFiles($isbn);
+        $chapters = Book::getBookChapters($isbn);
         View::renderTemplate('Admin/Books/view.html.twig',
             [
                 'book' => $book,
                 'files' => $files,
+                'chapters' => $chapters,
             ]);
     }
 
@@ -255,12 +257,40 @@ class Books extends AdminController
     }
 
     /**
-     * Load the view adding book chapter
+     * Load a view for adding book chapter
      *
      * @return void
      */
-    public function addChapter()
+    public function newChapterAction()
     {
-        // TODO: Implement the method.
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $book = Book::getBookByISBN($isbn);
+        View::renderTemplate('Admin/Books/new-chapter.html.twig',
+            [
+                'book' => $book,
+            ]);
+    }
+
+    /**
+     * Add the chapter to the book
+     *
+     * @return void
+     */
+    public function addChapterAction()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+        $editordata = filter_input(INPUT_POST, 'editordata', FILTER_SANITIZE_STRING);
+        $chapter_number = filter_input(INPUT_POST, 'chapter-number', FILTER_SANITIZE_NUMBER_INT);
+        $chapter_video = filter_input(INPUT_POST, 'chapter-video', FILTER_SANITIZE_URL);
+
+        if(Book::addChapter($isbn, $title, $editordata, $chapter_number, $chapter_video))
+        {
+            View::renderTemplate('Admin/Books/chapter-success.html.twig');
+        }
+        else
+        {
+            View::renderTemplate('Admin/Books/chapter-failure.html.twig');
+        }
     }
 }

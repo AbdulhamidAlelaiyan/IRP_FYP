@@ -33,6 +33,8 @@ The above copyright notice and this permission notice shall be included in all c
     <!-- CSS Files -->
     <link href="/admin_assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/admin_assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+    <!-- Summernote style and icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -324,7 +326,16 @@ The above copyright notice and this permission notice shall be included in all c
             demo.initSliders();
         }
     });
+
 </script>
+        <!-- for Summernote Editor -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.js"></script>
+        <script>
+            $('#summernote').summernote({
+                tabsize: 2,
+                height: 400
+            });
+        </script>
 </body>
 
 </html>

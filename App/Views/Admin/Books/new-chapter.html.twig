@@ -1,0 +1,38 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header ">
+            <h2 class="card-title">Add Chapter to {{ book.title }}</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" action="/admin/books/add-chapter/{{ book.isbn }}">
+                <div class="form-group row">
+                    <div class="col-10">
+                        <label for="chapterTitle">Title</label>
+                        <input type="text" class="form-control" id="chapterTitle" name="title"
+                               placeholder="Enter Chapter Title" required>
+                    </div>
+                    <div class="col-2">
+                        <label for="chapterNumber">Chapter Number</label>
+                        <input type="number" class="form-control" id="chapterNumber" name="chapter-number"
+                               placeholder="Enter Chapter Number" min="1" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="chapterVideo">Video URL</label>
+                    <input type="text" class="form-control" id="chapterVideo" name="chapter-video"
+                           placeholder="Enter Youtube URL only">
+                </div>
+                <div class="form-group">
+                    <label for="summernote">Content</label>
+                    {% include 'summernote.twig' %}
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="isbn" value="{{ book.isbn }}">
+                    <input type="submit" value="Add Chapter" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

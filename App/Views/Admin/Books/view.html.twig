@@ -46,22 +46,16 @@
                     </tr></thead>
                     <tbody>
 
-                    {% for book in books %}
+                    {% for chapter in chapters %}
                         <tr>
                             <td class="text-center">
-                                {{ book.isbn }}
+                                {{ chapter.chapter }}
                             </td>
                             <td class="text-center">
-                                {{ book.title }}
+                                {{ chapter.title }}
                             </td>
                             <td class="text-center">
-                                {{ book.authors }}
-                            </td>
-                            <td class="text-center">
-                                {{ book.publication_date }}
-                            </td>
-                            <td class="text-center">
-                                {{ book.edition }}
+                                <a href="{{ chapter.video_url|raw }}">{{ chapter.video_url }}</a>
                             </td>
                             <td class="text-center">
                                 <form action="" class="mb-1 d-inline">
@@ -86,7 +80,7 @@
                 </table>
                 <div class="row text-center">
                     <div class="col">
-                        <a href="/admin/books/add-chapter" class="btn btn-primary">Add Chapter</a>
+                        <a href="/admin/books/new-chapter/{{ book.isbn }}" class="btn btn-primary">Add Chapter</a>
                     </div>
                 </div>
 

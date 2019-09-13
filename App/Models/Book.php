@@ -17,6 +17,8 @@ class Book extends \Core\Model
     protected $errors;
 
     /**
+     * Return errors of validation.
+     *
      * @return array
      */
     public function getErrors(): array
@@ -321,4 +323,67 @@ edition = :edition WHERE isbn = :isbn';
         return $files;
     }
 
+    /**
+     * Add chapters to books
+     *
+     * @param $isbn
+     * @param $title
+     * @param $editordata
+     * @param $chapter
+     * @param null $chapter_video
+     *
+     * @return boolean True if successfully added, false otherwise
+     */
+    public static function addChapter($isbn, $title, $editordata, $chapter, $chapter_video = null)
+    {
+        $db = static::getDB();
+        $sql_check_duplication = 'SELECT * FROM books_content WHERE isbn = :isbn AND chapter = :chapter';
+        $stmt = $db->prepare($sql_check_duplication);
+        $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+        $stmt->bindValue(':chapter', $chapter, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if(!$result)
+        {
+            $sql = "INSERT INTO books_content (isbn, chapter, title, content, video_url) 
+                    VALUES (:isbn, :chapter, :title, :content, :chapter_video)";
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+            $stmt->bindValue(':chapter', $chapter, PDO::PARAM_INT);
+            $stmt->bindValue(':title', $title, PDO::PARAM_STR);
+            $stmt->bindValue(":content", $editordata, PDO::PARAM_STR);
+            if($chapter_video)
+            {
+                $stmt->bindValue(":chapter_video", $chapter_video, PDO::PARAM_STR);
+            }
+            else
+            {
+                $stmt->bindValue(":chapter_video", $chapter_video, PDO::PARAM_NULL);
+            }
+            return $stmt->execute();
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Return books chapters
+     *
+     * @param int $isbn
+     *
+     * @return array chapters of the book
+     */
+    public static function getBookChapters($isbn)
+    {
+        $db = static::getDB();
+        $sql =  'SELECT * FROM books_content WHERE isbn = :isbn';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }
