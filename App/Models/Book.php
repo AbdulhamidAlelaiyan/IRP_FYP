@@ -379,7 +379,7 @@ edition = :edition WHERE isbn = :isbn';
     public static function getBookChapters($isbn)
     {
         $db = static::getDB();
-        $sql =  'SELECT * FROM books_content WHERE isbn = :isbn';
+        $sql =  'SELECT * FROM books_content WHERE isbn = :isbn ORDER BY chapter';
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());

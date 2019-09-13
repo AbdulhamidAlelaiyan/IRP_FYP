@@ -280,7 +280,10 @@ class Books extends AdminController
     {
         $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
         $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
-        $editordata = filter_input(INPUT_POST, 'editordata', FILTER_SANITIZE_STRING);
+        if(isset($_POST['editordata']))
+        {
+            $editordata = $_POST['editordata'];
+        }
         $chapter_number = filter_input(INPUT_POST, 'chapter-number', FILTER_SANITIZE_NUMBER_INT);
         $chapter_video = filter_input(INPUT_POST, 'chapter-video', FILTER_SANITIZE_URL);
 
