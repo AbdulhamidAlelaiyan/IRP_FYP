@@ -1,18 +1,19 @@
 
-
 <!--
 =========================================================
-Paper Dashboard 2 PRO - v2.0.1
+ Paper Dashboard 2 - v2.0.0
 =========================================================
 
-Product Page: https://www.creative-tim.com/product/paper-dashboard-2-pro
-Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Product Page: https://www.creative-tim.com/product/paper-dashboard-2
+ Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard/blob/master/LICENSE)
 
-Coded by Creative Tim
+ Coded by Creative Tim
 
 =========================================================
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+
 
 
 <!DOCTYPE html>
@@ -20,8 +21,8 @@ The above copyright notice and this permission notice shall be included in all c
 
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/admin_assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/admin_assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>
         IRP Admin Dashboard
@@ -32,226 +33,100 @@ The above copyright notice and this permission notice shall be included in all c
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <!-- CSS Files -->
     <link href="/admin_assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/admin_assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
+    <link href="/admin_assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="/admin_assets/demo/demo.css" rel="stylesheet" />
     <!-- Summernote style and icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.css" rel="stylesheet">
 </head>
 
 <body class="">
 <div class="wrapper ">
-    <div class="sidebar" data-color="brown" data-active-color="danger">
+    <div class="sidebar" data-color="white" data-active-color="danger">
         <!--
           Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
       -->
         <div class="logo">
-            <a href="/admin/" class="simple-text logo-mini">
+            <a href="http://www.creative-tim.com" class="simple-text logo-mini">
             </a>
-            <a href="/admin/" class="simple-text logo-normal">
-                IRP
+            <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+                Admin User
             </a>
         </div>
         <div class="sidebar-wrapper">
-            <div class="user">
-                <div class="info">
-                    <a data-toggle="collapse" href="#collapseExample" class="collapsed">
-              <span>
-                Admin User
-                <b class="caret"></b>
-              </span>
-                    </a>
-                    <div class="clearfix"></div>
-                    <div class="collapse" id="collapseExample">
-                        <ul class="nav">
-                            <li>
-                                <a href="#">
-                                    <span class="sidebar-mini-icon">MP</span>
-                                    <span class="sidebar-normal">My Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sidebar-mini-icon">EP</span>
-                                    <span class="sidebar-normal">Edit Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sidebar-mini-icon">S</span>
-                                    <span class="sidebar-normal">Settings</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
             <ul class="nav">
-                <li>
+                <li class="">
                     <a href="/admin/">
                         <i class="nc-icon nc-bank"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
-                    <a data-toggle="collapse" href="#pagesExamples">
+                    <a href="/admin/books/index">
                         <i class="nc-icon nc-book-bookmark"></i>
-                        <p>
-                            Books
-                            <b class="caret"></b>
-                        </p>
+                        <p>Books</p>
                     </a>
-                    <div class="collapse " id="pagesExamples">
-                        <ul class="nav">
-                            <li>
-                                <a href="/admin/books/new">
-                                    <span class="sidebar-mini-icon">Add</span>
-                                    <span class="sidebar-normal"> Add New Books </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/admin/books/index">
-                                    <span class="sidebar-mini-icon">All</span>
-                                    <span class="sidebar-normal"> All Books </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
                 <li>
-                    <a data-toggle="collapse" href="#componentsExamples">
-                        <i class="nc-icon nc-layout-11"></i>
-                        <p>
-                            EIO
-                            <b class="caret"></b>
-                        </p>
+                    <a href="">
+                        <i class="nc-icon nc-tap-01"></i>
+                        <p>EIO</p>
                     </a>
-                    <div class="collapse " id="componentsExamples">
-                        <ul class="nav">
-                            <li>
-                                <a href="../examples/components/buttons.html">
-                                    <span class="sidebar-mini-icon">B</span>
-                                    <span class="sidebar-normal"> Add New EIO </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
                 <li>
-                    <a data-toggle="collapse" href="#formsExamples">
-                        <i class="nc-icon nc-ruler-pencil"></i>
-                        <p>
-                            Quizzes
-                            <b class="caret"></b>
-                        </p>
+                    <a href="">
+                        <i class="nc-icon nc-glasses-2"></i>
+                        <p>Quizzes</p>
                     </a>
-                    <div class="collapse " id="formsExamples">
-                        <ul class="nav">
-                        </ul>
-                    </div>
                 </li>
                 <li>
-                    <a data-toggle="collapse" href="#tablesExamples">
-                        <i class="nc-icon nc-single-copy-04"></i>
-                        <p>
-                            Posts & Replies
-                            <b class="caret"></b>
-                        </p>
+                    <a href="">
+                        <i class="nc-icon nc-chat-33"></i>
+                        <p>Posts & Replies</p>
                     </a>
-                    <div class="collapse " id="tablesExamples">
-                        <ul class="nav">
-                        </ul>
-                    </div>
                 </li>
                 <li>
-                    <a data-toggle="collapse" href="#">
-                        <i class="nc-icon nc-single-copy-04"></i>
-                        <p>
-                            Users
-                            <b class="caret"></b>
-                        </p>
-                </a>
-                <li>
-                    <a href="../examples/charts.html">
-                        <i class="nc-icon nc-chart-bar-32"></i>
-                        <p>Stats</p>
+                    <a href="">
+                        <i class="nc-icon nc-single-02"></i>
+                        <p>Users</p>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
     <div class="main-panel">
-    {% include('Admin/navbar.twig') %}
-
-    <div class="content">
-{% block body %}
-{% endblock %}
+        <div class="content mt-5">
+            {% block body %}
+            {% endblock %}
+        </div>
     </div>
-
 <!--   Core JS Files   -->
 <script src="/admin_assets/js/core/jquery.min.js"></script>
 <script src="/admin_assets/js/core/popper.min.js"></script>
 <script src="/admin_assets/js/core/bootstrap.min.js"></script>
 <script src="/admin_assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<script src="/admin_assets/js/plugins/moment.min.js"></script>
-<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-<script src="/admin_assets/js/plugins/bootstrap-switch.js"></script>
-<!--  Plugin for Sweet Alert -->
-<script src="/admin_assets/js/plugins/sweetalert2.min.js"></script>
-<!-- Forms Validations Plugin -->
-<script src="/admin_assets/js/plugins/jquery.validate.min.js"></script>
-<!--  Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
-<script src="/admin_assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-<!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-<script src="/admin_assets/js/plugins/bootstrap-selectpicker.js"></script>
-<!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
-<script src="/admin_assets/js/plugins/bootstrap-datetimepicker.js"></script>
-<!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
-<script src="/admin_assets/js/plugins/jquery.dataTables.min.js"></script>
-<!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
-<script src="/admin_assets/js/plugins/bootstrap-tagsinput.js"></script>
-<!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
-<script src="/admin_assets/js/plugins/jasny-bootstrap.min.js"></script>
-<!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
-<script src="/admin_assets/js/plugins/fullcalendar.min.js"></script>
-<!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
-<script src="/admin_assets/js/plugins/jquery-jvectormap.js"></script>
-<!--  Plugin for the Bootstrap Table -->
-<script src="/admin_assets/js/plugins/nouislider.min.js"></script>
-<!--  Google Maps Plugin    -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 <!-- Chart JS -->
 <script src="/admin_assets/js/plugins/chartjs.min.js"></script>
 <!--  Notifications Plugin    -->
 <script src="/admin_assets/js/plugins/bootstrap-notify.js"></script>
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="/admin_assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script>
+<script src="/admin_assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
 <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 <script src="/admin_assets/demo/demo.js"></script>
 <script>
     $(document).ready(function() {
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
-
-
-        demo.initVectorMap();
-
+        // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+        demo.initChartsPages();
     });
-    $(document).ready(function() {
-        // initialise Datetimepicker and Sliders
-        demo.initDateTimePicker();
-        if ($('.slider').length != 0) {
-            demo.initSliders();
-        }
-    });
-
 </script>
-        <!-- for Summernote Editor -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.js"></script>
-        <script>
-            $('#summernote').summernote({
-                tabsize: 2,
-                height: 400
-            });
-        </script>
+<!-- for Summernote Editor -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.js"></script>
+<script>
+    $('#summernote').summernote({
+        tabsize: 2,
+        height: 400
+    });
+</script>
 </body>
 
 </html>

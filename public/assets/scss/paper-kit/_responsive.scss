@@ -22,7 +22,6 @@
         }
     }
     .navbar-transparent{
-        // padding-top: 15px;
         background-color: rgba(0, 0, 0, 0.45);
     }
     .register{
@@ -30,6 +29,11 @@
             max-height: fit-content;
         }
     }
+
+    .form-group.has-danger {
+      margin-bottom: 30px;
+    }
+
     body {
          position: relative;
          font-size: $font-size-small;
@@ -446,11 +450,9 @@
         ul {
             position: relative;
             z-index: 3;
-            // overflow-y:scroll;
             height: 95%;
         }
-        .navbar-nav > .nav-item{
-            // border-bottom: 1px solid;
+        .navbar-nav > .nav-item {
             &:last-child {
             border-bottom: 0;
             }
@@ -501,11 +503,12 @@
         display: none;
     }
 
-    .login-page.full-screen {
+    .register-page.full-screen {
       .page-header .container {
         margin-top: 30%;
       }
     }
+
 
     .dropdown.show .dropdown-menu,
     .dropdown .dropdown-menu{
@@ -626,6 +629,11 @@
         width: auto;
       }
     }
+
+    .form-control + .form-control-feedback {
+      padding-left: 0 !important;
+    }
+
 }
 
 

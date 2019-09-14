@@ -1,13 +1,13 @@
 /*!
 
  =========================================================
- * Paper Kit Pro - v2.3.0
+ * Paper Kit - v2.2.0
  =========================================================
 
- * Product Page: https://www.creative-tim.com/product/paper-kit-2-pro
+ * Product Page: https://www.creative-tim.com/product/paper-kit
  * Copyright 2019 Creative Tim (http://www.creative-tim.com)
 
- * Designed by www.invisionapp.com Coded by www.creative-tim.com
+ * Coded by www.creative-tim.com
 
  =========================================================
 
@@ -28,72 +28,11 @@ var navbar_initialized,
 
 $(document).ready(function() {
   window_width = $(window).width();
-
-  // multi-level dropdown-menu
-
-
-  $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
-    var $el = $(this);
-    var $parent = $(this).offsetParent(".dropdown-menu");
-    if (!$(this).next().hasClass('show')) {
-      $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-    }
-    var $subMenu = $(this).next(".dropdown-menu");
-    $subMenu.toggleClass('show');
-
-    $(this).parent("li").toggleClass('show');
-
-    $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
-      $('.dropdown-menu .show').removeClass("show");
-    });
-
-    if (!$parent.parent().hasClass('navbar-nav')) {
-      $el.next().css({
-        "top": $el[0].offsetTop,
-        "left": $parent.outerWidth() - 4
-      });
-    }
-
-    return false;
-  });
-
-
-  // On responsive, when a section from navbar is clicked, jump to that section
-  if ($('.sections-page').length != 0) {
-    $('a[data-scroll="true"]').click(function(e) {
-      var scroll_target = $(this).data('id');
-      var scroll_trigger = $(this).data('scroll');
-
-      if (scroll_trigger == true && scroll_target !== undefined) {
-        e.preventDefault();
-        $('html, body').animate({
-          scrollTop: $(scroll_target).offset().top - 50
-        }, 1000);
-      }
-    });
-
-    $('.navbar-collapse a[data-scroll="true"]').click(function() {
-      setTimeout(function() {
-        if (pk.misc.navbar_menu_visible == 1) {
-          $('html').removeClass('nav-open');
-          pk.misc.navbar_menu_visible = 0;
-          $('#bodyClick').remove();
-          setTimeout(function() {
-            $toggle.removeClass('toggled');
-          }, 550);
-        }
-      }, 550);
-    });
-  }
+  var big_image;
 
   //  Activate the tooltips
   if ($('[data-toggle="tooltip"]').length != 0) {
     $('[data-toggle="tooltip"]').tooltip();
-  }
-
-  //  Activate the switches with icons
-  if ($('.switch').length != 0) {
-    $('.switch')['.bootstrapSwitch']();
   }
 
   //  Activate regular switches
@@ -101,42 +40,37 @@ $(document).ready(function() {
     $("[data-toggle='switch']").bootstrapSwitch();
   }
 
-  //  Activate bootstrap-select
-  if ($(".selectpicker").length != 0) {
-    $(".selectpicker").selectpicker();
-  }
-
   //  Append modals to <body>
   if ($(".modal").length != 0) {
     $('.modal').appendTo('body');
   }
 
-  // Activate Tags(badges)
-  // var tagClass = $('.tagsinput').attr('data-color');
-  if ($(".tagsinput").length != 0) {
-    $(".tagsinput").tagsinput();
-  }
-  // $('.badge').addClass(''+ 'badge-' + tagClass);
+  // Init noUiSlider
+  pk.initSliders();
 
-  // Limit number of characters in limited textarea
-  $('.textarea-limited').keyup(function() {
-    var max = $(this).attr('maxlength');
-    var len = $(this).val().length;
-    if (len >= max) {
-      $('#textarea-limited-message').text(' you have reached the limit');
-    } else {
-      var char = max - len;
-      $('#textarea-limited-message').text(char + ' characters left');
-    }
+  // Init popovers
+  pk.initPopovers();
+
+  // Activate the image for the navbar-collapse
+  pk.initNavbarImage();
+
+  // Navbar color change on scroll
+  if ($('.navbar[color-on-scroll]').length != 0) {
+    $(window).on('scroll', pk.checkScrollForTransparentNavbar);
+  }
+
+  $('.navbar-collapse').click(function() {
+    setTimeout(function() {
+      if (pk.misc.navbar_menu_visible == 1) {
+        $('html').removeClass('nav-open');
+        pk.misc.navbar_menu_visible = 0;
+        $('#bodyClick').remove();
+        setTimeout(function() {
+          $toggle.removeClass('toggled');
+        }, 550);
+      }
+    }, 550);
   });
-
-  if (window_width >= 768) {
-    big_image = $('.page-header[data-parallax="true"]');
-
-    if (big_image.length != 0) {
-      $(window).on('scroll', pk.checkScrollForPresentationPage);
-    }
-  }
 
   // Change the collor of navbar collapse
   $('#navbarToggler').on('show.bs.collapse', function() {
@@ -151,18 +85,15 @@ $(document).ready(function() {
     }
   });
 
-  // Navbar color change on scroll
+  $navbar = $('.navbar[color-on-scroll]');
+  scroll_distance = $navbar.attr('color-on-scroll') || 500;
+
+  // Check if we have the class "navbar-color-on-scroll" then add the function to remove the class "navbar-transparent" so it will transform to a plain color.
+
   if ($('.navbar[color-on-scroll]').length != 0) {
-    $(window).on('scroll', pk.checkScrollForTransparentNavbar);
+    pk.checkScrollForTransparentNavbar();
+    $(window).on('scroll', pk.checkScroll)
   }
-
-  $('.btn-tooltip').tooltip();
-  $('.label-tooltip').tooltip();
-
-  // Carousel
-  $('.carousel').carousel({
-    interval: 20000
-  });
 
   $('.form-control').on("focus", function() {
     $(this).parent('.input-group').addClass("input-group-focus");
@@ -170,25 +101,20 @@ $(document).ready(function() {
     $(this).parent(".input-group").removeClass("input-group-focus");
   });
 
-  // Init popovers
-  pk.initPopovers();
 
-  // Init Sliders
-  pk.initSliders();
+  if (window_width >= 768) {
+    big_image = $('.page-header[data-parallax="true"]');
 
-  // Init video header
-  pk.initVideoBackground();
-
-  // Activate Navbar
-  if ($('.nav-down').length != 0) {
-    pk.checkScrollForMovingNavbar();
-  };
+    if (big_image.length != 0) {
+      $(window).on('scroll', pk.checkScrollForPresentationPage);
+    }
+  }
+  // Activate Carousel
+  $('.carousel').carousel({
+    interval: 4000
+  });
 
 });
-
-// $(window).on('resize', function(){
-//     pk.initNavbarImage();
-// });
 
 $(document).on('click', '.navbar-toggler', function() {
   $toggle = $(this);
@@ -223,6 +149,7 @@ pk = {
   misc: {
     navbar_menu_visible: 0
   },
+
   checkScrollForTransparentNavbar: debounce(function() {
     if ($(document).scrollTop() > $(".navbar").attr("color-on-scroll")) {
       if (transparent) {
@@ -237,53 +164,23 @@ pk = {
     }
   }, 17),
 
-  checkScrollForMovingNavbar: function() {
+  initNavbarImage: function() {
+    var $navbar = $('.navbar').find('.navbar-translate').siblings('.navbar-collapse');
+    var background_image = $navbar.data('nav-image');
 
-    // Hide Header on on scroll down
-    navbarHeight = $('.navbar').outerHeight();
-
-    $(window).scroll(function(event) {
-      didScroll = true;
-    });
-
-    setInterval(function() {
-      if (didScroll) {
-        hasScrolled();
-        didScroll = false;
+    if ($(window).width() < 991 || $('body').hasClass('burger-menu')) {
+      if (background_image != undefined) {
+        $navbar.css('background', "url('" + background_image + "')")
+          .removeAttr('data-nav-image')
+          .css('background-size', "cover")
+          .addClass('has-image');
       }
-    }, 250);
-
-
-  },
-
-  checkScrollForPresentationPage: debounce(function() {
-    oVal = ($(window).scrollTop() / 3);
-    big_image.css({
-      'transform': 'translate3d(0,' + oVal + 'px,0)',
-      '-webkit-transform': 'translate3d(0,' + oVal + 'px,0)',
-      '-ms-transform': 'translate3d(0,' + oVal + 'px,0)',
-      '-o-transform': 'translate3d(0,' + oVal + 'px,0)'
-    });
-  }, 4),
-
-  initVideoBackground: function() {
-
-    $('[data-toggle="video"]').click(function() {
-      id_video = $(this).data('video');
-      video = $('#' + id_video).get(0);
-
-      parent = $(this).parent('div').parent('div');
-
-      if (video.paused) {
-        video.play();
-        $(this).html('<i class="fa fa-pause"></i> Pause Video');
-        parent.addClass('state-play');
-      } else {
-        video.pause();
-        $(this).html('<i class="fa fa-play"></i> Play Video');
-        parent.removeClass('state-play');
-      }
-    });
+    } else if (background_image != undefined) {
+      $navbar.css('background', "")
+        .attr('data-nav-image', '' + background_image + '')
+        .css('background-size', "")
+        .removeClass('has-image');
+    }
   },
 
   initPopovers: function() {
@@ -329,417 +226,36 @@ pk = {
     }
 
   },
+
+
+  // Javascript for the parallax
+
+  checkScroll: debounce(function() {
+    big_image = $('.page-header[data-parallax="true"]');
+    oVal = ($(window).scrollTop() / 3);
+    big_image.css({
+      'transform': 'translate3d(0,' + oVal + 'px,0)',
+      '-webkit-transform': 'translate3d(0,' + oVal + 'px,0)',
+      '-ms-transform': 'translate3d(0,' + oVal + 'px,0)',
+      '-o-transform': 'translate3d(0,' + oVal + 'px,0)'
+    });
+  }, 4),
 }
-
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
-
-function debounce(func, wait, immediate) {
-  var timeout;
-  return function() {
-    var context = this,
-      args = arguments;
-    clearTimeout(timeout);
-    timeout = setTimeout(function() {
-      timeout = null;
-      if (!immediate) func.apply(context, args);
-    }, wait);
-    if (immediate && !timeout) func.apply(context, args);
-  };
-};
-
-var big_image;
-var searchVisible = 0;
-var transparent = true;
-
-var transparentDemo = true;
-var fixedTop = false;
-
-var toggle_initialized = false;
-
-var didScroll;
-var lastScrollTop = 0;
-var delta = 5;
-var navbarHeight = 0;
 
 demo = {
-  initContactUsMap: function() {
-
-    var myLatlng = new google.maps.LatLng(44.445248, 26.099672);
-    var mapOptions = {
-      zoom: 14,
-      center: myLatlng,
-      styles: [{
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#e9e9e9"
-        }, {
-          "lightness": 17
-        }]
-      }, {
-        "featureType": "landscape",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#f5f5f5"
-        }, {
-          "lightness": 20
-        }]
-      }, {
-        "featureType": "road.highway",
-        "elementType": "geometry.fill",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 17
-        }]
-      }, {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 29
-        }, {
-          "weight": 0.2
-        }]
-      }, {
-        "featureType": "road.arterial",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 18
-        }]
-      }, {
-        "featureType": "road.local",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 16
-        }]
-      }, {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#f5f5f5"
-        }, {
-          "lightness": 21
-        }]
-      }, {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#dedede"
-        }, {
-          "lightness": 21
-        }]
-      }, {
-        "elementType": "labels.text.stroke",
-        "stylers": [{
-          "visibility": "on"
-        }, {
-          "color": "#ffffff"
-        }, {
-          "lightness": 16
-        }]
-      }, {
-        "elementType": "labels.text.fill",
-        "stylers": [{
-          "saturation": 36
-        }, {
-          "color": "#333333"
-        }, {
-          "lightness": 40
-        }]
-      }, {
-        "elementType": "labels.icon",
-        "stylers": [{
-          "visibility": "off"
-        }]
-      }, {
-        "featureType": "transit",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#f2f2f2"
-        }, {
-          "lightness": 19
-        }]
-      }, {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
-        "stylers": [{
-          "color": "#fefefe"
-        }, {
-          "lightness": 20
-        }]
-      }, {
-        "featureType": "administrative",
-        "elementType": "geometry.stroke",
-        "stylers": [{
-          "color": "#fefefe"
-        }, {
-          "lightness": 17
-        }, {
-          "weight": 1.2
-        }]
-      }],
-      scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-    }
-
-    var map = new google.maps.Map(document.getElementById("contactUsMap"), mapOptions);
-
-    var marker = new google.maps.Marker({
-      position: myLatlng,
-      title: "Creative Tim Office"
+  initPickColor: function() {
+    $('.pick-class-label').click(function() {
+      var new_class = $(this).attr('new-class');
+      var old_class = $('#display-buttons').attr('data-class');
+      var display_div = $('#display-buttons');
+      if (display_div.length) {
+        var display_buttons = display_div.find('.btn');
+        display_buttons.removeClass(old_class);
+        display_buttons.addClass(new_class);
+        display_div.attr('data-class', new_class);
+      }
     });
-
-    // To add the marker to the map, call setMap();
-    marker.setMap(map);
-
-  },
-
-  initContactUsMap2: function() {
-
-    var myLatlng = new google.maps.LatLng(44.445248, 26.099672);
-    var mapOptions = {
-      zoom: 14,
-      center: myLatlng,
-      styles: [{
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#e9e9e9"
-        }, {
-          "lightness": 17
-        }]
-      }, {
-        "featureType": "landscape",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#f5f5f5"
-        }, {
-          "lightness": 20
-        }]
-      }, {
-        "featureType": "road.highway",
-        "elementType": "geometry.fill",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 17
-        }]
-      }, {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 29
-        }, {
-          "weight": 0.2
-        }]
-      }, {
-        "featureType": "road.arterial",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 18
-        }]
-      }, {
-        "featureType": "road.local",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 16
-        }]
-      }, {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#f5f5f5"
-        }, {
-          "lightness": 21
-        }]
-      }, {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#dedede"
-        }, {
-          "lightness": 21
-        }]
-      }, {
-        "elementType": "labels.text.stroke",
-        "stylers": [{
-          "visibility": "on"
-        }, {
-          "color": "#ffffff"
-        }, {
-          "lightness": 16
-        }]
-      }, {
-        "elementType": "labels.text.fill",
-        "stylers": [{
-          "saturation": 36
-        }, {
-          "color": "#333333"
-        }, {
-          "lightness": 40
-        }]
-      }, {
-        "elementType": "labels.icon",
-        "stylers": [{
-          "visibility": "off"
-        }]
-      }, {
-        "featureType": "transit",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#f2f2f2"
-        }, {
-          "lightness": 19
-        }]
-      }, {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
-        "stylers": [{
-          "color": "#fefefe"
-        }, {
-          "lightness": 20
-        }]
-      }, {
-        "featureType": "administrative",
-        "elementType": "geometry.stroke",
-        "stylers": [{
-          "color": "#fefefe"
-        }, {
-          "lightness": 17
-        }, {
-          "weight": 1.2
-        }]
-      }],
-      scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-    }
-
-    var map = new google.maps.Map(document.getElementById("contactUsMap2"), mapOptions);
-
-    var marker = new google.maps.Marker({
-      position: myLatlng,
-      title: "Creative Tim Office"
-    });
-
-    // To add the marker to the map, call setMap();
-    marker.setMap(map);
-
-  },
-
-  verticalDots: function() {
-
-    var contentSections = $('.cd-section'),
-      navigationItems = $('#cd-vertical-nav a');
-
-    updateNavigation();
-    $(window).on('scroll', function() {
-      updateNavigation();
-    });
-
-    //smooth scroll to the section
-    navigationItems.on('click', function(event) {
-      event.preventDefault();
-      smoothScroll($(this.hash));
-    });
-    //smooth scroll to second section
-    $('.cd-scroll-down').on('click', function(event) {
-      event.preventDefault();
-      smoothScroll($(this.hash));
-    });
-
-    //open-close navigation on touch devices
-    $('.touch .cd-nav-trigger').on('click', function() {
-      $('.touch #cd-vertical-nav').toggleClass('open');
-
-    });
-    //close navigation on touch devices when selectin an elemnt from the list
-    $('.touch #cd-vertical-nav a').on('click', function() {
-      $('.touch #cd-vertical-nav').removeClass('open');
-    });
-
-    function updateNavigation() {
-      contentSections.each(function() {
-        $this = $(this);
-        var activeSection = $('#cd-vertical-nav a[href="#' + $this.attr('id') + '"]').data('number') - 1;
-        if (($this.offset().top - $(window).height() / 2 < $(window).scrollTop()) && ($this.offset().top + $this.height() - $(window).height() / 2 > $(window).scrollTop())) {
-          navigationItems.eq(activeSection).addClass('is-selected');
-        } else {
-          navigationItems.eq(activeSection).removeClass('is-selected');
-        }
-      });
-    }
-
-    function smoothScroll(target) {
-      $('body,html').animate({
-          'scrollTop': target.offset().top
-        },
-        600
-      );
-    }
   }
-}
-
-$(document).ready(function() {
-
-  demo.verticalDots();
-});
-
-
-
-// onScroll animation
-
-if ($('body').hasClass('presentation-page')) {
-
-  $(function() {
-
-    var $window = $(window),
-      isTouch = Modernizr.touch;
-
-    if (isTouch) {
-      $('.add-animation').addClass('animated');
-    }
-
-    $window.on('scroll', revealAnimation);
-
-    function revealAnimation() {
-
-      // Showed...
-      $(".add-animation:not(.animated)").each(function() {
-        var $this = $(this),
-          offsetTop = $this.offset().top,
-          scrolled = $window.scrollTop(),
-          win_height_padded = $window.height();
-        if (scrolled + win_height_padded > offsetTop) {
-          $this.addClass('animated');
-        }
-      });
-      // Hidden...
-      $(".add-animation.animated").each(function(index) {
-        var $this = $(this),
-          offsetTop = $this.offset().top;
-        scrolled = $window.scrollTop(),
-          win_height_padded = $window.height() * 0.8;
-        if (scrolled + win_height_padded < offsetTop) {
-          $(this).removeClass('animated')
-        }
-      });
-    }
-
-    revealAnimation();
-  });
 }
 
 // Returns a function, that, as long as it continues to be invoked, will not
@@ -780,4 +296,23 @@ function hasScrolled() {
   }
 
   lastScrollTop = st;
+};
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function() {
+    var context = this,
+      args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    }, wait);
+    if (immediate && !timeout) func.apply(context, args);
+  };
 };

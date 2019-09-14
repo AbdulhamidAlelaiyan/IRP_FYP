@@ -62,22 +62,22 @@
                         </td>
                         <td class="text-center">
                             <form action="/admin/books/view/{{ book.isbn }}" class="mb-1 d-inline">
-                            <button type="submit" rel="tooltip" class="btn btn-info  btn-sm d-inline" data-original-title="" title="View Book">
+                            <button type="submit" rel="tooltip" class="btn btn-info  btn-sm d-inline">
                                 View
                             </button>
                             </form>
                             <form action="/admin/books/edit/{{ book.isbn }}" class="mb-1 d-inline">
-                            <button type="submit" rel="tooltip" class="btn btn-success btn-sm d-inline" data-original-title="" title="Edit Book">
+                            <button type="submit" rel="tooltip" class="btn btn-success btn-sm d-inline">
                                 Edit
                             </button>
                             </form>
                             <form action="/admin/books/delete/{{ book.isbn }}" class="d-inline">
-                            <button type="submit" rel="tooltip" class="btn btn-danger btn-sm d-inline" data-original-title="" title="Delete Book">
+                            <button type="submit" rel="tooltip" class="btn btn-danger btn-sm d-inline">
                                 Delete
                             </button>
                             </form>
                             <form action="/admin/books/add-file/{{ book.isbn }}" class="d-inline">
-                            <button type="submit" rel="tooltip" class="btn btn-file btn-sm d-inline" data-original-title="" title="Add File">
+                            <button type="submit" rel="tooltip" class="btn btn-file btn-sm d-inline">
                                 Upload File
                             </button>
                             </form>
@@ -86,6 +86,11 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                <div class="row text-center">
+                    <div class="col">
+                        <a href="/admin/books/new" class="btn btn-primary">Add Book</a>
+                    </div>
+                </div>
                 {{ pagination|raw }}
             </div>
         </div>

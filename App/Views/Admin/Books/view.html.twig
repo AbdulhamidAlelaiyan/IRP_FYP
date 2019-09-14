@@ -60,19 +60,19 @@
                             <td class="text-center">
                                 <form action="/admin/books/view-chapter/{{ book.isbn }}" class="mb-1 d-inline">
                                     <input type="hidden" name="chapter" value="{{ chapter.chapter }}">
-                                    <button type="submit" rel="tooltip" class="btn btn-info  btn-sm d-inline" data-original-title="" title="View Chapter">
+                                    <button type="submit" rel="tooltip" class="btn btn-info  btn-sm d-inline">
                                         View
                                     </button>
                                 </form>
                                 <form action="/admin/books/edit-chapter/{{ book.isbn }}" class="mb-1 d-inline">
                                     <input type="hidden" name="chapter" value="{{ chapter.chapter }}">
-                                    <button type="submit" rel="tooltip" class="btn btn-success btn-sm d-inline" data-original-title="" title="Edit Chapter">
+                                    <button type="submit" rel="tooltip" class="btn btn-success btn-sm d-inline">
                                         Edit
                                     </button>
                                 </form>
                                 <form action="/admin/books/delete-chapter/{{ book.isbn }}" class="mb-1 d-inline">
                                     <input type="hidden" name="chapter" value="{{ chapter.chapter }}">
-                                    <button type="submit" rel="tooltip" class="btn btn-danger btn-sm d-inline" data-original-title="" title="Delete Chapter">
+                                    <button type="submit" rel="tooltip" class="btn btn-danger btn-sm d-inline">
                                         Delete
                                     </button>
                                 </form>

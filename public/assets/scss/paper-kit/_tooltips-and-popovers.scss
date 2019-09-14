@@ -33,7 +33,7 @@
         border-left: 11px solid rgba(0, 0, 0, 0.2);
         border-top: 11px solid transparent;
         border-bottom: 11px solid transparent;
-        right: -5px;
+        right: -6px;
         left: auto;
         margin-left: 0;
         top: -8px;
@@ -45,7 +45,7 @@
             right: 1px;
             left: auto;
             margin-left: 0;
-            top: -11px;
+            top: -8px;
         }
     }
 }
@@ -70,7 +70,7 @@
             left: 1px;
             right: auto;
             margin-right: 0;
-            top: -11px;
+            top: -8px;
         }
     }
 }
@@ -86,13 +86,13 @@
         border-right: 11px solid transparent;
         right: auto;
         margin-right: 0;
-        top: 44px;
+        top: 43px;
 
         &::before{
             border-top: 11px solid #FFFFFF;
             border-left: 11px solid transparent;
             border-right: 11px solid transparent;
-            left: -11px;
+            left: -8px;
             right: auto;
             top: -12px;
         }
@@ -116,7 +116,7 @@
             border-bottom: 11px solid #FFFFFF;
             border-left: 11px solid transparent;
             border-right: 11px solid transparent;
-            left: -11px;
+            left: -8px;
             right: auto;
             top: 1px;
         }
