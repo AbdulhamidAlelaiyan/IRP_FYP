@@ -64,7 +64,8 @@
                                         View
                                     </button>
                                 </form>
-                                <form action="" class="mb-1 d-inline">
+                                <form action="/admin/books/edit-chapter/{{ book.isbn }}" class="mb-1 d-inline">
+                                    <input type="hidden" name="chapter" value="{{ chapter.chapter }}">
                                     <button type="submit" rel="tooltip" class="btn btn-success btn-sm d-inline" data-original-title="" title="Edit Chapter">
                                         Edit
                                     </button>

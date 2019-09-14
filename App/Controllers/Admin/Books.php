@@ -333,9 +333,11 @@ class Books extends AdminController
         $chapter = filter_input(INPUT_GET, 'chapter', FILTER_VALIDATE_INT);
         if($isbn && $chapter)
         {
+            $book = Book::getBookByISBN($isbn);
             $chapter = Book::getBookChapter($isbn, $chapter);
             View::renderTemplate('Admin/Books/edit-chapter.html.twig',
                 [
+                    'book' => $book,
                     'chapter' => $chapter,
                 ]);
         }

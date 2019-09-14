@@ -406,4 +406,29 @@ edition = :edition WHERE isbn = :isbn';
         if(!$stmt->execute()) return false;
         return $stmt->fetch();
     }
+
+    /**
+     * Update chapter content
+     *
+     * @param string $isbn
+     * @param string $title
+     * @param string $editordata
+     * @param int $chapter_number
+     * @param string $chapter_video
+     *
+     * @return mixed True if update was successful, false otherwise
+     */
+    public static function updateChapter($isbn, $title, $editordata, $chapter_number, $chapter_video)
+    {
+        $db = static::getDB();
+        $sql = 'UPDATE books_content SET title = :title, content = :content, chapter = :chapter, video_url = :video_url
+                WHERE isbn = :isbn and chapter = :chapter';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+        $stmt->bindValue(':title', $title, PDO::PARAM_STR);
+        $stmt->bindValue(':content', $editordata, PDO::PARAM_STR);
+        $stmt->bindValue(':chapter', $chapter_number, PDO::PARAM_INT);
+        $stmt->bindValue(':video_url', $chapter_video, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
 }
