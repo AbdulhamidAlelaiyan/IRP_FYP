@@ -70,7 +70,8 @@
                                         Edit
                                     </button>
                                 </form>
-                                <form action="" class="d-inline">
+                                <form action="/admin/books/delete-chapter/{{ book.isbn }}" class="mb-1 d-inline">
+                                    <input type="hidden" name="chapter" value="{{ chapter.chapter }}">
                                     <button type="submit" rel="tooltip" class="btn btn-danger btn-sm d-inline" data-original-title="" title="Delete Chapter">
                                         Delete
                                     </button>

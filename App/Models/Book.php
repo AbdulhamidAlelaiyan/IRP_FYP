@@ -431,4 +431,19 @@ edition = :edition WHERE isbn = :isbn';
         $stmt->bindValue(':video_url', $chapter_video, PDO::PARAM_STR);
         return $stmt->execute();
     }
+
+    /**
+     * Delete chapter from a book
+     *
+     * @return boolean True if successfully deleted, false otherwise
+     */
+    public static function deleteChapter($isbn, $chapter)
+    {
+        $db = static::getDB();
+        $sql = 'DELETE FROM books_content WHERE isbn = :isbn AND chapter = :chapter';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+        $stmt->bindValue(':chapter', $chapter, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }

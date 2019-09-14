@@ -372,4 +372,47 @@ class Books extends AdminController
             View::renderTemplate('Admin/Books/update-chapter-failure.html.twig');
         }
     }
+
+    /**
+     * Load view of delete confirmation
+     *
+     * @return void
+     */
+    public function deleteChapterAction()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $chapter = filter_input(INPUT_GET, 'chapter', FILTER_VALIDATE_INT);
+        if($chapter && $isbn)
+        {
+            $chapter = Book::getBookChapter($isbn, $chapter);
+            $book = Book::getBookByISBN($isbn);
+            View::renderTemplate('Admin/Books/delete-confirm.html.twig',
+                [
+                    'book' => $book,
+                    'chapter' => $chapter,
+                ]);
+        }
+    }
+
+    /**
+     * Delete chapter
+     *
+     * @return void
+     */
+    public function destroyChapterAction()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $chapter = filter_input(INPUT_POST, 'chapter', FILTER_VALIDATE_INT);
+        if($chapter && $isbn)
+        {
+            if(Book::deleteChapter($isbn, $chapter))
+            {
+                View::renderTemplate('Admin/Books/delete-chapter-success.html.twig');
+            }
+            else
+            {
+                View::renderTemplate('Admin/Books/delete-chapter-failure.html.twig');
+            }
+        }
+    }
 }

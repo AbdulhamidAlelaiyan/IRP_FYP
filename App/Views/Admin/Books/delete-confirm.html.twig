@@ -1,0 +1,22 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header ">
+            <h4 class="card-title">Delete Chapter from {{ book.title }}</h4>
+        </div>
+        <div class="card-body ">
+            <p class="text-danger lead">
+                Are you sure you want to delete: <br>
+                <span class="font-weight-bold">{{ chapter.title }}</span>
+            </p>
+        </div>
+        <div class="">
+            <form action="/admin/books/destroy-chapter/{{ book.isbn }}" method="post">
+                <input type="hidden" name="chapter" value="{{ chapter.chapter }}">
+                <input type="submit" value="DELETE!" class="btn btn-danger ml-3">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
