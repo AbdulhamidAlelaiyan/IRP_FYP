@@ -6,6 +6,7 @@ use App\Config;
 use App\Flash;
 use App\Models\Book;
 use \Core\View;
+use phpDocumentor\Reflection\Types\Void_;
 
 class Books extends AdminController
 {
@@ -294,6 +295,79 @@ class Books extends AdminController
         else
         {
             View::renderTemplate('Admin/Books/chapter-failure.html.twig');
+        }
+    }
+
+    /**
+     * View the content of a chapter
+     *
+     * @return void
+     */
+    public function viewChapterAction()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $chapter = filter_input(INPUT_GET, 'chapter', FILTER_VALIDATE_INT);
+        if($isbn && $chapter)
+        {
+            $chapter = Book::getBookChapter($isbn, $chapter);
+            View::renderTemplate('Admin/Books/view-chapter.html.twig',
+                [
+                    'chapter' => $chapter,
+                ]);
+        }
+        else
+        {
+            // TODO: Return ERROR page
+        }
+    }
+
+    /**
+     * Return a view for editing chapter
+     *
+     * @return void
+     */
+    public function editChapterAction()
+    {
+
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $chapter = filter_input(INPUT_GET, 'chapter', FILTER_VALIDATE_INT);
+        if($isbn && $chapter)
+        {
+            $chapter = Book::getBookChapter($isbn, $chapter);
+            View::renderTemplate('Admin/Books/edit-chapter.html.twig',
+                [
+                    'chapter' => $chapter,
+                ]);
+        }
+        else
+        {
+            // TODO: Return ERROR page
+        }
+    }
+
+    /**
+     * Update an existing chapter
+     *
+     * @return void
+     */
+    public function updateChapterAction()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+        if(isset($_POST['editordata']))
+        {
+            $editordata = $_POST['editordata'];
+        }
+        $chapter_number = filter_input(INPUT_POST, 'chapter-number', FILTER_SANITIZE_NUMBER_INT);
+        $chapter_video = filter_input(INPUT_POST, 'chapter-video', FILTER_SANITIZE_URL);
+
+        if(Book::updateChapter($isbn, $title, $editordata, $chapter_number, $chapter_video))
+        {
+            View::renderTemplate('Admin/Books/update-chapter-success.html.twig');
+        }
+        else
+        {
+            View::renderTemplate('Admin/Books/update-chapter-failure.html.twig');
         }
     }
 }

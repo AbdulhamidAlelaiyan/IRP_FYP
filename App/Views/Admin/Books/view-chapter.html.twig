@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title text-center"><h1>{{ chapter.title }}</h1></div>
+        </div>
+
+        <div class="card-body mt-5 container">
+            {{ chapter.content|raw }}
+        </div>
+    </div>
+{% endblock %}

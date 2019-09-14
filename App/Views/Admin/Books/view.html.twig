@@ -58,7 +58,8 @@
                                 <a href="{{ chapter.video_url|raw }}">{{ chapter.video_url }}</a>
                             </td>
                             <td class="text-center">
-                                <form action="" class="mb-1 d-inline">
+                                <form action="/admin/books/view-chapter/{{ book.isbn }}" class="mb-1 d-inline">
+                                    <input type="hidden" name="chapter" value="{{ chapter.chapter }}">
                                     <button type="submit" rel="tooltip" class="btn btn-info  btn-sm d-inline" data-original-title="" title="View Chapter">
                                         View
                                     </button>

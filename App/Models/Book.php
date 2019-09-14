@@ -386,4 +386,24 @@ edition = :edition WHERE isbn = :isbn';
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    /**
+     * Return Book Chapter
+     *
+     * @param string $isbn
+     * @param int $chapter
+     *
+     * @return mixed Book Chapter if found, false otherwise
+     */
+    public static function getBookChapter($isbn, $chapter)
+    {
+        $db = static::getDB();
+        $sql = 'SELECT * FROM books_content WHERE isbn = :isbn and chapter = :chapter LIMIT 1';
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->bindValue(':chapter', $chapter, PDO::PARAM_INT);
+        $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+        if(!$stmt->execute()) return false;
+        return $stmt->fetch();
+    }
 }
