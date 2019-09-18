@@ -42,5 +42,6 @@ $router->add('admin/', ['controller' => 'Home', 'action' => 'index', 'namespace'
 $router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
 $router->add('admin/{controller}/{action}/{isbn:\d+}', ['namespace' => 'Admin']);
 $router->add('{controller}/{action}');
+$router->add('{controller}/{action}/{isbn:\d+}');
 
 $router->dispatch($_SERVER['QUERY_STRING']);

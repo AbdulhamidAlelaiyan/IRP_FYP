@@ -52,7 +52,7 @@ class Books extends AdminController
     }
 
     /**
-     * Load the edit view
+     * Load the index view
      *
      * @return void
      */

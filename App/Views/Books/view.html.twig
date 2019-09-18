@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header ">
+            <h2 class="card-title">{{ book.title }}</h2>
+        </div>
+        <div class="card-body ">
+            <p class="lead">
+                <span class="font-weight-bold">ISBN:</span> {{ book.isbn }} <br>
+                <span class="font-weight-bold">Authors:</span>  {{ book.authors }} <br>
+                <span class="font-weight-bold">Publication Date:</span>  {{ book.publication_date }} <br>
+                <span class="font-weight-bold">Edition:</span>  {{ book.edition }} <br>
+                {% if files %}
+                <span class="font-weight-bold">Files:</span> <br>
+            <ul>
+                {% for file in files %}
+                    <li><a href="/resources/{{ book.isbn }}/{{ file }}">{{ file }}</a></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title text-center display-4 font-weight-bolder">Chapters</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="text-primary">
+                    <tr><th class="text-center">
+                            #
+                        </th>
+                        <th class="text-center">
+                            Title
+                        </th>
+                    </tr></thead>
+                    <tbody>
+
+                    {% for chapter in chapters %}
+                        <tr>
+                            <td class="text-center">
+                                {{ chapter.chapter }}
+                            </td>
+                            <td class="text-center">
+                                <form action="/books/view-chapter/{{ book.isbn }}">
+                                    <input type="hidden" name="chapter" value="{{ chapter.chapter }}">
+                                    <button type="submit" rel="tooltip" class="btn btn-info d-inline">
+                                        {{ chapter.title }}
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ pagination|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

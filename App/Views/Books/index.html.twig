@@ -3,9 +3,62 @@
 {% block title %}Books list{% endblock %}
 
 {% block body %}
-    {%  for book in books %}
-        {{ book.title }}
-    {% endfor %}
-    <div class="m-4"></div>
-    {{ links|raw }}
+        <h4 class="text-center">Books</h4>
+        <div class="container mb-4">
+            <form method="get" action="/books/search">
+                <div class="form-group">
+                    <label for="InputISBN">ISBN</label>
+                    <input type="text" class="form-control" id="InputISBN" placeholder="Enter ISBN" name="isbn">
+                </div>
+                <div class="form-group">
+                    <label for="InputTitle">Title</label>
+                    <input type="text" class="form-control" id="InputTitle" placeholder="Or Enter Title" name="title">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="text-primary">
+                <tr><th class="text-center">
+                        ISBN
+                    </th>
+                    <th class="text-center">
+                        Title
+                    </th>
+                    <th class="text-center">
+                        Author/s
+                    </th>
+                    <th class="text-center">
+                        Pub Date
+                    </th>
+                    <th class="text-center">
+                        Edition
+                    </th>
+                </tr></thead>
+                <tbody>
+
+                {% for book in books %}
+                    <tr>
+                        <td class="text-center">
+                            {{ book.isbn }}
+                        </td>
+                        <td class="text-center">
+                            <a href="/books/view/{{ book.isbn }}" class="btn btn-info btn-sm">{{ book.title }}</a>
+                        </td>
+                        <td class="text-center">
+                            {{ book.authors }}
+                        </td>
+                        <td class="text-center">
+                            {{ book.publication_date }}
+                        </td>
+                        <td class="text-center">
+                            {{ book.edition }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ pagination|raw }}
+        </div>
 {% endblock %}
