@@ -13,6 +13,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/profile/show">Profile</a>
                     </li>
+                    {% if current_user.type == 'admin' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/">Admin Dashboard</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>
