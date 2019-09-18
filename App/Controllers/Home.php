@@ -28,6 +28,13 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-        View::renderTemplate('Home/index.html.twig');
+        if(Auth::getUser())
+        {
+            View::renderTemplate('Home/index.html.twig');
+        }
+        else
+        {
+            View::renderTemplate('Home/landing-page.html.twig');
+        }
     }
 }
