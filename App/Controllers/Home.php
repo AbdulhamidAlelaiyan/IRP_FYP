@@ -30,7 +30,7 @@ class Home extends \Core\Controller
     {
         if(Auth::getUser())
         {
-            View::renderTemplate('Home/index.html.twig');
+            $this->redirect('/books/index');
         }
         else
         {

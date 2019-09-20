@@ -5,7 +5,8 @@
         "php-http/guzzle6-adapter": "^1.1",
         "php-http/message": "^1.4",
         "stefangabos/zebra_pagination": "^2.3",
-        "monolog/monolog": "^1.24"
+        "monolog/monolog": "^1.24",
+        "xemlock/htmlpurifier-html5": "^0.1.11"
     },
     "autoload": {
         "psr-4": {

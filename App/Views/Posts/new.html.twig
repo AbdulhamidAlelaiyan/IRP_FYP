@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header ">
+            <h2 class="card-title">Create New Post</h2>
+            <h5>For {{ book.title }}</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" action="/posts/create/{{ book.isbn }}">
+                <div class="form-group row">
+                    <div class="col-10">
+                        <label for="chapterTitle">Title:</label>
+                        <input type="text" class="form-control" id="chapterTitle" name="title"
+                               placeholder="Enter Post Title" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="summernote">Body:</label>
+                    {% include 'summernote.twig' %}
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="isbn" value="{{ book.isbn }}">
+                    <input type="submit" value="Add Post" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
