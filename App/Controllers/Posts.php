@@ -19,6 +19,7 @@ class Posts extends \Core\Controller
     public function indexAction()
     {
         $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+        $book = Book::getBookByISBN($isbn);
         $booksPosts = Post::getPosts($isbn);
         foreach($booksPosts[0] as $post)
         {
@@ -27,7 +28,7 @@ class Posts extends \Core\Controller
         }
         View::renderTemplate('Posts/index.html.twig',
             [
-                'isbn' => $isbn,
+                'book' => $book,
                 'posts' => $booksPosts[0],
                 'pagination' => $booksPosts[1],
             ]);

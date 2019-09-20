@@ -3,11 +3,11 @@
 {% block title %}Discussion Board{% endblock %}
 
 {% block body %}
-    <div class="card">
-        <div class="card-header">
+    <div class="">
+        <div class="">
             <h4 class="card-title text-center display-4 font-weight-bolder">Posts</h4>
+            <h6 class="text-center font-weight-lighter">For: {{ book.title }}</h6>
         </div>
-        <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
                     <thead class="text-primary">
@@ -26,7 +26,7 @@
                     {% for post in posts %}
                         <tr>
                             <td class="text-center">
-                                <a href="/posts/view/{{ post.id }}">{{ post.title }}</a>
+                                <a href="/posts/view/{{ post.id }}" class="font-weight-bolder btn btn-outline-info">{{ post.title }}</a>
                             </td>
                             <td class="text-center">
                                 {{ post.username }}
@@ -40,11 +40,6 @@
                 </table>
                 {{ pagination|raw }}
             </div>
-        </div>
-{#        <form action="/posts/new" method="get" class="m-4">#}
-{#            <input type="hidden" name="isbn" value="{{ isbn }}">#}
-{#            <input type="submit" value="New Post" class="btn btn-primary">#}
-{#        </form>#}
-        <a href="/posts/new/{{ isbn }}" class="btn btn-primary m-4" style="width: 10rem;">New Post</a>
+        <a href="/posts/new/{{ book.isbn }}" class="btn btn-primary m-4" style="width: 10rem;">New Post</a>
     </div>
 {% endblock %}
