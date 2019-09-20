@@ -345,7 +345,7 @@ edition = :edition WHERE isbn = :isbn';
         $result = $stmt->fetch();
         if(!$result)
         {
-            $sql = "INSERT INTO books_content (isbn, chapter, title, content, video_url) 
+            $sql = "INSERT INTO books_content (isbn, chapter, title, content, video_id) 
                     VALUES (:isbn, :chapter, :title, :content, :chapter_video)";
 
             $stmt = $db->prepare($sql);
@@ -421,14 +421,14 @@ edition = :edition WHERE isbn = :isbn';
     public static function updateChapter($isbn, $title, $editordata, $chapter_number, $chapter_video)
     {
         $db = static::getDB();
-        $sql = 'UPDATE books_content SET title = :title, content = :content, chapter = :chapter, video_url = :video_url
+        $sql = 'UPDATE books_content SET title = :title, content = :content, chapter = :chapter, video_id = :video_id
                 WHERE isbn = :isbn and chapter = :chapter';
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
         $stmt->bindValue(':title', $title, PDO::PARAM_STR);
         $stmt->bindValue(':content', $editordata, PDO::PARAM_STR);
         $stmt->bindValue(':chapter', $chapter_number, PDO::PARAM_INT);
-        $stmt->bindValue(':video_url', $chapter_video, PDO::PARAM_STR);
+        $stmt->bindValue(':video_id', $chapter_video, PDO::PARAM_STR);
         return $stmt->execute();
     }
 
