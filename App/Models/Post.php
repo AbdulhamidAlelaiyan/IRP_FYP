@@ -120,10 +120,29 @@ class Post extends \Core\Model
         if($this->isbn && $this->user_id && $this->title
             && $this->body)
         {
-            return true;
+            if(!(strlen($this->title) > 0))
+            {
+                $this->errors[] = 'Title need to be filled';
+            }
+            elseif(!(strlen($this->body) > 0))
+            {
+                $this->errors[] = 'Body need to be filled';
+            }
+            else
+            {
+                return true;
+            }
         }
         else
         {
+            if(!$this->body)
+            {
+                $this->errors[] = 'Body need to be filled';
+            }
+            elseif(!$this->title)
+            {
+                $this->errors[] = 'Title need to be filled';
+            }
             return false;
         }
     }

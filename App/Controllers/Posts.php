@@ -62,6 +62,17 @@ class Posts extends \Core\Controller
             Flash::addMessage('Post has been created.', Flash::SUCCESS);
             $this->redirect('/posts/index/' . $_POST['isbn']);
         }
+        else
+        {
+            $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+            $book = Book::getBookByISBN($isbn);
+            View::renderTemplate('Posts/new.html.twig',
+                [
+                    'post' => $post,
+                    'book' => $book,
+                    'errors' => $post->getErrors(),
+                ]);
+        }
     }
 
     /**

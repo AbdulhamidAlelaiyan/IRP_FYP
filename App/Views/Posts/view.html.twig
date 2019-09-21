@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="card">
+    <div class="">
         <div class="card-header ">
             <h2 class="card-title">{{ post.title }}</h2>
             <h5>For {{ book.title }}</h5>
@@ -10,6 +10,18 @@
             <p class="lead">
                 {{ post.body|raw }}
             </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Reply to Post</h4>
+        </div>
+        <div class="card-body">
+            <form action="/replies/create/{{ post.id }}" method="post">
+                {% include 'summernote.twig' %}
+                <input type="submit" value="Reply" class="btn btn-primary mt-3">
+            </form>
         </div>
     </div>
 {% endblock %}
