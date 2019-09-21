@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Flash;
+use App\Models\Post;
 use App\Models\Reply;
 use \Core\View;
 
@@ -14,14 +16,24 @@ class Replies extends \Core\Controller
      */
     public function createAction()
     {
-        $post_id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
-        if($post_id)
+        $reply = new Reply($_POST);
+        if($reply->validate())
         {
-            $reply = new Reply();
+            if ($reply->save())
+            {
+                $this->redirect('/posts/view/' . $reply->post_id);
+            }
+            else
+            {
+                Flash::addMessage('There was an error adding the reply', Flash::WARNING);
+                $this->redirect('/');
+            }
         }
         else
         {
+            Flash::addMessage('There was an error adding the reply', Flash::WARNING);
             $this->redirect('/');
         }
     }
+
 }

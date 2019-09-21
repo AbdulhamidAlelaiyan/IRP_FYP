@@ -6,6 +6,7 @@ use App\Auth;
 use App\Flash;
 use App\Models\Book;
 use App\Models\Post;
+use App\Models\Reply;
 use App\Models\User;
 use \Core\View;
 
@@ -85,10 +86,12 @@ class Posts extends \Core\Controller
         $id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
         $post = Post::getPostByID($id);
         $book = Book::getBookByISBN($post->isbn);
+        $replies = Reply::getRepliesByPostID($post->id);
         View::renderTemplate('Posts/view.html.twig',
             [
                 'book' => $book,
                 'post' => $post,
+                'replies' => $replies,
             ]);
     }
 
