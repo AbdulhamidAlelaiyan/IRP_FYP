@@ -1,0 +1,25 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    {% if errors %}
+        {% for error in errors %}
+            <div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="nc-icon nc-simple-remove"></i>
+                </button>
+                <span> {{ error }} </span>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="card ">
+        <div class="card-header ">
+            <h4 class="card-title">Delete {{ user.name }}</h4>
+        </div>
+        <div class="card-body ">
+            <p class="lead">Are you sure that you want to delete the user {{ user.name }} with ID {{ user.id }} ?</p>
+            <form action="/admin/users/destroy/{{ user.id }}" method="post">
+                <input type="submit" value="Delete User" class="btn btn-danger">
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -80,7 +80,7 @@ The above copyright notice and this permission notice shall be included in all c
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="/admin/posts/index">
                         <i class="nc-icon nc-chat-33"></i>
                         <p>Posts & Replies</p>
                     </a>
@@ -96,6 +96,11 @@ The above copyright notice and this permission notice shall be included in all c
     </div>
     <div class="main-panel">
         <div class="content mt-5">
+            {% for message in flash_messages %}
+                <div class="alert alert-{{ message.type }}">
+                    {{ message.body }}
+                </div>
+            {% endfor %}
             {% block body %}
             {% endblock %}
         </div>

@@ -404,12 +404,13 @@ class User extends \Core\Model
      *
      * @param array $data Data from the edit profile form
      *
-     * @return boolean  True if the data was updated, false otherwise
+     * @return boolean True if the data was updated, false otherwise
      */
     public function updateProfile($data)
     {
         $this->name = $data['name'];
         $this->email = $data['email'];
+        $this->type = $data['type'];
 
         // Only validate and update the password if a value provided
         if ($data['password'] != '') {
@@ -422,7 +423,8 @@ class User extends \Core\Model
 
             $sql = 'UPDATE users
                     SET name = :name,
-                        email = :email';
+                        email = :email,
+                        type = :type';
 
             // Add password if it's set
             if (isset($this->password)) {
@@ -438,6 +440,7 @@ class User extends \Core\Model
             $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
             $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+            $stmt->bindValue(':type', $this->type, PDO::PARAM_STR);
 
             // Add password if it's set
             if (isset($this->password)) {
@@ -487,5 +490,21 @@ class User extends \Core\Model
         $stmt->execute();
         $result = $stmt->fetch();
         return $result->count;
+    }
+
+    /**
+     * Delete certain user by id
+     *
+     * @param int $id User id
+     *
+     * @return boolean True if user deleted, False otherwise
+     */
+    public static function deleteUserByID($id)
+    {
+        $db = static::getDB();
+        $sql = 'DELETE FROM users WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }
