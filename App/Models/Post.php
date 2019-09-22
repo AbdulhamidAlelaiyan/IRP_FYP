@@ -162,7 +162,11 @@ class Post extends \Core\Model
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
         if($stmt->execute())
         {
-            return $stmt->fetch();
+            $post = $stmt->fetch();
+            $post->user = User::findByID($post->user_id);
+            $post->userType = $post->user->type;
+            $post->username = $post->user->name;
+            return $post;
         }
         else
         {

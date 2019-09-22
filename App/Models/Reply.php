@@ -120,6 +120,7 @@ class Reply extends Model
             {
                 $user = User::findByID($reply->user_id);
                 $reply->username = $user->name;
+                $reply->userType = $user->type;
             }
             return $replies;
         }

@@ -5,6 +5,12 @@
         <div class="card-header ">
             <h2 class="card-title">{{ post.title }}</h2>
             <h5>For {{ book.title }}</h5>
+            <h6>By: {{ post.username }}
+                {% if post.userType == 'author' %}
+                    <span class="badge badge-info">Author</span>
+                {% elseif post.userType == 'admin' %}
+                    <span class="badge badge-info">Admin</span>
+                {% endif %}</h6>
         </div>
         <div class="card-body">
             <p class="lead">
@@ -16,8 +22,13 @@
     {% for reply in replies %}
         <div class="card p-3" style="border-top: 4px solid gray;">
             <div class="round">
-                By: {{ reply.username }} <br>
-                Created At: {{ reply.created_at }}
+                By: {{ reply.username }}
+                {% if reply.userType == 'author' %}
+                    <span class="badge badge-info">Author</span>
+                {% elseif reply.userType == 'admin' %}
+                    <span class="badge badge-info">Admin</span>
+                {% endif %}
+                <br>Created At: {{ reply.created_at }}
             </div>
             <div class="card-body">
                 {{ reply.text|raw }}
