@@ -1,22 +1,82 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block body %}
-    <div class="card ">
-        <div class="card-header ">
-            <h4 class="card-title">Upload a file</h4>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title text-center">Posts</h4>
         </div>
-        <div class="card-body ">
-            <form action="/admin/books/upload-file" method="post" enctype="multipart/form-data">
-                <div class="">
-                    Select file to upload:
-                    <input type="hidden" name="MAX_FILE_SIZE" value="8388608">
-                    <input type="hidden" name="isbn" value="{{ isbn }}">
-                    <input type="file" name="upload" id="upload"
-                           class="btn btn-primary btn-round">
+        <div class="container">
+            <form method="get" action="/admin/posts/search">
+                <div class="form-group">
+                    <label for="InputISBN">ISBN</label>
+                    <input type="text" class="form-control" id="InputISBN" placeholder="Enter ISBN" name="isbn">
                 </div>
-                <input type="submit" value="Upload File" name="submit"
-                       class="btn btn-primary btn-round">
+                <div class="form-group">
+                    <label for="InputTitle">Title</label>
+                    <input type="text" class="form-control" id="InputTitle" placeholder="Or Enter Title" name="title">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
             </form>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="text-primary">
+                    <tr><th class="text-center">
+                            ISBN
+                        </th>
+                        <th class="text-center">
+                            Title
+                        </th>
+                        <th class="text-center">
+                            username
+                        </th>
+                        <th class="text-center">
+                            Created At
+                        </th>
+                        <th class="text-center">
+                            Actions
+                        </th>
+                    </tr></thead>
+                    <tbody>
+
+                    {% for post in posts %}
+                        <tr>
+                            <td class="text-center">
+                                {{ post.isbn }}
+                            </td>
+                            <td class="text-center">
+                                {{ post.title }}
+                            </td>
+                            <td class="text-center">
+                                {{ post.username }}
+                            </td>
+                            <td class="text-center">
+                                {{ post.created_at }}
+                            </td>
+                            <td class="text-center">
+                                <form action="/admin/books/view/{{ book.isbn }}" class="mb-1 d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-info  btn-sm d-inline">
+                                        View
+                                    </button>
+                                </form>
+                                <form action="/admin/books/edit/{{ book.isbn }}" class="mb-1 d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-success btn-sm d-inline">
+                                        Edit
+                                    </button>
+                                </form>
+                                <form action="/admin/books/delete/{{ book.isbn }}" class="d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-danger btn-sm d-inline">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ pagination|raw }}
+            </div>
         </div>
     </div>
 {% endblock %}

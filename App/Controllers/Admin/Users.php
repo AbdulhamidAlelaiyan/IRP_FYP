@@ -140,4 +140,32 @@ class Users extends AdminController
             $this->redirect('/admin/users/index');
         }
     }
+
+    /**
+     * Find results of search
+     *
+     * @return void
+     */
+    public function searchAction()
+    {
+        $email = rtrim($_GET['email']);
+        $email = filter_var( $email, FILTER_VALIDATE_EMAIL);
+        $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRING);
+        if($email)
+        {
+            $users = [User::findByEmail($email)];
+            View::renderTemplate('Admin/Users/index.html.twig',
+            [
+                'users' => $users,
+            ]);
+        }
+        elseif($name)
+        {
+            $users = User::findByName($name);
+            View::renderTemplate('Admin/Users/index.html.twig',
+            [
+                'users' => $users,
+            ]);
+        }
+    }
 }

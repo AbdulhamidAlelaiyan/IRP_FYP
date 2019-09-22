@@ -507,4 +507,21 @@ class User extends \Core\Model
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    /**
+     * Find users by name
+     *
+     * @param string $name
+     *
+     * @return array of Users
+     */
+    public static function findByName($name)
+    {
+        $db = static::getDB();
+        $sql = "SELECT * FROM users WHERE name LIKE '%$name%'";
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }

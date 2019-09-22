@@ -169,4 +169,19 @@ class Post extends \Core\Model
             return false;
         }
     }
+
+    /**
+     * Return all posts in the database
+     *
+     * @return array all posts in the database
+     */
+    public static function getAllPosts()
+    {
+        $db = static::getDB();
+        $sql = 'SELECT * FROM posts';
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }
