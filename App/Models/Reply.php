@@ -100,7 +100,12 @@ class Reply extends Model
     public static function getRepliesByPostID($id)
     {
         $db = static::getDB();
-        $sql = 'SELECT * FROM replies WHERE post_id = :post_id ORDER BY created_at DESC';
+        $paginator = new \Zebra_Pagination();
+        $paginator->records_per_page(10);
+        $paginator->records(static::getRepliesCount($id));
+        $page = $paginator->get_page();
+        $sqlPage = ($page - 1) * 10;
+        $sql = 'SELECT * FROM replies WHERE post_id = :post_id ORDER BY created_at DESC LIMIT ' . $sqlPage . ', 10';
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':post_id', $id, PDO::PARAM_INT);
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
@@ -118,5 +123,25 @@ class Reply extends Model
             }
             return $replies;
         }
+    }
+
+    /**
+     * Return count of replies for a particular post
+     *
+     * @param int $id
+     *
+     * @return int
+     */
+    protected static function getRepliesCount($id)
+    {
+        $db = static::getDB();
+        $sql = 'SELECT count(*) AS count FROM replies WHERE post_id = :post_id';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':post_id', $id, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+        $result = $stmt->fetch();
+        $result = $result->count;
+        return $result;
     }
 }
