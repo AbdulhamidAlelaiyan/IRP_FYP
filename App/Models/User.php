@@ -452,4 +452,40 @@ class User extends \Core\Model
 
         return false;
     }
+
+    /**
+     * Get all the users for a particular page
+     *
+     * @return array of users
+     */
+    public static function getUsers()
+    {
+        $db = static::getDB();
+        $paginator = new \Zebra_Pagination();
+        $paginator->records_per_page(10);
+        $paginator->records(static::getUsersCount());
+        $page = $paginator->get_page();
+        $sqlPage = ($page - 1) * 10;
+        $sql = 'SELECT * FROM users LIMIT ' . $sqlPage . ', 10';
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+        return [$stmt->fetchAll(), $paginator->render(true)];
+    }
+
+    /**
+     * Get the number of users registered
+     *
+     * @return int
+     */
+    protected static function getUsersCount()
+    {
+        $db = static::getDB();
+        $sql = 'SELECT count(*) AS count FROM users';
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+        $result = $stmt->fetch();
+        return $result->count;
+    }
 }

@@ -169,7 +169,4 @@ class Post extends \Core\Model
             return false;
         }
     }
-
-
-
 }
