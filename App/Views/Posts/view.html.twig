@@ -11,6 +11,9 @@
                 {% elseif post.userType == 'admin' %}
                     <span class="badge badge-info">Admin</span>
                 {% endif %}</h6>
+            <a href="/posts/upvote/{{ post.id }}" class="btn btn-sm btn-outline-danger float-right m-1"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+            <a href="/posts/downvote/{{ post.id }}" class="btn btn-sm btn-outline-success float-right m-1"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+            <h1 class="p-1"></h1>
         </div>
         <div class="card-body">
             <p class="lead">

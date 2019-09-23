@@ -33,7 +33,7 @@ class Users extends AdminController
      */
     public function editAction()
     {
-        $id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
         $user = User::findByID($id);
         View::renderTemplate('Admin/Users/edit.html.twig',
             [
@@ -48,7 +48,7 @@ class Users extends AdminController
      */
     public function updateAction()
     {
-        $id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
         $user = User::findByID($id);
         $user_name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
         $user_type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
@@ -113,7 +113,7 @@ class Users extends AdminController
      */
     public function deleteAction()
     {
-        $user = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+        $user = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
         $user = User::findByID($user);
         View::renderTemplate('Admin/Users/delete-confirm.html.twig',
             [
@@ -128,7 +128,7 @@ class Users extends AdminController
      */
     public function destroyAction()
     {
-        $id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
         if(User::deleteUserByID($id))
         {
             Flash::addMessage('User Deleted!', Flash::INFO);

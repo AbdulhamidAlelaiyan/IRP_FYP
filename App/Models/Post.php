@@ -18,7 +18,7 @@ class Post extends \Core\Model
      *
      * @return array
      */
-    public function getErrors(): array
+    public function getErrors()
     {
         return $this->errors;
     }
@@ -110,7 +110,7 @@ class Post extends \Core\Model
      */
     public function validate()
     {
-        $this->isbn = filter_var($this->isbn, FILTER_VALIDATE_INT);
+        $this->isbn = filter_var($this->isbn, FILTER_SANITIZE_NUMBER_INT);
         $this->user = Auth::getUser();
         $this->user_id = $this->user->id;
         $this->title = filter_var( $this->title, FILTER_SANITIZE_STRING);

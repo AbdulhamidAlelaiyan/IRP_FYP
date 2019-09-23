@@ -2702,9 +2702,9 @@ textarea.form-control {
 .pagination>li:last-child>a,
 .pagination>li:last-child>span {
   background-color: transparent;
-  border: 2px solid #f5593d;
+  border: 2px solid #0c2646;
   border-radius: 20px;
-  color: #f5593d;
+  color: #00bbff;
   height: 36px;
   margin: 0 2px;
   min-width: 36px;
@@ -2818,8 +2818,8 @@ textarea.form-control {
 .pagination-warning>li:first-child>span,
 .pagination-warning>li:last-child>a,
 .pagination-warning>li:last-child>span {
-  border: 2px solid #fbc658;
-  color: #fbc658;
+  border: 2px solid #0c2646;
+  color: #1F77D0;
 }
 
 .nav-pills-warning>li.active>a,
@@ -2834,9 +2834,9 @@ textarea.form-control {
 .pagination-warning>li.active>span:hover,
 .pagination-warning>li.active>a:focus,
 .pagination-warning>li.active>span:focus {
-  background-color: #fbc658 !important;
-  border-color: #fbc658 !important;
-  color: #FFFFFF;
+  background-color: #0c2646 !important;
+  border-color: #0c2646 !important;
+  color: #1F77D0;
 }
 
 .nav-pills-danger>li>a,
@@ -2846,8 +2846,8 @@ textarea.form-control {
 .pagination-danger>li:first-child>span,
 .pagination-danger>li:last-child>a,
 .pagination-danger>li:last-child>span {
-  border: 2px solid #f5593d;
-  color: #f5593d;
+  border: 2px solid #0c2646;
+  color: #1F77D0;
 }
 
 .nav-pills-danger>li.active>a,
@@ -2862,8 +2862,8 @@ textarea.form-control {
 .pagination-danger>li.active>span:hover,
 .pagination-danger>li.active>a:focus,
 .pagination-danger>li.active>span:focus {
-  background-color: #f5593d !important;
-  border-color: #f5593d !important;
+  background-color: #0c2646 !important;
+  border-color: #1F77D0 !important;
   color: #FFFFFF;
 }
 
@@ -3019,15 +3019,15 @@ textarea.form-control {
 .pagination>li.active>span:hover,
 .pagination>li.active>a:focus,
 .pagination>li.active>span:focus {
-  background-color: #f5593d;
-  border-color: #f5593d;
+  background-color: #1F77D0;
+  border-color: #0c2646;
   color: #FFFFFF;
 }
 
 .page-item.active .page-link {
-  background-color: #f5593d;
+  background-color: #1F77D0;
   color: white;
-  border-color: #f5593d;
+  border-color: #0c2646;
 }
 
 .nav-pills .nav-link {
