@@ -199,7 +199,7 @@ class Post extends \Core\Model
     public static function upvotePostByID($post_id)
     {
         $db = static::getDB();
-        $sql = "SELECT * FROM posts_points WHERE post_id = :post_id AND user_id = :user_id AND point = 1";
+        $sql = "SELECT * FROM posts_points WHERE post_id = :post_id AND user_id = :user_id";
         $user = Auth::getUser();
         $user_id = $user->id;
         $stmt = $db->prepare($sql);
@@ -207,19 +207,32 @@ class Post extends \Core\Model
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch();
-        if($result)
+        if($result['point'] == 1)
         {
-            return false;
-        }
-        else
-        {
-            $sql = 'INSERT INTO posts_points (user_id, post_id, point) VALUES (:user_id, :post_id, 1)';
+            $sql = 'DELETE FROM posts_points WHERE post_id = :post_id AND user_id = :user_id AND point = 1';
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
             $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
             return $stmt->execute();
         }
-
+        else
+        {
+            $sql = 'DELETE FROM posts_points WHERE post_id = :post_id AND user_id = :user_id AND point = 0';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $sql = 'DELETE FROM posts_points WHERE post_id = :post_id AND user_id = :user_id AND point = 1';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+        $sql = 'INSERT INTO posts_points (user_id, post_id, point) VALUES (:user_id, :post_id, 1)';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 
     /**
@@ -232,7 +245,7 @@ class Post extends \Core\Model
     public static function downvotePostByID($post_id)
     {
         $db = static::getDB();
-        $sql = "SELECT * FROM posts_points WHERE post_id = :post_id AND user_id = :user_id AND point = 0";
+        $sql = "SELECT * FROM posts_points WHERE post_id = :post_id AND user_id = :user_id";
         $user = Auth::getUser();
         $user_id = $user->id;
         $stmt = $db->prepare($sql);
@@ -240,19 +253,32 @@ class Post extends \Core\Model
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch();
-        if($result)
+        if($result['point'] === '0')
         {
-            return false;
-        }
-        else
-        {
-            $sql = 'INSERT INTO posts_points (user_id, post_id, point) VALUES (:user_id, :post_id, 0)';
+            $sql = 'DELETE FROM posts_points WHERE post_id = :post_id AND user_id = :user_id AND point = 0';
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
             $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
             return $stmt->execute();
         }
-
+        else
+        {
+            $sql = 'DELETE FROM posts_points WHERE post_id = :post_id AND user_id = :user_id AND point = 1';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $sql = 'DELETE FROM posts_points WHERE post_id = :post_id AND user_id = :user_id AND point = 0';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+        $sql = 'INSERT INTO posts_points (user_id, post_id, point) VALUES (:user_id, :post_id, 0)';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 
     /**
