@@ -398,19 +398,20 @@ class User extends \Core\Model
 
         $stmt->execute();
     }
-    
+
     /**
      * Update the user's profile
      *
      * @param array $data Data from the edit profile form
+     * @param bool $type
      *
      * @return boolean True if the data was updated, false otherwise
      */
-    public function updateProfile($data)
+    public function updateProfile($data, $type = false)
     {
         $this->name = $data['name'];
         $this->email = $data['email'];
-        $this->type = $data['type'];
+        $this->type = $type;
 
         // Only validate and update the password if a value provided
         if ($data['password'] != '') {
@@ -423,8 +424,12 @@ class User extends \Core\Model
 
             $sql = 'UPDATE users
                     SET name = :name,
-                        email = :email,
-                        type = :type';
+                        email = :email';
+
+            // Add type if it's set
+            if ($this->type) {
+                $sql .= ', type = :type';
+            }
 
             // Add password if it's set
             if (isset($this->password)) {
@@ -440,7 +445,6 @@ class User extends \Core\Model
             $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
             $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
-            $stmt->bindValue(':type', $this->type, PDO::PARAM_STR);
 
             // Add password if it's set
             if (isset($this->password)) {
@@ -448,6 +452,11 @@ class User extends \Core\Model
                 $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
                 $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
 
+            }
+
+            // Bind type if it's set
+            if ($this->type) {
+                $stmt->bindValue(':type', $this->type, PDO::PARAM_STR);
             }
 
             return $stmt->execute();

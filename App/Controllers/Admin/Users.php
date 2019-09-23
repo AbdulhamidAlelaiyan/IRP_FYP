@@ -77,7 +77,6 @@ class Users extends AdminController
             $updated_data = [
                 'name' => $user_name,
                 'email' => $user_email,
-                'type' => $user_type,
             ];
             if($password_match)
             {
@@ -87,7 +86,7 @@ class Users extends AdminController
             {
                 $updated_data['password'] = '';
             }
-            $updated = $user->updateProfile($updated_data);
+            $updated = $user->updateProfile($updated_data, $user_type);
             if($updated)
             {
                 Flash::addMessage('User updated', Flash::SUCCESS);
