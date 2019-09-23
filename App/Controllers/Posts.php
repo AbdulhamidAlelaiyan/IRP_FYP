@@ -87,16 +87,19 @@ class Posts extends \Core\Controller
         $post = Post::getPostByID($id);
         $book = Book::getBookByISBN($post->isbn);
         $replies = Reply::getRepliesByPostID($post->id);
+        $points = Post::calculatePoints($id);
         View::renderTemplate('Posts/view.html.twig',
             [
                 'book' => $book,
                 'post' => $post,
                 'replies' => $replies,
+                'up_points' => $points[0],
+                'down_points' => $points[1],
             ]);
     }
 
     /**
-     * Upvote posts
+     * Up vote posts
      *
      * @return void
      */
@@ -109,17 +112,45 @@ class Posts extends \Core\Controller
             if($upvoted)
             {
                 Flash::addMessage('Post upvoted');
-                $this->redirect('/posts/' . $post_id);
-                // TODO: Complete Later.
+                $this->redirect('/posts/view/' . $post_id);
             }
             else
             {
-                // TODO: implement the else clause
+                Flash::addMessage('Post was not upvoted', Flash::WARNING);
+                $this->redirect('/posts/view/' . $post_id);
             }
         }
         else
         {
-            // TODO: implement the else clause
+            $this->redirect('/');
+        }
+    }
+
+    /**
+     * Down vote posts
+     *
+     * @return void
+     */
+    public function downvoteAction()
+    {
+        $post_id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        if($post_id)
+        {
+            $upvoted = Post::downvotePostByID($post_id);
+            if($upvoted)
+            {
+                Flash::addMessage('Post downvoted');
+                $this->redirect('/posts/view/' . $post_id);
+            }
+            else
+            {
+                Flash::addMessage('Post was not downvoted', Flash::WARNING);
+                $this->redirect('/posts/view/' . $post_id);
+            }
+        }
+        else
+        {
+            $this->redirect('/');
         }
     }
 

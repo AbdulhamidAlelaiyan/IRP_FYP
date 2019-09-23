@@ -188,4 +188,95 @@ class Post extends \Core\Model
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    /**
+     * Upvote posts based on its id
+     *
+     * @param int $post_id id of the post that going to be up voted
+     *
+     * @return boolean True if upvoted, False otherwise
+     */
+    public static function upvotePostByID($post_id)
+    {
+        $db = static::getDB();
+        $sql = "SELECT * FROM posts_points WHERE post_id = :post_id AND user_id = :user_id AND point = 1";
+        $user = Auth::getUser();
+        $user_id = $user->id;
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if($result)
+        {
+            return false;
+        }
+        else
+        {
+            $sql = 'INSERT INTO posts_points (user_id, post_id, point) VALUES (:user_id, :post_id, 1)';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            return $stmt->execute();
+        }
+
+    }
+
+    /**
+     * Downvote posts based on its id
+     *
+     * @param int $post_id id of the post that going to be down voted
+     *
+     * @return boolean True if downvoted, False otherwise
+     */
+    public static function downvotePostByID($post_id)
+    {
+        $db = static::getDB();
+        $sql = "SELECT * FROM posts_points WHERE post_id = :post_id AND user_id = :user_id AND point = 0";
+        $user = Auth::getUser();
+        $user_id = $user->id;
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if($result)
+        {
+            return false;
+        }
+        else
+        {
+            $sql = 'INSERT INTO posts_points (user_id, post_id, point) VALUES (:user_id, :post_id, 0)';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            return $stmt->execute();
+        }
+
+    }
+
+    /**
+     * Calculate points of a post
+     *
+     * @param int post_id ID of the post that will be calculated
+     *
+     * @return array Points of the post
+     */
+    public static function calculatePoints($post_id)
+    {
+        $db = static::getDB();
+        $sql = 'SELECT count(*) AS count FROM posts_points WHERE post_id = :post_id AND point = 1';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        $count_upvotes = $result['count'];
+        $sql = 'SELECT count(*) AS count FROM posts_points WHERE post_id = :post_id AND point = 0';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        $count_downvotes = $result['count'];
+        return [$count_upvotes, $count_downvotes];
+    }
 }

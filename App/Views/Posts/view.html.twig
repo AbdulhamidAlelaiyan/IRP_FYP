@@ -11,8 +11,13 @@
                 {% elseif post.userType == 'admin' %}
                     <span class="badge badge-info">Admin</span>
                 {% endif %}</h6>
-            <a href="/posts/upvote/{{ post.id }}" class="btn btn-sm btn-outline-danger float-right m-1"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
-            <a href="/posts/downvote/{{ post.id }}" class="btn btn-sm btn-outline-success float-right m-1"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+
+            <form action="/posts/downvote/{{ post.id }}" id="downvote_form" method="post">
+                <button form="downvote_form" value="" class="btn btn-sm btn-outline-danger float-right m-1">{{ down_points }}<i class="fa fa-thumbs-down" aria-hidden="true"></i></button>
+            </form>
+            <form action="/posts/upvote/{{ post.id }}" id="upvote_form" method="post">
+                <button form="upvote_form" class="btn btn-sm btn-outline-success float-right m-1">{{ up_points }}<i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+            </form>
             <h1 class="p-1"></h1>
         </div>
         <div class="card-body">
