@@ -171,4 +171,37 @@ class Posts extends AdminController
         }
         $this->redirect('/admin/posts/index');
     }
+
+    /**
+     * Search posts by ID or ISBN
+     *
+     * @return void
+     */
+    public function searchAction()
+    {
+        $isbn = filter_input(INPUT_GET, 'isbn', FILTER_SANITIZE_STRING);
+        $title = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_STRING);
+        if($isbn)
+        {
+            $posts = Post::getPosts($isbn);
+            View::renderTemplate('Admin/Posts/index.html.twig',
+                [
+                    'posts' => $posts[0],
+                    'pagination' => $posts[1],
+                ]);
+        }
+        elseif($title)
+        {
+            $posts = Post::getPostsByTitle($title);
+            View::renderTemplate('Admin/Posts/index.html.twig',
+                [
+                    'posts' => $posts,
+                ]);
+        }
+        else
+        {
+            Flash::addMessage('Please Provide ISBN or Title for search function', Flash::DANGER);
+            $this->redirect('/admin/posts/index');
+        }
+    }
 }

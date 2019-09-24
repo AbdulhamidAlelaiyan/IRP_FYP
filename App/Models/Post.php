@@ -378,4 +378,21 @@ class Post extends \Core\Model
         $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    /**
+     * Get all posts based on a title
+     *
+     * @param string $title The title of the post
+     *
+     * @return array of all posts
+     */
+    public static function getPostsByTitle($title)
+    {
+        $db = static::getDB();
+        $sql = "SELECT * FROM posts WHERE title LIKE '%$title%'";
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        if(!$stmt->execute()) return false;
+        return $stmt->fetchAll();
+    }
 }
