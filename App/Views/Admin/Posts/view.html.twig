@@ -1,0 +1,47 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header ">
+            <h2 class="card-title">{{ book.title }}</h2>
+        </div>
+        <div class="card-body ">
+            <p class="lead">
+                <span class="font-weight-bold">ISBN:</span> {{ book.isbn }} <br>
+                <span class="font-weight-bold">Writer:</span>  {{ writer.name }} <br>
+                <span class="font-weight-bold">Created At:</span>  {{ post.created_at }} <br>
+                <span class="font-weight-bold">Upvotes:</span>  {{ up_points }} <br>
+                <span class="font-weight-bold">Downvotes:</span>  {{ down_points }} <br>
+            </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title text-center">{{ post.title }}</h4>
+        </div>
+        <div class="card-body">
+            {{ post.body }}
+        </div>
+    </div>
+
+    <h1 class="text-center">Replies</h1>
+
+    {% for reply in replies %}
+        <div class="card p-3">
+            <div class="round">
+                By: {{ reply.username }}
+                {% if reply.userType == 'author' %}
+                    <span class="badge badge-info">Author</span>
+                {% elseif reply.userType == 'admin' %}
+                    <span class="badge badge-info">Admin</span>
+                {% endif %}
+                <br>Created At: {{ reply.created_at }}
+                <h1 class="p-1"></h1>
+            </div>
+            <div class="card-body">
+                {{ reply.text|raw }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

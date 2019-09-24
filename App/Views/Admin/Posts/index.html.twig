@@ -55,17 +55,17 @@
                                 {{ post.created_at }}
                             </td>
                             <td class="text-center">
-                                <form action="/admin/books/view/{{ book.isbn }}" class="mb-1 d-inline">
+                                <form action="/admin/posts/view/{{ post.id }}" class="mb-1 d-inline">
                                     <button type="submit" rel="tooltip" class="btn btn-info  btn-sm d-inline">
                                         View
                                     </button>
                                 </form>
-                                <form action="/admin/books/edit/{{ book.isbn }}" class="mb-1 d-inline">
+                                <form action="/admin/posts/edit/{{ post.id }}" class="mb-1 d-inline">
                                     <button type="submit" rel="tooltip" class="btn btn-success btn-sm d-inline">
                                         Edit
                                     </button>
                                 </form>
-                                <form action="/admin/books/delete/{{ book.isbn }}" class="d-inline">
+                                <form action="/admin/posts/delete/{{ post.id }}" class="d-inline">
                                     <button type="submit" rel="tooltip" class="btn btn-danger btn-sm d-inline">
                                         Delete
                                     </button>
