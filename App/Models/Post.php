@@ -191,7 +191,14 @@ class Post extends \Core\Model
         $stmt = $db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt->execute();
-        return [$stmt->fetchAll(), $paginator->render(true)];
+        $posts = $stmt->fetchAll();
+        foreach($posts as $post)
+        {
+            $post->user = User::findByID($post->user_id);
+            $post->userType = $post->user->type;
+            $post->username = $post->user->name;
+        }
+        return [$posts, $paginator->render(true)];
     }
 
 
