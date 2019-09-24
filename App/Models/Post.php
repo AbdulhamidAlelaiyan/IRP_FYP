@@ -364,4 +364,18 @@ class Post extends \Core\Model
         $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    /**
+     * Delete an existing post
+     *
+     * @return boolean True if deleted, False otherwise
+     */
+    public function delete()
+    {
+        $db = static::getDB();
+        $sql = 'DELETE FROM posts WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }

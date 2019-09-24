@@ -109,4 +109,67 @@ class Posts extends AdminController
         }
         $this->redirect('/admin/posts/index');
     }
+
+    /**
+     * Load the delete-confirm view
+     *
+     * @return void
+     */
+    public function deleteAction()
+    {
+        $post_id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+        if($post_id)
+        {
+            $post = Post::getPostByID($post_id);
+            if($post)
+            {
+                $book = Book::getBookByISBN($post->isbn);
+                View::renderTemplate('Admin/Posts/delete-confirm.html.twig',
+                    [
+                        'post' => $post,
+                        'book' => $book,
+                    ]);
+            }
+            else
+            {
+                Flash::addMessage('Post was not found!', Flash::DANGER);
+                $this->redirect('/admin/posts/index');
+            }
+        }
+    }
+
+    /**
+     * Delete the post from the database
+     *
+     * @return void
+     */
+    public function destroyAction()
+    {
+        $post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
+        if($post_id)
+        {
+            $post = Post::getPostByID($post_id);
+            if($post)
+            {
+                if($post->delete())
+                {
+                    Flash::addMessage('Post deleted');
+                }
+                else
+                {
+                    Flash::addMessage('Error in post deletion', Flash::DANGER);
+                }
+            }
+            else
+            {
+                Flash::addMessage('post was not found');
+            }
+            Flash::addMessage('post was not found');
+        }
+        else
+        {
+            Flash::addMessage('post was not found');
+        }
+        $this->redirect('/admin/posts/index');
+    }
 }

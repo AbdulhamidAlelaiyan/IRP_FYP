@@ -1,0 +1,23 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header ">
+            <h4 class="card-title">Delete Post</h4>
+        </div>
+        <div class="card-body ">
+            <p class="text-danger lead">
+                Are you sure you want to delete: <br>
+                <span class="font-weight-bold">{{ post.title }}</span> <br>
+                <span class="font-weight-bold text-dark">About: {{ book.title }}</span>  Book
+            </p>
+        </div>
+        <div class="">
+            <form action="/admin/posts/destroy/{{ post.id }}" method="post">
+                <input type="hidden" name="post_id" value="{{ post.id }}">
+                <input type="submit" value="DELETE!" class="btn btn-danger ml-3">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
