@@ -18,7 +18,8 @@ class Posts extends AdminController
         $posts = Post::getAllPosts();
         View::renderTemplate('Admin/Posts/index.html.twig',
             [
-                'posts' => $posts,
+                'posts' => $posts[0],
+                'pagination' => $posts[1],
             ]);
     }
 }
