@@ -36,4 +36,74 @@ class Replies extends \Core\Controller
         }
     }
 
+    /**
+     * Up vote replies
+     *
+     * @return void
+     */
+    public function upvoteAction()
+    {
+        $reply_id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        if($reply_id)
+        {
+            $post = Post::getPostByReplyID($reply_id);
+            $post_id = $post->id;
+            $upvoted = Reply::upvoteReplyByID($reply_id);
+            if($upvoted === 'removed')
+            {
+                Flash::addMessage('Vote removed');
+                $this->redirect('/posts/view/' . $post_id);
+            }
+            elseif($upvoted)
+            {
+                Flash::addMessage('Reply upvoted');
+                $this->redirect('/posts/view/' . $post_id);
+            }
+            else
+            {
+                Flash::addMessage('Reply was not upvoted', Flash::WARNING);
+                $this->redirect('/posts/view/' . $post_id);
+            }
+        }
+        else
+        {
+            $this->redirect('/');
+        }
+    }
+
+    /**
+     * Down vote replies
+     *
+     * @return void
+     */
+    public function downvoteAction()
+    {
+        $reply_id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        if($reply_id)
+        {
+            $post = Post::getPostByReplyID($reply_id);
+            $post_id = $post->id;
+            $downvoted = Reply::downvoteReplyByID($reply_id);
+            if($downvoted === 'removed')
+            {
+                Flash::addMessage('Vote removed');
+                $this->redirect('/posts/view/' . $post_id);
+            }
+            elseif($downvoted)
+            {
+                Flash::addMessage('Reply downvoted', Flash::DANGER);
+                $this->redirect('/posts/view/' . $post_id);
+            }
+            else
+            {
+                Flash::addMessage('Reply was not downvoted', Flash::WARNING);
+                $this->redirect('/posts/view/' . $post_id);
+            }
+        }
+        else
+        {
+            $this->redirect('/');
+        }
+    }
+
 }

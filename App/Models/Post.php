@@ -307,4 +307,24 @@ class Post extends \Core\Model
         $count_downvotes = $result['count'];
         return [$count_upvotes, $count_downvotes];
     }
+
+    /**
+     * Get post by reply id
+     *
+     * @param int $reply_id
+     *
+     * @return mixed Post if found, False otherwise
+     */
+    public static function getPostByReplyID($reply_id)
+    {
+        $db = static::getDB();
+        $sql = 'SELECT * FROM replies WHERE id = :reply_id LIMIT 1';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        if(!$stmt->execute()) return false;
+        $reply = $stmt->fetch();
+        $post_id = $reply->post_id;
+        return static::getPostByID($post_id);
+    }
 }

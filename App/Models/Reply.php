@@ -121,6 +121,9 @@ class Reply extends Model
                 $user = User::findByID($reply->user_id);
                 $reply->username = $user->name;
                 $reply->userType = $user->type;
+                $points = static::calculatePoints($reply->id);
+                $reply->up_points = $points[0];
+                $reply->down_points = $points[1];
             }
             return $replies;
         }
@@ -144,5 +147,125 @@ class Reply extends Model
         $result = $stmt->fetch();
         $result = $result->count;
         return $result;
+    }
+
+    /**
+     * Upvote reply based on its id
+     *
+     * @param int $reply_id id of the reply that going to be up voted
+     *
+     * @return boolean True if upvoted, False otherwise
+     */
+    public static function upvoteReplyByID($reply_id)
+    {
+        $db = static::getDB();
+        $sql = "SELECT * FROM replies_points WHERE reply_id = :reply_id AND user_id = :user_id";
+        $user = Auth::getUser();
+        $user_id = $user->id;
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if($result['point'] == 1)
+        {
+            $sql = 'DELETE FROM replies_points WHERE reply_id = :reply_id AND user_id = :user_id AND point = 1';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            if($stmt->execute()) return 'removed';
+            else return false;
+        }
+        else
+        {
+            $sql = 'DELETE FROM replies_points WHERE reply_id = :reply_id AND user_id = :user_id AND point = 0';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $sql = 'DELETE FROM replies_points WHERE reply_id = :reply_id AND user_id = :user_id AND point = 1';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+        $sql = 'INSERT INTO replies_points (user_id, reply_id, point) VALUES (:user_id, :reply_id, 1)';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    /**
+     * Downvote reply based on its id
+     *
+     * @param int $reply_id id of the reply that going to be down voted
+     *
+     * @return boolean True if downvoted, False otherwise
+     */
+    public static function downvoteReplyByID($reply_id)
+    {
+        $db = static::getDB();
+        $sql = "SELECT * FROM replies_points WHERE reply_id = :reply_id AND user_id = :user_id";
+        $user = Auth::getUser();
+        $user_id = $user->id;
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        if($result['point'] == 0)
+        {
+            $sql = 'DELETE FROM replies_points WHERE reply_id = :reply_id AND user_id = :user_id AND point = 0';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            if($stmt->execute()) return 'removed';
+            else return false;
+        }
+        else
+        {
+            $sql = 'DELETE FROM replies_points WHERE reply_id = :reply_id AND user_id = :user_id AND point = 1';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $sql = 'DELETE FROM replies_points WHERE reply_id = :reply_id AND user_id = :user_id AND point = 0';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+        $sql = 'INSERT INTO replies_points (user_id, reply_id, point) VALUES (:user_id, :reply_id, 0)';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+
+    /**
+     * Calculate points of a reply
+     *
+     * @param int reply_id ID of the post that will be calculated
+     *
+     * @return array Points of the post
+     */
+    public static function calculatePoints($reply_id)
+    {
+        $db = static::getDB();
+        $sql = 'SELECT count(*) AS count FROM replies_points WHERE reply_id = :reply_id AND point = 1';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        $count_upvotes = $result['count'];
+        $sql = 'SELECT count(*) AS count FROM replies_points WHERE reply_id = :reply_id AND point = 0';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':reply_id', $reply_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        $count_downvotes = $result['count'];
+        return [$count_upvotes, $count_downvotes];
     }
 }
