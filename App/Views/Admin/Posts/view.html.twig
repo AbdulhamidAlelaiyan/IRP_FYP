@@ -43,6 +43,11 @@
             <div class="card-body">
                 {{ reply.text|raw }}
             </div>
+            <div class="">
+                <form action="/admin/replies/destroy/{{ reply.id }}" method="post">
+                    <button class="btn btn-danger">Delete Reply</button>
+                </form>
+            </div>
         </div>
     {% endfor %}
 {% endblock %}

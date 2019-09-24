@@ -268,4 +268,38 @@ class Reply extends Model
         $count_downvotes = $result['count'];
         return [$count_upvotes, $count_downvotes];
     }
+
+    /**
+     * Delete reply based on its ID
+     *
+     * @param int $reply_id
+     *
+     * @return boolean True if reply deleted, False otherwise
+     */
+    public static function deleteReply($reply_id)
+    {
+        $db = static::getDB();
+        $sql = 'DELETE FROM replies WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $reply_id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    /**
+     * Get reply by ID
+     *
+     * @param int $reply_id
+     *
+     * @return mixed Reply if found, False otherwise
+     */
+    public static function getReplyByID($reply_id)
+    {
+        $db = static::getDB();
+        $sql = 'SELECT * FROM replies WHERE id = :id LIMIT 1';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $reply_id, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        if(!$stmt->execute()) return false;
+        return $stmt->fetch();
+    }
 }
