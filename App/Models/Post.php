@@ -390,9 +390,16 @@ class Post extends \Core\Model
     {
         $db = static::getDB();
         $sql = "SELECT * FROM posts WHERE title LIKE '%$title%'";
+        $paginator = new \Zebra_Pagination();
+        $paginator->records_per_page(10);
+        $page = $paginator->get_page();
+        $sqlPage = ($page - 1) * 10;
         $stmt = $db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
         if(!$stmt->execute()) return false;
-        return $stmt->fetchAll();
+        $result = $stmt->fetchAll();
+        $records = sizeof($result);
+        $paginator->records($records);
+        return [$result, $paginator->render(true)];
     }
 }
