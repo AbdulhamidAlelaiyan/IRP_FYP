@@ -164,7 +164,6 @@ class Posts extends AdminController
             {
                 Flash::addMessage('post was not found');
             }
-            Flash::addMessage('post was not found');
         }
         else
         {
