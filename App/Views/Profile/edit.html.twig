@@ -23,22 +23,27 @@
 
         <div>
             <label for="inputName">Name</label>
-            <input id="inputName" name="name" placeholder="Name" value="{{ user.name }}" required />
+            <input class="form-control mb-1" id="inputName" name="name" placeholder="Name" value="{{ user.name }}" required />
         </div>
         <div>
             <label for="inputEmail">Email address</label>
-            <input id="inputEmail" name="email" placeholder="email address" value="{{ user.email }}" required type="email" />
+            <input class="form-control mb-1" id="inputEmail" name="email" placeholder="email address" value="{{ user.email }}" required type="email" />
         </div>
         <div>
             <label for="inputPassword">Password</label>
-            <input type="password" id="inputPassword" name="password" placeholder="Password" aria-describedby="helpBlock" />
-            <span id="helpBlock">Leave blank to keep current password</span>
+            <input class="form-control" type="password" id="inputPassword" name="password" placeholder="Password" aria-describedby="helpBlock" />
+            <span id="helpBlock" class="d-block mt-2 mb-2 font-italic">Leave blank to keep current password</span>
+        </div>
+        <div>
+            <label for="inputBio">Bio</label>
+            <textarea class="form-control" id="inputBio" name="bio" placeholder="Bio" aria-describedby="helpBlock" maxlength="255">{{ user.bio }}</textarea>
+            <span id="helpBlock" class="d-block mt-2 mb-2 font-italic">Mac Characters 255</span>
         </div>
         <input type="hidden" name="token" value="{{ csrf_token }}">
         <input type="text" name="spam-protection" value="" style="display: none;">
 
-        <input type="submit" value="Save">
-        <a href="/profile/show">Cancel</a>
+        <input type="submit" value="Save" class="btn btn-primary">
+        <a href="/profile/show" class="btn btn-outline-warning">Cancel</a>
 
     </form>
 

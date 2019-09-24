@@ -407,11 +407,12 @@ class User extends \Core\Model
      *
      * @return boolean True if the data was updated, false otherwise
      */
-    public function updateProfile($data, $type = false)
+    public function updateProfile($data, $type = false, $bio = false)
     {
         $this->name = $data['name'];
         $this->email = $data['email'];
         $this->type = $type;
+        $this->bio = $bio;
 
         // Only validate and update the password if a value provided
         if ($data['password'] != '') {
@@ -429,6 +430,11 @@ class User extends \Core\Model
             // Add type if it's set
             if ($this->type) {
                 $sql .= ', type = :type';
+            }
+
+            // Add bio if it's set
+            if ($this->bio) {
+                $sql .= ', bio = :bio';
             }
 
             // Add password if it's set
@@ -457,6 +463,11 @@ class User extends \Core\Model
             // Bind type if it's set
             if ($this->type) {
                 $stmt->bindValue(':type', $this->type, PDO::PARAM_STR);
+            }
+
+            // Bind bio if it's set
+            if ($this->bio) {
+                $stmt->bindValue(':bio', $this->bio, PDO::PARAM_STR);
             }
 
             return $stmt->execute();

@@ -59,7 +59,8 @@ class Profile extends Authenticated
     {
 		if(hash_equals($_SESSION['csrf_token'], $_POST['token']) && $_POST['spam-protection'] === '')
 		{
-			if ($this->user->updateProfile($_POST)) {
+		    $bio = filter_input(INPUT_POST, 'bio', FILTER_SANITIZE_STRING);
+			if ($this->user->updateProfile($_POST, false, $bio)) {
 
 				Flash::addMessage('Changes saved');
 
