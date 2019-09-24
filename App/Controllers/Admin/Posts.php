@@ -58,4 +58,55 @@ class Posts extends AdminController
             $this->redirect('/admin/posts');
         }
     }
+
+    /**
+     * Load the view of Post Edit
+     *
+     * @return void
+     */
+    public function editAction()
+    {
+        $post_id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+        if($post_id)
+        {
+            $post = Post::getPostByID($post_id);
+            View::renderTemplate('Admin/Posts/edit.html.twig',
+                [
+                    'post' => $post,
+                ]);
+        }
+    }
+
+    /**
+     * Update a particular post
+     *
+     * @return void
+     */
+    public function updateAction()
+    {
+        $post_id = filter_input(INPUT_POST, 'post_id', FILTER_SANITIZE_NUMBER_INT);
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
+        if(isset($_POST['editordata']))
+        {
+            $config = \HTMLPurifier_HTML5Config::createDefault();
+            $purifier = new \HTMLPurifier($config);
+            $body = $purifier->purify($_POST['editordata']);
+        }
+        else
+        {
+            $body = '';
+        }
+        $post = Post::getPostByID($post_id);
+        $post->title = $title;
+        $post->body = $body;
+        if($post->update())
+        {
+            Flash::addMessage('Post Updated successfully', Flash::SUCCESS);
+        }
+        else
+        {
+            Flash::addMessage('Error in Post update!', Flash::DANGER);
+        }
+        $this->redirect('/admin/posts/index');
+    }
 }

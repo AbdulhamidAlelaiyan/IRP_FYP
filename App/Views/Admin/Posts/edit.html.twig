@@ -1,0 +1,36 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    {% if errors %}
+        {% for error in errors %}
+            <div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="nc-icon nc-simple-remove"></i>
+                </button>
+                <span> {{ error }} </span>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="card ">
+        <div class="card-header ">
+            <h4 class="card-title">Edit Post</h4>
+        </div>
+        <div class="card-body ">
+            <form method="post" action="/admin/posts/update">
+                <label>Title</label>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Title of the post" name="title" value="{{ post.title }}" required>
+                </div>
+                <label>Body</label>
+                <div class="form-group">
+                    <textarea id="summernote" name="editordata">{{ post.body }}</textarea>
+                </div>
+                <input type="hidden" name="post_id" value="{{ post.id }}" required>
+                <div class="card-footer ">
+                    <button type="submit" class="btn btn-info btn-round">Update Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

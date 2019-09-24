@@ -3,12 +3,13 @@
 {% block body %}
     <div class="card">
         <div class="card-header ">
-            <h2 class="card-title">{{ book.title }}</h2>
+            <h2 class="card-title">{{ post.title }}</h2>
         </div>
         <div class="card-body ">
             <p class="lead">
                 <span class="font-weight-bold">ISBN:</span> {{ book.isbn }} <br>
-                <span class="font-weight-bold">Writer:</span>  {{ writer.name }} <br>
+                <span class="font-weight-bold">Book Title:</span> {{ book.title }} <br>
+                <span class="font-weight-bold">Post User Name:</span>  {{ writer.name }} <br>
                 <span class="font-weight-bold">Created At:</span>  {{ post.created_at }} <br>
                 <span class="font-weight-bold">Upvotes:</span>  {{ up_points }} <br>
                 <span class="font-weight-bold">Downvotes:</span>  {{ down_points }} <br>

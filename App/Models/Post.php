@@ -348,4 +348,20 @@ class Post extends \Core\Model
         $post_id = $reply->post_id;
         return static::getPostByID($post_id);
     }
+
+    /**
+     * Update existing post
+     *
+     * @return boolean True if updated, False otherwise
+     */
+    public function update()
+    {
+        $db = static::getDB();
+        $sql = 'UPDATE posts SET title = :title, body = :body WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
+        $stmt->bindValue(':body', $this->body, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }
