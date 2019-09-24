@@ -30,6 +30,12 @@ class Flash
     const WARNING = 'warning';
 
     /**
+     * Danger message type
+     * @var string
+     */
+    const DANGER = 'danger';
+
+    /**
      * Add a message
      *
      * @param string $message  The message content

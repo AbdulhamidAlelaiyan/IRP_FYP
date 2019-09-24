@@ -213,7 +213,8 @@ class Post extends \Core\Model
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
             $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-            return $stmt->execute();
+            if($stmt->execute()) return 'removed';
+            else return false;
         }
         else
         {
@@ -259,7 +260,8 @@ class Post extends \Core\Model
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
             $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-            return $stmt->execute();
+            if($stmt->execute()) return 'removed';
+            else return false;
         }
         else
         {

@@ -37,6 +37,13 @@
                     <span class="badge badge-info">Admin</span>
                 {% endif %}
                 <br>Created At: {{ reply.created_at }}
+                <form action="/replies/downvote/{{ post.id }}" id="downvote_form_{{ reply.id }}" method="post">
+                    <button form="downvote_form_{{ reply.id }}" value="" class="btn btn-sm btn-outline-danger float-right m-1">{{ reply.down_points }}<i class="fa fa-thumbs-down" aria-hidden="true"></i></button>
+                </form>
+                <form action="/replies/upvote/{{ post.id }}" id="upvote_form_{{ reply.id }}" method="post">
+                    <button form="upvote_form_{{ reply.id }}" class="btn btn-sm btn-outline-success float-right m-1">{{ reply.up_points }}<i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                </form>
+                <h1 class="p-1"></h1>
             </div>
             <div class="card-body">
                 {{ reply.text|raw }}

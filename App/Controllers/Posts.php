@@ -109,7 +109,12 @@ class Posts extends \Core\Controller
         if($post_id)
         {
             $upvoted = Post::upvotePostByID($post_id);
-            if($upvoted)
+            if($upvoted === 'removed')
+            {
+                Flash::addMessage('Vote removed');
+                $this->redirect('/posts/view/' . $post_id);
+            }
+            elseif($upvoted)
             {
                 Flash::addMessage('Post upvoted');
                 $this->redirect('/posts/view/' . $post_id);
@@ -136,10 +141,15 @@ class Posts extends \Core\Controller
         $post_id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
         if($post_id)
         {
-            $upvoted = Post::downvotePostByID($post_id);
-            if($upvoted)
+            $downvoted = Post::downvotePostByID($post_id);
+            if($downvoted === 'removed')
             {
-                Flash::addMessage('Post downvoted');
+                Flash::addMessage('Vote removed');
+                $this->redirect('/posts/view/' . $post_id);
+            }
+            elseif($downvoted)
+            {
+                Flash::addMessage('Post downvoted', Flash::DANGER);
                 $this->redirect('/posts/view/' . $post_id);
             }
             else
