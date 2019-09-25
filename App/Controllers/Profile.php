@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
 use \Core\View;
 use \App\Auth;
 use \App\Flash;
@@ -33,8 +34,9 @@ class Profile extends Authenticated
      */
     public function showAction()
     {
-        View::renderTemplate('Profile/show.html.twig', [
-            'user' => $this->user
+        View::renderTemplate('Profile/view.html.twig', [
+            'user' => $this->user,
+            'edit' => 'edit',
         ]);
     }
 
@@ -74,5 +76,27 @@ class Profile extends Authenticated
 
 			}
 		}
+    }
+
+    /**
+     * View the profile of a specific user
+     *
+     * @return void
+     */
+    public function viewAction()
+    {
+        $user_id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+        if($user = User::findByID($user_id))
+        {
+            View::renderTemplate('Profile/view.html.twig',
+                [
+                    'user' => $user,
+                ]);
+        }
+        else
+        {
+            Flash::addMessage('User not found!', Flash::DANGER);
+            $this->redirect('/');
+        }
     }
 }
