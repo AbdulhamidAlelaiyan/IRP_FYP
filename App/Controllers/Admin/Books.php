@@ -415,4 +415,54 @@ class Books extends AdminController
             }
         }
     }
+
+    /**
+     * Add book cover photos
+     *
+     * @return void
+     */
+    public function addCoverAction()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        if($book = Book::getBookByISBN($isbn))
+        {
+            View::renderTemplate('Admin/Books/add-book-cover.html.twig',
+                [
+                    'book' => $book,
+                ]);
+        }
+        else
+        {
+            Flash::addMessage('Book was not found', Flash::DANGER);
+            $this->redirect('/admin/books/index');
+        }
+    }
+
+    /**
+     * Upload book cover
+     *
+     * @return void
+     */
+    public function uploadBookCover()
+    {
+        $isbn = filter_input(INPUT_POST, 'isbn', FILTER_SANITIZE_STRING);
+        if($book = Book::getBookByISBN($isbn))
+        {
+            if($book->addCoverImage())
+            {
+                Flash::addMessage('Image uploaded successfully');
+                $this->redirect('/admin/books/index');
+            }
+            else
+            {
+                Flash::addMessage('Error in image upload', Flash::DANGER);
+                $this->redirect('/admin/books/index');
+            }
+        }
+        else
+        {
+            Flash::addMessage('Book was not found', Flash::DANGER);
+            $this->redirect('/admin/books/index');
+        }
+    }
 }

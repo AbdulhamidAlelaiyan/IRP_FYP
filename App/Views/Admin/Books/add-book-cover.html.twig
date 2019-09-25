@@ -1,0 +1,22 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="card ">
+        <div class="card-header ">
+            <h4 class="card-title">Upload Book Cover</h4>
+        </div>
+        <div class="card-body ">
+            <form action="/admin/books/upload-book-cover" method="post" enctype="multipart/form-data">
+                <div class="">
+                    Select image to upload:
+                    <input type="hidden" name="MAX_FILE_SIZE" value="8388608">
+                    <input type="hidden" name="isbn" value="{{ book.isbn }}">
+                    <input type="file" name="upload" id="upload"
+                           class="btn btn-primary btn-round">
+                </div>
+                <input type="submit" value="Upload Cover Image" name="submit"
+                       class="btn btn-primary btn-round">
+            </form>
+        </div>
+    </div>
+{% endblock %}

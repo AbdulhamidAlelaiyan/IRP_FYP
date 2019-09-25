@@ -80,6 +80,13 @@
                             <button type="submit" rel="tooltip" class="btn btn-file btn-sm d-inline">
                                 Upload File
                             </button>
+                                {% if not book.cover_image %}
+                                <a href="/admin/books/add-cover/{{ book.isbn }}"
+                                   class="d-inline-block btn btn-primary btn-sm mt-1">Insert Book Cover</a>
+                                {% else %}
+                                    <a href="/admin/books/add-cover/{{ book.isbn }}"
+                                       class="d-inline-block btn btn-warning btn-sm mt-1">Change Book Cover</a>
+                                {% endif %}
                             </form>
                         </td>
                     </tr>

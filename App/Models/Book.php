@@ -446,4 +446,39 @@ edition = :edition WHERE isbn = :isbn';
         $stmt->bindValue(':chapter', $chapter, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    /**
+     * Add cover image to the book table
+     *
+     * @returb boolean True if added, False otherwise
+     */
+    public function addCoverImage()
+    {
+        $db = static::getDB();
+        if(isset($_FILES['upload']))
+        {
+            $allowed_mime_types =
+                [
+                    'image/jpeg',
+                ];
+            if(in_array($_FILES['upload']['type'], $allowed_mime_types))
+            {
+                if(!file_exists(Config::APP_DIRECTORY . 'public/covers/' . $this->isbn  . '/'))
+                {
+                    mkdir(Config::APP_DIRECTORY . 'public/covers/' . $this->isbn  . '/', 0777, true);
+                }
+                $new_name = sha1_file($_FILES['upload']['tmp_name']) . '.jpg';
+                if(move_uploaded_file($_FILES['upload']['tmp_name'],
+                    Config::APP_DIRECTORY . 'public/covers/' . $this->isbn  . '/' . $new_name))
+                {
+                    $db->query("UPDATE books_information SET cover_image = '$new_name' WHERE isbn = '$this->isbn'");
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }
