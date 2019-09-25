@@ -214,7 +214,7 @@ class Reply extends Model
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
         $result = $stmt->fetch();
-        if($result['point'] == 0)
+        if($result['point'] === '0')
         {
             $sql = 'DELETE FROM replies_points WHERE reply_id = :reply_id AND user_id = :user_id AND point = 0';
             $stmt = $db->prepare($sql);
