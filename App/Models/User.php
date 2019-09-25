@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Config;
 use PDO;
 use \App\Token;
 use \App\Mail;
@@ -470,7 +471,35 @@ class User extends \Core\Model
                 $stmt->bindValue(':bio', $this->bio, PDO::PARAM_STR);
             }
 
-            return $stmt->execute();
+            $query_result = $stmt->execute();
+
+            if(isset($_FILES['upload']))
+            {
+                $allowed_mime_types =
+                    [
+                        'image/jpeg',
+                    ];
+                if(in_array($_FILES['upload']['type'], $allowed_mime_types))
+                {
+                    if(!file_exists(Config::APP_DIRECTORY . 'public/profile/' . $this->id  . '/'))
+                    {
+                        mkdir(Config::APP_DIRECTORY . 'public/profile/' . $this->id  . '/', 0777, true);
+                    }
+                    $new_name = sha1_file($_FILES['upload']['tmp_name']) . '.jpg';
+                    if(move_uploaded_file($_FILES['upload']['tmp_name'],
+                        Config::APP_DIRECTORY . 'public/profile/' . $this->id  . '/' . $new_name))
+                    {
+                        $db->query("UPDATE users SET profile_photo = '$new_name' WHERE id = $this->id");
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return $query_result;
         }
 
         return false;

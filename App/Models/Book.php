@@ -283,7 +283,7 @@ edition = :edition WHERE isbn = :isbn';
             {
                 if(!file_exists(Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/'))
                 {
-                    mkdir(Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/');
+                    mkdir(Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/', 0777, true);
                 }
                 if(move_uploaded_file($_FILES['upload']['tmp_name'],
                     Config::APP_DIRECTORY . 'public/resources/' . $isbn  . '/' . $_FILES['upload']['name']))

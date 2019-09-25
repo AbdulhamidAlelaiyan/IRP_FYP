@@ -5,16 +5,21 @@
 {% block body %}
 
     <h1>Profile</h1>
-
-    <dl>
-        <dt>Name</dt>
-        <dd>{{ user.name }}</dd>
-        <dt>email</dt>
-        <dd>{{ user.email }}</dd>
-        <dt>bio</dt>
-        <dd>{{ user.bio }}</dd>
-    </dl>
-
+<div class="row">
+    <div class="col-6">
+        <dl>
+            <dt>Name</dt>
+            <dd>{{ user.name }}</dd>
+            <dt>email</dt>
+            <dd>{{ user.email }}</dd>
+            <dt>bio</dt>
+            <dd>{{ user.bio }}</dd>
+        </dl>
+    </div>
+    <div class="col-6">
+        <img src="/profile/{{ user.id }}/{{ user.profile_photo }}" alt="Profile Photo" width="125" height="125">
+    </div>
+</div>
     <a href="/profile/edit">Edit</a>
 
 {% endblock %}

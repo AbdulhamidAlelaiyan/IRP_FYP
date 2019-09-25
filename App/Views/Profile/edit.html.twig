@@ -19,7 +19,7 @@
         </ul>
     {% endif %}
 
-    <form method="post" id="formProfile" action="/profile/update">
+    <form method="post" id="formProfile" action="/profile/update" enctype="multipart/form-data">
 
         <div>
             <label for="inputName">Name</label>
@@ -38,6 +38,12 @@
             <label for="inputBio">Bio</label>
             <textarea class="form-control" id="inputBio" name="bio" placeholder="Bio" aria-describedby="helpBlock" maxlength="255">{{ user.bio }}</textarea>
             <span id="helpBlock" class="d-block mt-2 mb-2 font-italic">Mac Characters 255</span>
+        </div>
+        <div>
+            Select profile photo to upload:
+            <input type="hidden" name="MAX_FILE_SIZE" value="8388608">
+            <input type="file" name="upload" id="upload"
+                   class="btn btn-primary btn-round mb-3">
         </div>
         <input type="hidden" name="token" value="{{ csrf_token }}">
         <input type="text" name="spam-protection" value="" style="display: none;">
