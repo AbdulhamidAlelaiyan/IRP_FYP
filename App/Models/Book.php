@@ -481,4 +481,30 @@ edition = :edition WHERE isbn = :isbn';
             }
         }
     }
+
+    /**
+     * Delete Book Cover
+     *
+     * @param string $isbn
+     *
+     * @return boolean True if removed, False otherwise
+     */
+    public static function deleteBookCover($isbn)
+    {
+        $db = static::getDB();
+        if($book = Book::getBookByISBN($isbn))
+        {
+            $filename =$book->cover_image;
+            $sql = 'UPDATE books_information SET cover_image = null WHERE isbn = :isbn';
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+            $db_result = $stmt->execute();
+            $file_result = unlink(Config::APP_DIRECTORY. '/public/covers/' . $isbn . '/' . $filename);
+            return $db_result && $file_result;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

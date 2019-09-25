@@ -1,0 +1,21 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header ">
+            <h4 class="card-title">Delete Cover Image of {{ book.title }}</h4>
+        </div>
+        <div class="card-body ">
+            <p class="text-danger lead">
+                Are you sure you want to delete the cover image
+                <img src="/covers/{{ book.isbn }}/{{ book.cover_image }}" style="width: 20rem; height: 20rem;" alt="Cover Image of the book">
+            </p>
+        </div>
+        <div class="">
+            <form action="/admin/books/destroy-cover/{{ book.isbn }}" method="post">
+                <input type="submit" value="DELETE!" class="btn btn-danger ml-3">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

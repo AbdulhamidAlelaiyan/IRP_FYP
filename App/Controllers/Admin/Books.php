@@ -465,4 +465,46 @@ class Books extends AdminController
             $this->redirect('/admin/books/index');
         }
     }
+
+    /**
+     * Load the view of delete-confirm-cover
+     *
+     * @return void
+     */
+    public function deleteCover()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        if($book = Book::getBookByISBN($isbn))
+        {
+            View::renderTemplate('Admin/Books/delete-confirm-cover.html.twig',
+                [
+                    'book' => $book,
+                ]);
+        }
+        else
+        {
+            Flash::addMessage('Book was not found', Flash::DANGER);
+            $this->redirect('/admin/books/index');
+        }
+    }
+
+    /**
+     * Destroy the Cover Image of a book
+     *
+     * @return void
+     */
+    public function destroyCover()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        if(Book::deleteBookCover($isbn))
+        {
+            Flash::addMessage('Book Cover Removed', Flash::SUCCESS);
+            $this->redirect('/admin/books/index');
+        }
+        else
+        {
+            Flash::addMessage('Error in Removing Book Cover', Flash::DANGER);
+            $this->redirect('/admin/books/index');
+        }
+    }
 }
