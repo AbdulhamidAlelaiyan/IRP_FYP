@@ -117,3 +117,5 @@ logs/
 
 # Ignoring file uploads
 public/resources/
+public/covers/
+public/profile/

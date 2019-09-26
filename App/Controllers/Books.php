@@ -16,7 +16,7 @@ class Books extends \Core\Controller
 	 */
 	public function indexAction()
 	{
-        $booksWithPagination = Book::getBooks();
+        $booksWithPagination = Book::getBooks(12);
         $books = $booksWithPagination[0];
         $pagination = $booksWithPagination[1];
         View::renderTemplate('Books/index.html.twig', [

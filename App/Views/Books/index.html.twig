@@ -17,47 +17,65 @@
             </form>
         </div>
         <div class="table-responsive">
-            <table class="table">
-                <thead class="text-primary">
-                <tr><th class="text-center">
-                        ISBN
-                    </th>
-                    <th class="text-center">
-                        Title
-                    </th>
-                    <th class="text-center">
-                        Author/s
-                    </th>
-                    <th class="text-center">
-                        Pub Date
-                    </th>
-                    <th class="text-center">
-                        Edition
-                    </th>
-                </tr></thead>
-                <tbody>
+{#            <table class="table">#}
+{#                <thead class="text-primary">#}
+{#                <tr><th class="text-center">#}
+{#                        ISBN#}
+{#                    </th>#}
+{#                    <th class="text-center">#}
+{#                        Title#}
+{#                    </th>#}
+{#                    <th class="text-center">#}
+{#                        Author/s#}
+{#                    </th>#}
+{#                    <th class="text-center">#}
+{#                        Pub Date#}
+{#                    </th>#}
+{#                    <th class="text-center">#}
+{#                        Edition#}
+{#                    </th>#}
+{#                </tr></thead>#}
+{#                <tbody>#}
 
+{#                {% for book in books %}#}
+{#                    <tr>#}
+{#                        <td class="text-center">#}
+{#                            {{ book.isbn }}#}
+{#                        </td>#}
+{#                        <td class="text-center">#}
+{#                            <a href="/books/view/{{ book.isbn }}" class="btn btn-info btn-sm">{{ book.title }}</a>#}
+{#                        </td>#}
+{#                        <td class="text-center">#}
+{#                            {{ book.authors }}#}
+{#                        </td>#}
+{#                        <td class="text-center">#}
+{#                            {{ book.publication_date }}#}
+{#                        </td>#}
+{#                        <td class="text-center">#}
+{#                            {{ book.edition }}#}
+{#                        </td>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+{#                </tbody>#}
+{#            </table>#}
+            <div class="row">
                 {% for book in books %}
-                    <tr>
-                        <td class="text-center">
-                            {{ book.isbn }}
-                        </td>
-                        <td class="text-center">
-                            <a href="/books/view/{{ book.isbn }}" class="btn btn-info btn-sm">{{ book.title }}</a>
-                        </td>
-                        <td class="text-center">
-                            {{ book.authors }}
-                        </td>
-                        <td class="text-center">
-                            {{ book.publication_date }}
-                        </td>
-                        <td class="text-center">
-                            {{ book.edition }}
-                        </td>
-                    </tr>
+                <div class="card col-md-4">
+                    {% if book.cover_image %}
+                        <img class="card-img-top" src="/covers/{{ book.isbn }}/{{ book.cover_image }}" alt="Card image cap" style="height: 40rem; width: 25rem;">
+                    {% else %}
+                        <img class="card-img-top" src="/assets/img/Default_Cover.jpg" alt="Card image cap" style="height: 40rem; width: 25rem;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h4 class="card-title">{{ book.title }}</h4>
+                        <p class="card-text">{{ book.authors }}</p>
+                        <p class="author">{{ book.publication_date }}, {{ book.edition }}</p> <br>
+                        <a href="/books/view/{{ book.isbn }}" class="btn btn-primary">Read</a>
+                    </div>
+                </div>
                 {% endfor %}
-                </tbody>
-            </table>
+            </div>
+
             {{ pagination|raw }}
         </div>
 {% endblock %}

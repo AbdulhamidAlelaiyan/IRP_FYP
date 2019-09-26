@@ -507,4 +507,8 @@ edition = :edition WHERE isbn = :isbn';
             return false;
         }
     }
+
+    /**
+     *
+     */
 }
