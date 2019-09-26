@@ -303,24 +303,4 @@ class Reply extends Model
         if(!$stmt->execute()) return false;
         return $stmt->fetch();
     }
-
-    /**
-     * Add a report for the reply
-     *
-     * @param string $text
-     *
-     * @return void
-     */
-    public function addReport($text)
-    {
-        $db = static::getDB();
-        $sql = 'INSERT INTO replies_reports (reply_id, user_id, text) VALUES (:reply_id, :user_id, :text)';
-        $user = Auth::getUser();
-        $user_id = $user->id;
-        $stmt = $db->prepare($sql);
-        $stmt->bindValue(':reply_id', $this->id, PDO::PARAM_INT);
-        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-        $stmt->bindValue(':text', $text, PDO::PARAM_STR);
-        return $stmt->execute();
-    }
 }

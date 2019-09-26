@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <form action="/posts/submit-report/{{ post.id }}" class="mt-5" method="post">
+    <form action="/reports/create-reply/{{ reply.id }}" class="mt-5" method="post">
         <div>
             <label for="inputText">Report</label>
             <textarea class="form-control" id="inputText" name="text" placeholder="Report Message" aria-describedby="helpBlock" maxlength="255" required></textarea>
