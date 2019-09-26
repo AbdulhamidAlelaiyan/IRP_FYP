@@ -1,0 +1,67 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="card text-center">
+        <h1 class="mt-4">Reports</h1>
+        <div class="card-header card-header-rose">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/reports/index-posts">Posts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/reports/index-replies">Replies</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="text-primary">
+                    <tr><th class="text-center">
+                            Post Title
+                        </th>
+                        <th class="text-center">
+                            Report Text
+                        </th>
+                        <th class="text-center">
+                            Username
+                        </th>
+                        <th class="text-center">
+                            Reported At
+                        </th>
+                        <th class="text-center">
+                            Actions
+                        </th>
+                    </tr></thead>
+                    <tbody>
+
+                    {% for report in reports %}
+                        <tr>
+                            <td class="text-center">
+                                {{ report.post_title }}
+                            </td>
+                            <td class="text-center">
+                                {{ report.text }}
+                            </td>
+                            <td class="text-center">
+                                {{ report.username }}
+                            </td>
+                            <td class="text-center">
+                                {{ report.created_at }}
+                            </td>
+                            <td class="text-center">
+                                <form action="/admin/reports/delete-post/{{ report.id }}" class="d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-danger btn-sm d-inline">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ pagination|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
