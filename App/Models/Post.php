@@ -166,6 +166,7 @@ class Post extends \Core\Model
             $post->user = User::findByID($post->user_id);
             $post->userType = $post->user->type;
             $post->username = $post->user->name;
+            $post->user_id = $post->user->id;
             return $post;
         }
         else

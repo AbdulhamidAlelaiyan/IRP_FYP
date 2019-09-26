@@ -121,6 +121,7 @@ class Reply extends Model
                 $user = User::findByID($reply->user_id);
                 $reply->username = $user->name;
                 $reply->userType = $user->type;
+                $reply->user_id = $user->id;
                 $points = static::calculatePoints($reply->id);
                 $reply->up_points = $points[0];
                 $reply->down_points = $points[1];

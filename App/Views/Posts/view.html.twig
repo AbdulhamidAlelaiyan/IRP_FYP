@@ -5,7 +5,7 @@
         <div class="card-header ">
             <h2 class="card-title">{{ post.title }}</h2>
             <h5>For {{ book.title }}</h5>
-            <h6>By: {{ post.username }}
+            <h6>By: <a style="color: darkblue;" href="/profile/view/{{ post.user_id }}">{{ post.username }}</a>
                 {% if post.userType == 'author' %}
                     <span class="badge badge-info">Author</span>
                 {% elseif post.userType == 'admin' %}
@@ -39,7 +39,7 @@
     {% for reply in replies %}
         <div class="card p-3" style="border-top: 4px solid gray;">
             <div class="round">
-                By: {{ reply.username }}
+                By: <a style="color: darkblue;" href="/profile/view/{{ reply.user_id }}">{{ reply.username }}</a>
                 {% if reply.userType == 'author' %}
                     <span class="badge badge-info">Author</span>
                 {% elseif reply.userType == 'admin' %}
