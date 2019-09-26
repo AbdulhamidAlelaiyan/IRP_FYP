@@ -33,6 +33,8 @@
             <a class="a2a_button_whatsapp"></a>
         </div>
         <script async src="https://static.addtoany.com/menu/page.js"></script>
+        <a role="button" aria-disabled="true" href="/posts/report/{{ post.id }}" class="btn btn-danger btn-sm ml-2 mb-1"><i class="fa fa-flag" aria-hidden="true"></i>
+            Report</a>
         <!-- AddToAny END -->
     </div>
 
@@ -45,6 +47,8 @@
                 {% elseif reply.userType == 'admin' %}
                     <span class="badge badge-info">Admin</span>
                 {% endif %}
+                <a role="button" aria-disabled="true" href="/replies/report/{{ reply.id }}" class="btn btn-danger btn-sm ml-1 mb-1"><i class="fa fa-flag" aria-hidden="true"></i>
+                    Report</a>
                 <br>Created At: {{ reply.created_at }}
                 <form action="/replies/downvote/{{ reply.id }}" id="downvote_form_{{ reply.id }}" method="post">
                     <button form="downvote_form_{{ reply.id }}" value="" class="btn btn-sm btn-outline-danger float-right m-1">{{ reply.down_points }}<i class="fa fa-thumbs-down" aria-hidden="true"></i></button>

@@ -410,4 +410,24 @@ class Post extends \Core\Model
         $paginator->records($records);
         return [$result, $paginator->render(true)];
     }
+
+    /**
+     * Add a report for the post
+     *
+     * @param string $text
+     *
+     * @return void
+     */
+    public function addReport($text)
+    {
+        $db = static::getDB();
+        $sql = 'INSERT INTO posts_reports (post_id, user_id, text) VALUES (:post_id, :user_id, :text)';
+        $user = Auth::getUser();
+        $user_id = $user->id;
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':post_id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':text', $text, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
 }
