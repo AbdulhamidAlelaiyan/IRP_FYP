@@ -65,6 +65,19 @@
                                         Delete
                                     </button>
                                 </form>
+                                {% if user.is_active %}
+                                <form action="/admin/users/deactivate/{{ user.id }}" class="mb-1 d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-warning btn-sm d-inline">
+                                        Deactivate
+                                    </button>
+                                </form>
+                                {% else %}
+                                <form action="/admin/users/activate/{{ user.id }}" class="mb-1 d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-success btn-sm d-inline">
+                                        activate
+                                    </button>
+                                </form>
+                                {% endif %}
                                 <a href="/profile/view/{{ user.id }}" class="btn btn-info btn-sm d-inline">Profile</a>
                             </td>
                         </tr>

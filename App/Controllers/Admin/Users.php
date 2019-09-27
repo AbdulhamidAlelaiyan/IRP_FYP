@@ -167,4 +167,76 @@ class Users extends AdminController
             ]);
         }
     }
+
+    /**
+     * Activate the user
+     *
+     * @return void
+     */
+    public function activateAction()
+    {
+        $user_id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+        if($user_id)
+        {
+            if($user = User::findByID($user_id))
+            {
+                if($user->activateWithoutToken())
+                {
+                    Flash::addMessage('User activated', Flash::SUCCESS);
+                    $this->redirect('/admin/users/index');
+                }
+                else
+                {
+                    Flash::addMessage('Error in user activation', Flash::DANGER);
+                    $this->redirect('/admin/users/index');
+                }
+            }
+            else
+            {
+                Flash::addMessage('User not found', Flash::DANGER);
+                $this->redirect('/admin/users/index');
+            }
+        }
+        else
+        {
+            Flash::addMessage('User ID not found', Flash::DANGER);
+            $this->redirect('/admin/users/index');
+        }
+    }
+
+    /**
+     * Deactivate User
+     *
+     * @return void
+     */
+    public function deactivateAction()
+    {
+        $user_id = filter_var($this->route_params['isbn'], FILTER_SANITIZE_NUMBER_INT);
+        if($user_id)
+        {
+            if($user = User::findByID($user_id))
+            {
+                if($user->deactivate())
+                {
+                    Flash::addMessage('User deactivated', Flash::SUCCESS);
+                    $this->redirect('/admin/users/index');
+                }
+                else
+                {
+                    Flash::addMessage('Error in user deactivation', Flash::DANGER);
+                    $this->redirect('/admin/users/index');
+                }
+            }
+            else
+            {
+                Flash::addMessage('User not found', Flash::DANGER);
+                $this->redirect('/admin/users/index');
+            }
+        }
+        else
+        {
+            Flash::addMessage('User ID not found', Flash::DANGER);
+            $this->redirect('/admin/users/index');
+        }
+    }
 }

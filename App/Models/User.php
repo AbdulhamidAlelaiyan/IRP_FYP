@@ -573,4 +573,32 @@ class User extends \Core\Model
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    /**
+     * Activate user without token
+     *
+     * @return boolean True if activated, False otherwise
+     */
+    public function activateWithoutToken()
+    {
+        $db = static::getDB();
+        $sql = "UPDATE users SET is_active = 1 WHERE id = :id";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    /**
+     * Deactivate user
+     *
+     * @return boolean True if deactivated, False otherwise
+     */
+    public function deactivate()
+    {
+        $db = static::getDB();
+        $sql = "UPDATE users SET is_active = 0 WHERE id = :id";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }
