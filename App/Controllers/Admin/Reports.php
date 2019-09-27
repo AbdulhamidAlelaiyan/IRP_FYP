@@ -18,7 +18,8 @@ class Reports extends AdminController
         $reports = Report::getAllPostReports();
         View::renderTemplate('Admin/Reports/index-posts.html.twig',
             [
-                'reports' => $reports,
+                'reports' => $reports[0],
+                'pagination' => $reports[1],
             ]);
     }
 
@@ -32,7 +33,8 @@ class Reports extends AdminController
         $reports = Report::getAllRepliesReports();
         View::renderTemplate('Admin/Reports/index-replies.html.twig',
             [
-                'reports' => $reports,
+                'reports' => $reports[0],
+                'pagination' => $reports[1],
             ]);
     }
 

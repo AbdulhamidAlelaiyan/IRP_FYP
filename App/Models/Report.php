@@ -54,8 +54,14 @@ class Report extends \Core\Model
      */
     public static function getAllPostReports()
     {
+        $numberOfPostsReports = static::getCountOfPostsReports();
+        $paginator = new \Zebra_Pagination();
+        $page = $paginator->get_page();
+        $paginator->records($numberOfPostsReports);
+        $paginator->records_per_page(10);
+        $sqlPage = ($page - 1) * 10;
         $db = static::getDB();
-        $sql = 'SELECT * FROM posts_reports';
+        $sql = "SELECT * FROM posts_reports LIMIT $sqlPage, 10";
         $stmt = $db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt->execute();
@@ -69,7 +75,7 @@ class Report extends \Core\Model
             $post_title = $post->title;
             $report->post_title = $post_title;
         }
-        return $reports;
+        return [$reports, $paginator->render(true)];
     }
 
     /**
@@ -79,8 +85,14 @@ class Report extends \Core\Model
      */
     public static function getAllRepliesReports()
     {
+        $numberOfRepliesReports = static::getCountOfRepliesReports();
+        $paginator = new \Zebra_Pagination();
+        $page = $paginator->get_page();
+        $paginator->records($numberOfRepliesReports);
+        $paginator->records_per_page(10);
+        $sqlPage = ($page - 1) * 10;
         $db = static::getDB();
-        $sql = 'SELECT * FROM replies_reports';
+        $sql = "SELECT * FROM replies_reports LIMIT $sqlPage, 10";
         $stmt = $db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt->execute();
@@ -91,7 +103,7 @@ class Report extends \Core\Model
             $username = $user->name;
             $report->username = $username;
         }
-        return $reports;
+        return [$reports, $paginator->render(true)];
     }
 
     /**
@@ -168,5 +180,33 @@ class Report extends \Core\Model
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':id', $this->id,PDO::PARAM_INT);
         return $stmt->execute();
+    }
+
+    /**
+     * Return the number of post reports in the database
+     *
+     * @return int count of reports of posts
+     */
+    protected static function getCountOfPostsReports()
+    {
+        $db = static::getDB();
+        $sql = 'SELECT count(*) AS count FROM posts_reports';
+        $result = $db->query($sql);
+        $result = $result->fetch();
+        return $result['count'];
+    }
+
+    /**
+     * Return the number of replies reports in the database
+     *
+     * @return int count of reports of replies
+     */
+    protected static function getCountOfRepliesReports()
+    {
+        $db = static::getDB();
+        $sql = 'SELECT count(*) AS count FROM replies_reports';
+        $result = $db->query($sql);
+        $result = $result->fetch();
+        return $result['count'];
     }
 }
