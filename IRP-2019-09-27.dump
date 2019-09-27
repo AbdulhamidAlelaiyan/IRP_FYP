@@ -1,0 +1,496 @@
+-- MySQL dump 10.13  Distrib 5.7.23, for macos10.13 (x86_64)
+--
+-- Host: 127.0.0.1    Database: IRP
+-- ------------------------------------------------------
+-- Server version	5.7.21-0ubuntu0.17.10.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `books_authors`
+--
+
+DROP TABLE IF EXISTS `books_authors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `books_authors` (
+  `id` int(11) NOT NULL,
+  `ISBN` char(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ISBN` (`ISBN`),
+  CONSTRAINT `books_authors_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `books_authors_ibfk_2` FOREIGN KEY (`ISBN`) REFERENCES `books_information` (`isbn`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `books_authors`
+--
+
+LOCK TABLES `books_authors` WRITE;
+/*!40000 ALTER TABLE `books_authors` DISABLE KEYS */;
+/*!40000 ALTER TABLE `books_authors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `books_content`
+--
+
+DROP TABLE IF EXISTS `books_content`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `books_content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isbn` char(10) NOT NULL,
+  `chapter` tinyint(4) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
+  `video_id` varchar(255) DEFAULT NULL,
+  `quiz_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_chapter_isbn` (`isbn`,`chapter`),
+  KEY `quiz_id` (`quiz_id`),
+  CONSTRAINT `books_content_ibfk_1` FOREIGN KEY (`isbn`) REFERENCES `books_information` (`isbn`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `books_content_ibfk_2` FOREIGN KEY (`quiz_id`) REFERENCES `quizes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `books_content`
+--
+
+LOCK TABLES `books_content` WRITE;
+/*!40000 ALTER TABLE `books_content` DISABLE KEYS */;
+/*!40000 ALTER TABLE `books_content` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `books_information`
+--
+
+DROP TABLE IF EXISTS `books_information`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `books_information` (
+  `isbn` char(10) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `publication_date` date NOT NULL,
+  `edition` varchar(255) NOT NULL,
+  `quiz_id` int(11) DEFAULT NULL,
+  `authors` varchar(255) NOT NULL,
+  `cover_image` varchar(255) DEFAULT NULL,
+  `description` text,
+  PRIMARY KEY (`isbn`),
+  KEY `quiz_id` (`quiz_id`),
+  CONSTRAINT `books_information_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quizes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `books_information`
+--
+
+LOCK TABLES `books_information` WRITE;
+/*!40000 ALTER TABLE `books_information` DISABLE KEYS */;
+INSERT INTO `books_information` VALUES ('0097291625','Quam natus animi quas optio.','1996-01-12','3rd edition',NULL,'Ms. Norene Emard V','061f48a8e41cd29e1eb3815196dd30c36233277a.jpg',NULL),('0224496239','Alias rem quod repellendus qui tempore.','2001-03-28','2nd edition',NULL,'Efren Little','8aa0d30103ff9cd028a382c26c985bc7882b2cd4.jpg',NULL),('0886801443','Sunt error quaerat voluptate.','1996-05-31','2nd edition',NULL,'Dr. Obie Hansen DDS','1b0aa53a9d6955d3d3a88691449fd4c2356c8349.jpg',NULL),('1169294162','Placeat vero ipsam modi mollitia.','1998-03-01','2nd edition',NULL,'Julien Goldner','dcf9138d4cdb1b2d14ac53139080618a46e0d7e9.jpg',NULL),('1879000857','Minima rem debitis inventore consequatur.','1996-08-04','1st edition',NULL,'Kamille Stamm Sr.',NULL,NULL),('1924790238','Consequatur rerum aut illo sit voluptatem et aut.','2005-08-12','1st edition',NULL,'Benny Reilly',NULL,NULL),('2403262080','Cum eum in saepe.','1973-02-28','1st edition',NULL,'Noe Kulas IV',NULL,NULL),('2932748017','Quos voluptatum qui architecto dolor.','1973-09-17','1st edition',NULL,'Marilyne Kris',NULL,NULL),('3522561880','Iste velit molestiae minima et blanditiis.','2000-05-22','3rd edition',NULL,'Melody Jakubowski',NULL,NULL),('3592776649','Est voluptate nesciunt dolorem voluptas sunt cupiditate.','1976-07-19','3rd edition',NULL,'Mr. Stuart Stark III',NULL,NULL),('3800663007','Soluta voluptatem soluta quos voluptas.','1998-04-25','1st edition',NULL,'Ms. Germaine Auer',NULL,NULL),('3945071097','Voluptas dolorum modi voluptate.','2016-10-31','2nd edition',NULL,'Retta Torp PhD',NULL,NULL),('4103419415','Eum expedita temporibus quia labore est et.','2015-08-21','1st edition',NULL,'Carolyne Champlin',NULL,NULL),('4106936577','Ea blanditiis velit vitae provident eum facere enim.','2009-11-06','1st edition',NULL,'Dr. Carissa Morar IV',NULL,NULL),('418182683X','Non numquam sit consequatur rerum quas sed.','2013-12-08','1st edition',NULL,'Kieran Beer',NULL,NULL),('4492700056','Suscipit nulla officia consequatur autem.','1981-03-29','3rd edition',NULL,'Ms. Neoma Conroy MD',NULL,NULL),('4591537625','Ut sunt amet cumque voluptatibus officiis voluptates.','2003-03-31','3rd edition',NULL,'Prof. Evert Parker',NULL,NULL),('5084882969','Eius omnis similique dolores necessitatibus.','1984-12-30','2nd edition',NULL,'Franco Bartell',NULL,NULL),('5096715280','Et voluptatem dolores assumenda voluptas mollitia ut.','2008-12-28','1st edition',NULL,'Ms. Eva Prosacco',NULL,NULL),('5115732122','Et expedita iste tenetur aut.','2004-12-10','1st edition',NULL,'Eldon Sipes',NULL,NULL),('5122258856','Odit est voluptatem quis iusto similique ea.','1984-12-22','1st edition',NULL,'Vincenza White V',NULL,NULL),('5216930558','Fugit laboriosam dignissimos in.','1991-08-29','3rd edition',NULL,'Roel Paucek',NULL,NULL),('5335787449','Et sapiente in molestiae rerum rerum.','2008-09-16','2nd edition',NULL,'Elouise Willms',NULL,NULL),('5932880147','Id possimus quo voluptatem et est rerum vitae.','2001-11-07','3rd edition',NULL,'Dr. Althea Farrell',NULL,NULL),('6296635710','Qui omnis aliquam quos odit.','2014-08-26','1st edition',NULL,'Jared Wisoky III',NULL,NULL),('6300314553','Laudantium iste et culpa accusamus.','2009-12-01','3rd edition',NULL,'Darrin Kub Jr.',NULL,NULL),('6450606843','Tenetur blanditiis ad magni rerum consectetur iure dolore.','1996-02-14','2nd edition',NULL,'Ole Schaefer',NULL,NULL),('6587205925','Beatae fugiat porro qui accusamus quam nulla.','2003-04-07','3rd edition',NULL,'Natasha Von DDS',NULL,NULL),('6650843962','A id adipisci quasi et esse fuga et odio.','2007-10-10','1st edition',NULL,'Prof. Genoveva Torphy',NULL,NULL),('7284872810','Quis hic quis unde corporis blanditiis nihil.','2006-11-26','1st edition',NULL,'Alvena Strosin',NULL,NULL),('7313625014','Omnis sed distinctio velit magnam similique quaerat.','1992-04-20','1st edition',NULL,'Marcella Haley',NULL,NULL),('7419564884','Magnam autem vel amet quis est recusandae voluptas sit.','1981-04-28','3rd edition',NULL,'Malika Brown',NULL,NULL),('7742468379','Odio ut esse sequi rerum fuga consequatur.','2004-10-14','3rd edition',NULL,'Hope Corwin',NULL,NULL),('8035728571','Autem quia aut architecto eius inventore ea.','1977-11-14','1st edition',NULL,'Edison VonRueden',NULL,NULL),('8345563457','Velit itaque omnis laudantium.','1991-07-27','3rd edition',NULL,'Magdalena Cormier',NULL,NULL),('844071565X','Deserunt eos est adipisci.','1970-02-25','1st edition',NULL,'Neil Wilderman',NULL,NULL),('889749644X','Explicabo iusto sequi in culpa necessitatibus ex eius.','1971-09-10','1st edition',NULL,'Oma Adams',NULL,NULL),('902686504X','Dignissimos dolor ea laborum qui exercitationem.','2013-09-18','3rd edition',NULL,'Weldon Leffler',NULL,NULL),('9873136649','Nostrum omnis ullam vitae facere.','1986-01-15','1st edition',NULL,'Christ Zieme',NULL,NULL),('9999999999','The Adventures of Sherlock Holmes','2010-10-10','4th edition',NULL,'sdcsdc',NULL,'this is a description');
+/*!40000 ALTER TABLE `books_information` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from` varchar(255) NOT NULL,
+  `to` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `messages`
+--
+
+LOCK TABLES `messages` WRITE;
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `posts`
+--
+
+DROP TABLE IF EXISTS `posts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isbn` char(10) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `isbn` (`isbn`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`isbn`) REFERENCES `books_information` (`isbn`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `posts_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `posts`
+--
+
+LOCK TABLES `posts` WRITE;
+/*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+INSERT INTO `posts` VALUES (27,'5115732122','Enim et quis quidem ipsum est similique.','Cum aut et officia sint. Incidunt ab excepturi veritatis voluptatibus sit vero nihil. Est sit velit non repudiandae labore. Esse sequi quibusdam earum et voluptatum laboriosam sed.',113,'2019-09-23 13:52:18'),(28,'3522561880','Laboriosam ratione culpa reiciendis sit et in eos.','Commodi vel soluta unde vitae. Quam quis unde ducimus similique. Voluptatem maiores odio ab sed necessitatibus.',114,'2019-09-23 13:52:18'),(29,'3800663007','Alias quae natus non quos ducimus velit et.','Dolorem similique rerum tenetur tenetur quod nesciunt rerum. Quisquam aut quidem rerum beatae veniam. Reprehenderit corrupti iure maiores natus et explicabo.',115,'2019-09-23 13:52:18'),(30,'5084882969','Animi minus omnis maxime doloremque ab quae sit.','Cum natus distinctio perferendis repellendus assumenda. Ad dolor quia illo. Sunt aliquid suscipit hic est sunt. In harum nihil unde aut ipsam.',116,'2019-09-23 13:52:18'),(31,'9873136649','Qui autem velit nobis ullam suscipit qui.','Consequatur odit amet nam ratione voluptatibus enim et. Illo sint molestiae pariatur eaque enim quaerat id. Sit quidem dignissimos natus sint. Quibusdam excepturi est et.',117,'2019-09-23 13:52:18'),(32,'5932880147','Impedit quisquam repellendus aut nemo omnis atque.','Molestias non quos atque quaerat et aut quaerat. Tempora assumenda adipisci et id cupiditate qui quo.',118,'2019-09-23 13:52:18'),(33,'844071565X','Quis saepe culpa laborum in quia dolores.','Distinctio dignissimos et aliquid vero consequatur eveniet voluptas. Cum a voluptas ab maiores eum. Ullam velit est dolorum quod eos. Molestias et iste ratione asperiores magnam culpa.',119,'2019-09-23 13:52:18'),(35,'4106936577','Est quisquam totam sit doloribus dolor.','Perspiciatis quas sed velit illo quia. Et distinctio illum nihil neque modi omnis sint. Sed dolor quam distinctio rerum eos officiis et.',121,'2019-09-23 13:52:18'),(36,'3945071097','Placeat sint non cum pariatur consequuntur aliquid cumque nihil.','Est voluptas dolores voluptatum atque doloremque architecto consequatur aut. Iste fugiat accusamus blanditiis velit. Adipisci distinctio totam molestiae accusamus similique molestias veniam.',122,'2019-09-23 13:52:18'),(37,'2932748017','Amet est at repudiandae voluptate occaecati ut dolorum.','Ratione nisi fugiat excepturi eveniet. Cupiditate mollitia commodi est repellendus quia. Sequi minus quis et ex necessitatibus sequi occaecati repellendus.',123,'2019-09-23 13:52:18'),(38,'8345563457','Eaque incidunt dolorem vitae ipsa.','Facere possimus quia eius voluptate voluptatem. Vel dolor numquam doloremque incidunt dolores.',124,'2019-09-23 13:52:18'),(39,'4103419415','Possimus est tempore ut eos autem a dolor.','Natus et assumenda atque exercitationem laborum est id voluptatem. Soluta quis nihil ipsa animi et harum. Optio rem numquam rerum recusandae.',125,'2019-09-23 13:52:18'),(40,'902686504X','Fugiat quo id omnis inventore.','Nisi distinctio eligendi sit quas enim explicabo. Quasi numquam consequatur quae commodi corporis eligendi. Voluptate asperiores labore quidem amet quaerat. Explicabo minima laborum ex.',126,'2019-09-23 13:52:18'),(41,'8035728571','Quidem cum consequatur expedita officia voluptatem.','Velit reprehenderit ut sit est quis. Ipsum id assumenda libero corrupti voluptatum sit. Consectetur et aut incidunt. Quia quo corrupti voluptatem dignissimos libero minima aliquid.',127,'2019-09-23 13:52:18'),(42,'1169294162','Deserunt dolores eum totam perspiciatis excepturi perferendis aut facilis.','Et possimus laborum ipsa at. Hic et tenetur sit placeat error nobis. Distinctio eligendi dolores delectus dolor voluptatum. Quia harum deleniti eaque magnam rerum.',128,'2019-09-23 13:52:18'),(43,'7313625014','Esse sequi repellendus quas similique magnam delectus non.','Est sequi hic qui. Libero nihil id dolores occaecati quo ullam sint aut. Accusamus rem non unde nisi.',129,'2019-09-23 13:52:18'),(44,'7419564884','Voluptatem sequi amet et magnam odit eveniet.','Aut aliquam quibusdam vitae. Quia aut odio magnam nemo sint. Quae id et vel ut dolores delectus animi. Deserunt nihil officiis ut voluptas.',130,'2019-09-23 13:52:18'),(45,'418182683X','Eveniet maiores iusto commodi molestias quis.','Consequatur natus sapiente dolor dicta sit qui ipsam. Dolores omnis non porro in molestiae id possimus. In placeat quasi repudiandae consequatur quia quis tempora exercitationem.',131,'2019-09-23 13:52:18'),(46,'4591537625','Rerum provident ut vel reiciendis et quia minus.','Non fugiat blanditiis deserunt aliquid aliquam est asperiores. Cumque voluptatem ullam quis unde saepe fugit.',132,'2019-09-23 13:52:18'),(47,'5122258856','Qui eum corrupti repellat rerum eaque eum laudantium.','Consequatur nemo et laboriosam veniam cupiditate quis vel. Deleniti quis soluta ipsam eos quae et. Reprehenderit praesentium est doloremque. Voluptas facere placeat voluptas odio deleniti.',133,'2019-09-23 13:52:18'),(48,'0224496239','Quas laboriosam labore exercitationem in rerum.','Dolor nihil laborum facere nihil eos et. Ducimus et autem eveniet praesentium earum officiis corporis sunt. Magni repellendus expedita nam similique similique quasi nemo architecto.',134,'2019-09-23 13:52:18'),(49,'6296635710','Corporis sint ut est.','Nostrum dolores exercitationem sed sunt et. Quis cum enim non consequuntur fuga quisquam in. Aliquam laboriosam voluptatibus beatae soluta. Et impedit quam ea iste eius distinctio.',135,'2019-09-23 13:52:18'),(50,'5216930558','Expedita dolores minima voluptatem iste itaque.','Enim aut illum porro dolorem quia minus. Odio sit labore consequatur illum doloribus quas. Quae dolores id quis fuga.',136,'2019-09-23 13:52:18'),(51,'1879000857','Voluptas vitae ducimus temporibus magnam voluptas laudantium est.','Optio occaecati dolor et. Unde assumenda dolorum est quisquam et quaerat. Iure incidunt deleniti reiciendis temporibus deleniti nihil dolor.',137,'2019-09-23 13:52:18'),(52,'6587205925','Consequuntur consequatur similique suscipit ducimus dolorem ex illum est.','Tempora et eius nisi. Aut impedit optio quia unde. Illum sunt nemo id in dolores quo. Nam quibusdam fugit vel et qui perferendis quibusdam.',138,'2019-09-23 13:52:18'),(54,'0886801443','Rerum autem dolorum voluptatum vel minima recusandae.','Sunt ut velit quae. Odio cumque nisi ad consequatur. Totam nostrum nisi quos est nostrum. Labore ea quod officia accusamus quisquam aliquam quibusdam modi. Quam ut et delectus et.',140,'2019-09-23 13:52:18'),(55,'889749644X','Aut nisi tenetur autem.','Repellat vitae velit blanditiis et sapiente. Veritatis ipsum qui sit autem voluptatem molestiae ab consequatur. Omnis similique qui aut. Est numquam consequatur corrupti aut amet voluptatem nemo.',141,'2019-09-23 13:52:18'),(56,'7742468379','Nemo qui voluptatem ea voluptatum aut.','Voluptatibus dicta sed qui dolore. Facilis dicta eligendi suscipit iure enim non ipsum odit.',142,'2019-09-23 13:52:18'),(57,'7284872810','Illo aut a similique nihil modi.','Sit minus tempora magni sed. Officia non atque qui temporibus autem nam. Doloremque suscipit qui sed enim perspiciatis. Sint exercitationem aut error unde.',143,'2019-09-23 13:52:18'),(58,'4492700056','Odit culpa quia ut enim minima sequi.','Dolorem vel sed sint. Omnis facilis amet nulla quo id expedita aliquid. Beatae harum qui quia dolore et. Et quae ab provident velit fuga nemo cumque. Nobis animi iusto ex.',144,'2019-09-23 13:52:18'),(59,'6650843962','Fugit perferendis quisquam qui quia ut ut aut voluptate.','Culpa facilis sint sit sed. Fugit libero et qui tempore enim error. Nesciunt et esse a ipsa qui exercitationem eius. Fuga consequatur ut alias et placeat maiores nihil.',145,'2019-09-23 13:52:18'),(60,'6450606843','Nihil officiis praesentium illo consectetur suscipit.','Qui nostrum commodi saepe blanditiis. Sit odio repellat totam qui enim adipisci sed. Et veritatis eos delectus libero iusto distinctio molestiae. Hic reprehenderit eum eum ducimus dolores tenetur.',146,'2019-09-23 13:52:18'),(62,'0224496239','&#39;d;f&#39;ef','<p>;v,;efv</p>',1,'2019-09-23 14:02:34'),(63,'0224496239','dclsdcms','<p>s;dlc;scd</p>',1,'2019-09-23 14:02:52'),(64,'0097291625','test','<p>sd;c,;dsc</p>',1,'2019-09-25 13:52:50');
+/*!40000 ALTER TABLE `posts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `posts_points`
+--
+
+DROP TABLE IF EXISTS `posts_points`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `posts_points` (
+  `user_id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `point` tinyint(1) NOT NULL,
+  KEY `user_id` (`user_id`),
+  KEY `post_id` (`post_id`),
+  CONSTRAINT `posts_points_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `posts_points_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `posts_points`
+--
+
+LOCK TABLES `posts_points` WRITE;
+/*!40000 ALTER TABLE `posts_points` DISABLE KEYS */;
+INSERT INTO `posts_points` VALUES (1,52,1),(1,52,0),(1,63,1);
+/*!40000 ALTER TABLE `posts_points` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `posts_reports`
+--
+
+DROP TABLE IF EXISTS `posts_reports`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `posts_reports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `text` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `posts_reports_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `posts_reports_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `posts_reports`
+--
+
+LOCK TABLES `posts_reports` WRITE;
+/*!40000 ALTER TABLE `posts_reports` DISABLE KEYS */;
+/*!40000 ALTER TABLE `posts_reports` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `questions`
+--
+
+DROP TABLE IF EXISTS `questions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL,
+  `question` varchar(255) NOT NULL,
+  `choice-1` varchar(255) NOT NULL,
+  `choice-2` varchar(255) NOT NULL,
+  `choice-3` varchar(255) DEFAULT NULL,
+  `choice-4` varchar(255) DEFAULT NULL,
+  `answer` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `questions`
+--
+
+LOCK TABLES `questions` WRITE;
+/*!40000 ALTER TABLE `questions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `questions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `quizes`
+--
+
+DROP TABLE IF EXISTS `quizes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `quizes` (
+  `id` int(11) NOT NULL,
+  `isbn` char(10) NOT NULL,
+  `chapter` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `isbn` (`isbn`),
+  CONSTRAINT `quizes_ibfk_1` FOREIGN KEY (`isbn`) REFERENCES `books_information` (`isbn`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `quizes`
+--
+
+LOCK TABLES `quizes` WRITE;
+/*!40000 ALTER TABLE `quizes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `quizes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `quizes_questions`
+--
+
+DROP TABLE IF EXISTS `quizes_questions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `quizes_questions` (
+  `quiz_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  KEY `quiz_id` (`quiz_id`),
+  KEY `question_id` (`question_id`),
+  CONSTRAINT `quizes_questions_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quizes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `quizes_questions_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `quizes_questions`
+--
+
+LOCK TABLES `quizes_questions` WRITE;
+/*!40000 ALTER TABLE `quizes_questions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `quizes_questions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `remembered_logins`
+--
+
+DROP TABLE IF EXISTS `remembered_logins`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `remembered_logins` (
+  `token_hash` varchar(64) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  PRIMARY KEY (`token_hash`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `remembered_logins_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `remembered_logins`
+--
+
+LOCK TABLES `remembered_logins` WRITE;
+/*!40000 ALTER TABLE `remembered_logins` DISABLE KEYS */;
+INSERT INTO `remembered_logins` VALUES ('5db39c7812796747cc237edbd7f2f86eab7bf6b8f97d22da98b4087d36cc13aa',1,'2019-10-23 13:52:55'),('622b1175f2f6a868029f23e09f0bc54b805d6de1e5c6d2d85b9038df9cca6241',1,'2019-10-23 11:45:43'),('adbe7bd1829dee657522961629647da0183436d5a226597785f485a851da0489',1,'2019-10-25 18:06:49'),('f94f33087fec7bd5d95fe7a7a035536ed913cd6a149cfc6072565527e0ca0927',1,'2019-10-26 08:03:13');
+/*!40000 ALTER TABLE `remembered_logins` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `replies`
+--
+
+DROP TABLE IF EXISTS `replies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `replies` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `text` text NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `post_id` (`post_id`),
+  CONSTRAINT `replies_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `replies_ibfk_3` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `replies`
+--
+
+LOCK TABLES `replies` WRITE;
+/*!40000 ALTER TABLE `replies` DISABLE KEYS */;
+INSERT INTO `replies` VALUES (5,'<p>this is a reply </p>',54,1,'2019-09-23 13:53:23'),(7,'<p>;f,gd\';df,g</p>',45,1,'2019-09-23 14:20:03'),(9,'<p>This is a reply </p>',63,1,'2019-09-24 13:17:06'),(10,'<p>nice post</p>',64,1,'2019-09-25 13:56:25'),(11,'<p>;,;m</p>',64,1,'2019-09-26 13:28:27'),(12,'<h1>This is a reply </h1>',64,1,'2019-09-26 13:30:39');
+/*!40000 ALTER TABLE `replies` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `replies_points`
+--
+
+DROP TABLE IF EXISTS `replies_points`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `replies_points` (
+  `user_id` int(11) NOT NULL,
+  `reply_id` int(11) NOT NULL,
+  `point` tinyint(1) NOT NULL,
+  KEY `user_id` (`user_id`),
+  KEY `reply_id` (`reply_id`),
+  CONSTRAINT `replies_points_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `replies_points_ibfk_2` FOREIGN KEY (`reply_id`) REFERENCES `replies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `replies_points`
+--
+
+LOCK TABLES `replies_points` WRITE;
+/*!40000 ALTER TABLE `replies_points` DISABLE KEYS */;
+INSERT INTO `replies_points` VALUES (1,12,1);
+/*!40000 ALTER TABLE `replies_points` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `replies_reports`
+--
+
+DROP TABLE IF EXISTS `replies_reports`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `replies_reports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `reply_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `reply_id` (`reply_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `replies_reports_ibfk_1` FOREIGN KEY (`reply_id`) REFERENCES `replies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `replies_reports_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `replies_reports`
+--
+
+LOCK TABLES `replies_reports` WRITE;
+/*!40000 ALTER TABLE `replies_reports` DISABLE KEYS */;
+/*!40000 ALTER TABLE `replies_reports` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `scores`
+--
+
+DROP TABLE IF EXISTS `scores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `scores` (
+  `user_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `score` tinyint(1) NOT NULL,
+  KEY `user_id` (`user_id`),
+  KEY `question_id` (`question_id`),
+  CONSTRAINT `scores_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `scores_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `scores`
+--
+
+LOCK TABLES `scores` WRITE;
+/*!40000 ALTER TABLE `scores` DISABLE KEYS */;
+/*!40000 ALTER TABLE `scores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `password_reset_hash` varchar(64) DEFAULT NULL,
+  `password_reset_expires_at` datetime DEFAULT NULL,
+  `activation_hash` varchar(64) DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '0',
+  `type` varchar(255) NOT NULL DEFAULT 'reader',
+  `bio` varchar(255) DEFAULT NULL,
+  `profile_photo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `password_reset_hash` (`password_reset_hash`),
+  UNIQUE KEY `activation_hash` (`activation_hash`)
+) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Admin A','admin@admin.admin','$2y$10$QA0/3nhRLHUFzGJLkbQj/eHk/jri2jteAbzGFqbUTIT3pK9.ysB9u',NULL,NULL,'NULL',1,'admin','I am the admin of IRP','afcc6ff586efdb5184f0758911180dd23e764afc.jpg'),(107,'Dr. Horace Reinger','gail06@hotmail.com','$2y$10$Ep9.Zp2v0utxPCsjrgVIUuOsf0qQK1vJ9c.jKeCFmzRgoHXd9e/Um',NULL,NULL,NULL,1,'author',NULL,NULL),(108,'Prof. Johanna Gusikowski Sr.','jgrimes@pfannerstill.com','$2y$10$CpqVAzyyLt.adM9uVxXPUOzVmcrwTYFaWSd/Q7ItQDgqcKWI3y9Ta',NULL,NULL,NULL,1,'admin',NULL,NULL),(109,'Guiseppe Marks','kristin43@predovic.com','$2y$10$1eyGD.31ilWYr2wJWOzQv.jdyjiExxe9xoJWhAOh2KX5knclNEJtG',NULL,NULL,NULL,1,'reader',NULL,NULL),(110,'Jo Tromp','carter.meggie@herzog.com','$2y$10$/rYCh.JMBVs2cvhYjLbHI.fvvltYNvIdSsT4RvbU2yLhDg3LylWW6',NULL,NULL,NULL,1,'author',NULL,NULL),(111,'Clarissa Braun','bennett87@schiller.biz','$2y$10$FjoZMOFWAHRWUtAHgdfrYe1UizeNN0tqRT3K7YzP4KCChdR7z3Y3C',NULL,NULL,NULL,1,'reader',NULL,NULL),(112,'Mr. Jamarcus Hane V','ublanda@moen.org','$2y$10$28si.fW68i1.A4aWtHjZnORW7KQ2mEqUDhY22lV4nM.1SXGY.7tAm',NULL,NULL,NULL,1,'admin',NULL,NULL),(113,'Lexus Paucek','therese17@bruen.net','$2y$10$Y60x2PrmTyO0LdbxRZugce6/tYgPnGClQymCHV52oRRlyNysKlSJK',NULL,NULL,NULL,1,'reader',NULL,NULL),(114,'Sabrina Gleichner','welch.giovanny@yahoo.com','$2y$10$j9tdRtzEet6RKwT7IQX/sevMYumk7S6fc5YEhxVVC5NwA4gVXSmgu',NULL,NULL,NULL,1,'admin',NULL,NULL),(115,'Jannie Borer MD','celestino30@hotmail.com','$2y$10$eJkZAL8cDVkh3zdHm8ebrOoOCCnA9Z9CddSNMK1EKTCG/GCL/wXr6',NULL,NULL,NULL,1,'reader',NULL,NULL),(116,'Pete Spinka','zemlak.cassandra@gmail.com','$2y$10$GdHiRnuZrxtv92coynxL9e5mBJBiIMYgJxYTIn8bX96FWMZSR.4IS',NULL,NULL,NULL,1,'author',NULL,NULL),(117,'Adrian Wyman','jaeden43@gmail.com','$2y$10$.v9.z0Brt.v70wJG4R2T/.163glr2yORF.ZwlO24igFeEirwKFJEq',NULL,NULL,NULL,1,'reader',NULL,NULL),(118,'Milan Price','bettye.hintz@hermann.com','$2y$10$OputcVQ7XxdGvKWftz8s3uoqDuonMK5SQJnWn6pcaZpTDfmCFFWYe',NULL,NULL,NULL,1,'admin',NULL,NULL),(119,'Nathan Gusikowski','zoila11@hotmail.com','$2y$10$yNrrq/MHbKu1y/Kuzlhv9eXQpZ.IlhIYTruJHNamq/kB4lq5Z/tOm',NULL,NULL,NULL,1,'reader',NULL,NULL),(120,'Rex Crist','yconn@murphy.com','$2y$10$sRiuvVaWaivYYZWqg4sISuMM0f7Od6wHJBStSHwT8jXcKEpmLA4.y',NULL,NULL,NULL,1,'admin',NULL,NULL),(121,'Mrs. Rafaela Hansen IV','carlee.sauer@anderson.org','$2y$10$SeSgsOVanLSY.ioNsqktjuk4/AKV1Kfg6iRoJ7ndRviO0JguDXKUW',NULL,NULL,NULL,1,'reader',NULL,NULL),(122,'Prof. Bonnie Jakubowski','emard.billie@davis.org','$2y$10$.mxcAWBtPwBPl2w1NJnPmeAuON8tMQ6luFuCSX0ltYsqWmQE7gB4K',NULL,NULL,NULL,1,'author',NULL,NULL),(123,'Alycia Auer MD','pansy23@hotmail.com','$2y$10$/BoHEZe8s3TWnkXgu4xWWeUoutDQ.AbFx975ULyZCA063Y1LqpYzm',NULL,NULL,NULL,1,'reader',NULL,NULL),(124,'Miss Hallie Zboncak','cheyenne.parisian@klocko.com','$2y$10$kgAXoz3Hqh4W2.5SR2bQ...Vpb3m9MOQnF5grTCqPq6Qii0A/3GBi',NULL,NULL,NULL,1,'admin',NULL,NULL),(125,'Bernhard Will','durgan.london@yahoo.com','$2y$10$BdjdmRscFZrQbsSYJ2jagO/I35retXhDYv7O7U8Bid6n6Crw8nJOm',NULL,NULL,NULL,1,'reader',NULL,NULL),(126,'Mr. Leif Hills','lucas91@breitenberg.com','$2y$10$cR093fjxHlk39U4n2/mzwueASNYcCqeEJE9S5.eb/XGMtWBLe3Hx6',NULL,NULL,NULL,1,'admin',NULL,NULL),(127,'Mrs. Rita Wyman V','zcummings@dietrich.com','$2y$10$aJjJHD4ik6A5yiZ5TcNfJ.Dh0cJwH8u30iI8rTp7lECtU53mNK6zW',NULL,NULL,NULL,1,'reader',NULL,NULL),(128,'Prof. Art Ward','reggie.runolfsson@gmail.com','$2y$10$ZIi9GIBp9AujjCVc/294buM6txtQgAgkWHV9fPwG/40GNnWFeRyca',NULL,NULL,NULL,1,'author',NULL,NULL),(129,'Lydia Gleichner I','delbert.rohan@gmail.com','$2y$10$J.h6NPi8OevUMUvQhf7qAubbiRZyjS/u03imd3N.MP1CAnwBNPtru',NULL,NULL,NULL,1,'reader',NULL,NULL),(130,'Leopoldo Koelpin','bschoen@herzog.org','$2y$10$BKw6tLgi5gQ06.nEUrZEyOP1U05XFfFN8aRfN6jVgNVxAU3nbqcS2',NULL,NULL,NULL,1,'admin',NULL,NULL),(131,'Eleonore Bergstrom DDS','zechariah.ullrich@abernathy.net','$2y$10$Y1/wHIIrbQKtjz5vKnnLoOhIM1rHVCSUGHO7UlteQd1vP1.pQn6Qi',NULL,NULL,NULL,1,'reader',NULL,NULL),(132,'Jan Gusikowski V','aric09@labadie.com','$2y$10$xNvFYWcD8YnJ8UX2n53O..FAaKfZxRngXYZ3A/yLrr2pNC0Pf2NnW',NULL,NULL,NULL,1,'admin',NULL,NULL),(133,'Lois Ruecker','ikiehn@yahoo.com','$2y$10$91YGmA3su/9JaQ2ThbCuuegLxunvi7OluzsQGCZpujbWNWLQhZCTG',NULL,NULL,NULL,1,'reader',NULL,NULL),(134,'Kurtis Luettgen','gbartell@yahoo.com','$2y$10$0Kr8BZp5US5uDzIrFu3HBOSr77FlAxpH/AJH7KQtECz5FDushajJu',NULL,NULL,NULL,1,'author',NULL,NULL),(135,'Britney Smith','gertrude82@gmail.com','$2y$10$NwphuCmjHLHz/ZRCg7fDxuZrMSR8MBfmEfyRlf7MnFWxG9uinIEHu',NULL,NULL,NULL,1,'reader',NULL,NULL),(136,'Adelle Frami','amelia71@rowe.info','$2y$10$U56ggXOio8DnsVfLWp5D9Os9Hmwzu9Ptv7LZV6QADZC11gFuD1ziG',NULL,NULL,NULL,1,'admin',NULL,NULL),(137,'Eriberto Ziemann II','kessler.margot@bailey.com','$2y$10$HcvJQc/jeGbj7rm./OgivOG/ZsHsqbZ6Kg9jNRtQlZZCZPAr2vN3i',NULL,NULL,NULL,1,'reader',NULL,NULL),(138,'Prof. Marshall Spinka','ardith.kemmer@hotmail.com','$2y$10$yswpOvJNR0ZhuHixrPBV6O6XoNg6UQpGwGgWqiy/2R3WqDZ1c.vmK',NULL,NULL,NULL,1,'admin',NULL,NULL),(139,'Tyler Littel IV','uweimann@gmail.com','$2y$10$oo1KeZ3Z0uFjSRBlHCb61u2LQLVjn4XTTc0IndpOW.ztYfSA7CaVS',NULL,NULL,NULL,1,'reader',NULL,NULL),(140,'Dimitri Gaylord Jr.','bertram.lindgren@hotmail.com','$2y$10$ana4MlLGcbOMxwrXdAtXmOgWNOxTjVdkhV57TnjJRAUkhoBErO6ji',NULL,NULL,NULL,1,'author',NULL,NULL),(141,'Kim Mayert','francisco72@hotmail.com','$2y$10$zvNNE0BkZBAwugJAXhNch.cLJlDd/2RNy8d7ZdvHbPY3rh8RNIFO.',NULL,NULL,NULL,1,'reader',NULL,NULL),(142,'Verner Lind','sswift@gmail.com','$2y$10$Q3EDFpeQAKZ1MkBhY7mp5.kc4tu6ZXOqjZx7iX7X35EVzRc4XGLRW',NULL,NULL,NULL,1,'admin',NULL,NULL),(143,'Arianna Sauer Sr.','wyman.bettie@eichmann.biz','$2y$10$awjLT0VjevFGZDQIZXcbj.qzKQzbNq0B/4DjcxtaeBYF.dJiVywwO',NULL,NULL,NULL,1,'reader',NULL,NULL),(144,'Isom Nader','wkoelpin@gmail.com','$2y$10$n6UnpS22PyDdxdfI3zbuROFzmSzCmofSpV./vogM/SOtE06l87f2y',NULL,NULL,NULL,1,'admin',NULL,NULL),(145,'Ms. Imogene Dickinson','price.herman@hotmail.com','$2y$10$ORNMWN2Rh9tBh4Hzoc88V.iGtDWIwWxalJbKgXXFNm/M1xImkLoTy',NULL,NULL,NULL,1,'reader',NULL,NULL),(146,'Prof. Carter Schaefer','stan48@yahoo.com','$2y$10$ZaX3FkY7naUxVVuyDPpzhekENdi9NR1Jcba4tL/En0L6FIjOx650O',NULL,NULL,NULL,1,'author',NULL,NULL),(147,'Bill Kling','hreilly@hotmail.com','$2y$10$TQY7TdAor.UCx1C/nDHPC.Uw4654bEyWH3lA2f7YeU9ElBXtmUSVW',NULL,NULL,NULL,1,'reader',NULL,NULL),(148,'Aubrey Sanford','droberts@gmail.com','$2y$10$tH8YB7GhqZVX0yNOx24zXuN5auSJiJA/9whglBXwnLzwOL3F.q2Ne',NULL,NULL,NULL,1,'admin',NULL,NULL),(149,'Esperanza Quigley','vschneider@hotmail.com','$2y$10$Bc4kbX0cqoN0KJWJtSx/aeFYpbtjxOuUtn6FsILczKcA5gK/B4kSC',NULL,NULL,NULL,1,'reader',NULL,NULL),(150,'Marilyne Rice','santa43@runolfsdottir.org','$2y$10$3IWgNYngPEf4MRCqO3646ei5tJcMVn8UDdH6GMCb.DjKEsfs6.z/G',NULL,NULL,NULL,1,'admin',NULL,NULL),(151,'Raphaelle Spinka','elizabeth.zulauf@padberg.com','$2y$10$1NupoXzmIeRfQZaV06T4pumpeRGvZwLGCvXRMkA5Pl8sRPYLR20g.',NULL,NULL,NULL,1,'reader',NULL,NULL),(152,'Kaylin Halvorson','prohaska.rhiannon@gmail.com','$2y$10$luQ7tatHTDS9MCouww1mk.ZMRwmAcmqZc9J4iV36NAAwLADzB9SeK',NULL,NULL,NULL,1,'author',NULL,NULL),(153,'Marquis Schiller','zack82@morissette.com','$2y$10$TR0949.5BYoLa6CVI3kp4ORjXc4AMbv0UxapRFVorXtDMLDwwYVuW',NULL,NULL,NULL,1,'reader',NULL,NULL),(154,'Berry Hegmann','cassin.jamaal@gmail.com','$2y$10$Myb3qR4/8f1tW0SZCBPeKOhnV7ZndLDQ88utDaZLoaNP.EBNBTXui',NULL,NULL,NULL,1,'admin',NULL,NULL),(155,'Aurelio Rath','yost.cristal@gmail.com','$2y$10$iK7.XCL7B2XU7JSfnERkkuBPBrTNDUcXZPDrOkJyrzxMC24m1U8YS',NULL,NULL,NULL,1,'reader',NULL,NULL),(156,'Jeffry Bartoletti','ayden94@gmail.com','$2y$10$09HgUw/3fkg9yGc66xuanuuO8UsIAFiWsOPi.iX.gzVLUfGgRIisW',NULL,NULL,NULL,1,'admin',NULL,NULL),(157,'Georgiana Grant','hattie.marvin@mosciski.biz','$2y$10$fL.WxNN380wWwHQ6P9/sKua2cbeGRiZLm11H58UfbYTLKZ/HbGihG',NULL,NULL,NULL,1,'reader',NULL,NULL),(158,'Nyah Hammes','jakubowski.thalia@bergnaum.org','$2y$10$4qVlx7iBkf8BplnsFT.jTeB6Pc0qHwVkB.HbJmHVdNv2vF.5vOnPu',NULL,NULL,NULL,1,'author',NULL,NULL),(159,'Dr. Tracy Koss','nienow.loraine@gmail.com','$2y$10$7Vn8kDWITK1e0JcK/pmSgucQ1luJxwgj2sEC8T2sQcuq1jYIkVtD.',NULL,NULL,NULL,1,'reader',NULL,NULL),(160,'Mrs. Clara Schmidt V','breitenberg.johanna@smith.com','$2y$10$MWWPZzB80ZxmB.gYpcfb.O0DA/FiRNTjjHqDFzHXUDNHIn6mg/Kw6',NULL,NULL,NULL,1,'admin',NULL,NULL),(161,'Lucinda Kiehn IV','leuschke.emil@carroll.org','$2y$10$wE2uWGBCjaX/jKMttoRWiucAEmA9GdqxsGQW/U2n160/mATqVL2Ym',NULL,NULL,NULL,1,'reader',NULL,NULL),(162,'Orlo Ferry','rwiegand@boyer.com','$2y$10$G04JHAXxB1QMJ.oXqtiis.9A0kf6R1UGZb0crB0ugtkK5CMlPZY9a',NULL,NULL,NULL,1,'admin',NULL,NULL),(163,'Jarret Fahey','cstokes@crona.com','$2y$10$x4oLkQd4NNGMqaGZ3chqJuTKxjM7h5tnPp9hLs5wI2F4cwehs9Jg6',NULL,NULL,NULL,1,'reader',NULL,NULL),(164,'Stanton Friesen','jalen22@hill.com','$2y$10$nojslh5uADolT3fwy7yXGug8xWs7u8cLpl0G1ZV8Z2U/mBQfh9sCu',NULL,NULL,NULL,1,'author',NULL,NULL),(165,'Mrs. Hellen Abernathy','ewell04@hotmail.com','$2y$10$/nxHvFKJZY18yRIwQw1O9uKbktxPMmK1g7gcWqy9ciChnCGpd86oG',NULL,NULL,NULL,1,'reader',NULL,NULL),(166,'Miss Josefa Hoeger','ivon@hotmail.com','$2y$10$Wqk9VTkDZsZk9cUrkpPB5uz8AxaJuBtGop2cQwO7jeY1OihM.nupe',NULL,NULL,NULL,1,'admin',NULL,NULL),(167,'Charlie Barton','wziemann@gottlieb.com','$2y$10$0WrLvbzPki3eZa/IS9Ukr.NTAFGIbE.kW9bBLC8nFsUwtGSFNmWfW',NULL,NULL,NULL,1,'reader',NULL,NULL),(168,'Miss Brielle Will DVM','fmorar@aufderhar.net','$2y$10$PezVG6nViRFOZ/0vpxpiROfyEVMIrWYJ6acghW1IDlrFif0WLN1tu',NULL,NULL,NULL,1,'admin',NULL,NULL),(169,'Emmie Gibson','theodore86@wuckert.com','$2y$10$4UEcuVgwDLw2QY2Q8yi7uOPcmX8Uy6sj1tdjbfv3wWD2PykLSFTwu',NULL,NULL,NULL,1,'reader',NULL,NULL),(170,'Prof. Lawson Crooks','maryse.bartoletti@hotmail.com','$2y$10$.uiCXujy5HPqMQDWcfpUBeOOF05.CrivynUnjKsPvgMOOB0fvf45.',NULL,NULL,NULL,1,'author',NULL,NULL),(171,'Peyton Schmitt','npredovic@shields.net','$2y$10$a1hl7lt6ZJ.y2klYwi7cSuEDZg1Mu83QKDUSBbiwjKSEr68GW58hS',NULL,NULL,NULL,1,'reader',NULL,NULL),(172,'Lempi Frami Jr.','merl88@gmail.com','$2y$10$1vtZmyu9GLWw/UqskQObKO5.acMNbrUa80wyuToNDCcKhNz8vsjNu',NULL,NULL,NULL,1,'admin',NULL,NULL),(173,'Krystina Cassin','frederique63@olson.com','$2y$10$0rdnNKWG9pZYEfuixNg7BeXvyWSOEnlIf8ezJqYvWcbZH3xs3kuGW',NULL,NULL,NULL,1,'reader',NULL,NULL),(174,'Alaina Ebert','gleichner.jaycee@abbott.com','$2y$10$hs6d4HsqFdI8mvKPIdEHh.RDdN6boxmqpUMdrEAWTnqna18COF0QS',NULL,NULL,NULL,1,'admin',NULL,NULL),(175,'Addie Bode','willa.raynor@hotmail.com','$2y$10$/L7dHAEH0WaM7XZwIXE7ReDB77682Wb6X6ejCXLholdWv3eDyfU1C',NULL,NULL,NULL,1,'reader',NULL,NULL),(176,'Chaya Koepp','willa91@hotmail.com','$2y$10$az3ZHi2GmgFnFgEhdigYkegVRZYHoCEj8rx54uRTiY9XSVMv7pWam',NULL,NULL,NULL,1,'author',NULL,NULL),(177,'Erin Wintheiser','parker41@okon.com','$2y$10$zjvHEQ1mKJSulXBuXSgWrOkaOYc2Gg86r3ciR57uFtJBMQ17S9Zli',NULL,NULL,NULL,1,'reader',NULL,NULL),(178,'Dr. Mose Morar','quitzon.emelie@becker.com','$2y$10$wONJ1Q6j8vR5zgSeODgPqOM38VkQzCvuqFuHymKJ9GFctuy1HaF1m',NULL,NULL,NULL,1,'admin',NULL,NULL),(179,'Mitchell Koch','bogan.jamison@yahoo.com','$2y$10$KMAaHAu/t6BcowtwAfiA5ukaPzPSK7qEPkpg3tMz9ApbzfZrCdg6K',NULL,NULL,NULL,1,'reader',NULL,NULL),(180,'Dr. Claudie Rowe','peggie.schimmel@ruecker.net','$2y$10$CWaGJ9ankpwfo9ciMnvY1e54.D./kJGup6J03XGMz.PrHbBWp09AO',NULL,NULL,NULL,1,'admin',NULL,NULL),(181,'Mackenzie Breitenberg','karley.leannon@hotmail.com','$2y$10$x8S87nunWK9y5fAI35xUnuWlLiYVAYEWZXNGoiLFRz.1jtfAUoUcC',NULL,NULL,NULL,1,'reader',NULL,NULL),(182,'Elvis Pfeffer PhD','nelson69@murray.info','$2y$10$rFkzP3/yNNo07vb/I3HEW.c.ax3M8DoomGdHy3WZe4JuymR6KRHSS',NULL,NULL,NULL,1,'author',NULL,NULL),(183,'Keira Hill','sbartoletti@veum.org','$2y$10$h45g/x2irivoSp19jDfdz.GaEl0HErUa/Aqr8XJdDHi4NsPnFD73G',NULL,NULL,NULL,1,'reader',NULL,NULL),(184,'Prince Heidenreich','ferry.kayley@lakin.com','$2y$10$86VsBtAFUTjLeslNOPnG7ebg3UBHODeDf2iQauyEbFEYt5vlLi8fe',NULL,NULL,NULL,1,'admin',NULL,NULL),(185,'Pearlie Kuphal','lulu.luettgen@yahoo.com','$2y$10$1JdXoRyzbMEBURyVpgCkcOhNXHB7cBctMDvaqYZ88bWWoTbcXMffW',NULL,NULL,NULL,1,'reader',NULL,NULL),(186,'Trystan McLaughlin I','homenick.jordyn@yahoo.com','$2y$10$uTInSLMVtWHq.bDFdW.lUe6TqgVWmwsqk5FVoTAayCSCT9Lih/HyS',NULL,NULL,NULL,1,'admin',NULL,NULL),(187,'Christina Hegmann','fkemmer@yahoo.com','$2y$10$grIGbohq0WhN5aQs/scJ8e6n/zrFEfYxfE/rue0lak2tn3ylR6h3a',NULL,NULL,NULL,1,'reader',NULL,NULL),(188,'Emerald Franecki','kaitlyn.kuhlman@gmail.com','$2y$10$JXvvj.12C07m4FpkPKZf3Oz8fX7hL4lWolFU92DblVo6PbjJMEm/i',NULL,NULL,NULL,1,'author',NULL,NULL),(189,'Miss Maddison Boyer PhD','fkling@keeling.net','$2y$10$GpgI.T/cAKFLa7YikKgupOCm5iuHcvR32SPSekRVy1D5QoXSxP4mu',NULL,NULL,NULL,1,'reader',NULL,NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'IRP'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-09-27 15:17:59
