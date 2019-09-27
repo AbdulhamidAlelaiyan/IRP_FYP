@@ -153,6 +153,7 @@ class Books extends AdminController
             $data['date'] = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING);
             $data['edition'] = filter_input(INPUT_POST, 'edition', FILTER_SANITIZE_STRING);
             $data['authors'] = filter_input(INPUT_POST, 'authors', FILTER_SANITIZE_STRING);
+            $data['desc'] = filter_input(INPUT_POST, 'desc', FILTER_SANITIZE_STRING);
             $files = isset($_POST['files']) ? $_POST['files'] : null;
             $data['files'] = is_array($files) ? $_POST['files'] : null;
             $updatedBook = new Book($data);

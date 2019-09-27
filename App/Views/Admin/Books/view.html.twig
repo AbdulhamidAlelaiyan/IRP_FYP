@@ -11,6 +11,9 @@
             <span class="font-weight-bold">Authors:</span>  {{ book.authors }} <br>
             <span class="font-weight-bold">Publication Date:</span>  {{ book.publication_date }} <br>
             <span class="font-weight-bold">Edition:</span>  {{ book.edition }} <br>
+            {% if book.description %}
+                <span class="font-weight-bold">Description:</span>  {{ book.description }} <br>
+            {% endif %}
             {% if files %}
             <span class="font-weight-bold">Files:</span> <br>
             <ul>

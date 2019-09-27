@@ -84,13 +84,22 @@ class Book extends \Core\Model
             $this->date = date('Y-m-d', $this->date);
         }
 
+        if(isset($this->desc))
+        {
+            $this->desc = filter_var($this->desc, FILTER_SANITIZE_STRING);
+        }
+        else
+        {
+            $this->desc = null;
+        }
+
         return true;
     }
 
     /**
      * Save the current instance to the database.
      *
-     * @return boolean True if stored in the database, false otherwise
+     * @return boolean True if stored in the database, False otherwise
      */
     public function save()
     {
@@ -99,8 +108,8 @@ class Book extends \Core\Model
         if(is_null($this->errors))
         {
             $db = static::getDB();
-            $sql = 'INSERT INTO books_information (title, isbn, edition, publication_date, authors) VALUES (:title, :isbn,
-                                                                               :edition, :publication_date, :authors)';
+            $sql = 'INSERT INTO books_information (title, isbn, edition, publication_date, authors, description) VALUES (:title, :isbn,
+                                                                               :edition, :publication_date, :authors, :description)';
             $stmt = $db->prepare($sql);
 
             $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
@@ -108,6 +117,7 @@ class Book extends \Core\Model
             $stmt->bindValue(':edition', $this->edition, PDO::PARAM_STR);
             $stmt->bindValue(':publication_date', $this->date, PDO::PARAM_STR);
             $stmt->bindValue(':authors', $this->authors, PDO::PARAM_STR);
+            $stmt->bindValue(':description', $this->desc, PDO::PARAM_STR);
 
             return $stmt->execute();
         }
@@ -204,13 +214,14 @@ class Book extends \Core\Model
         {
             $db = static::getDB();
             $sql = 'UPDATE books_information SET title = :title, authors = :authors, publication_date = :date,
-edition = :edition WHERE isbn = :isbn';
+edition = :edition, description = :desc WHERE isbn = :isbn';
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
             $stmt->bindValue(':authors', $this->authors, PDO::PARAM_STR);
             $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);
             $stmt->bindValue(':edition', $this->edition, PDO::PARAM_STR);
             $stmt->bindValue(':isbn', $this->isbn, PDO::PARAM_STR);
+            $stmt->bindValue(':desc', $this->desc, PDO::PARAM_STR);
             if($stmt->execute()) return (isset($this->files) ?  static::deleteFiles($this->files, $this->isbn) : true);
         }
     }

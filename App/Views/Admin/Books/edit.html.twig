@@ -22,6 +22,12 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Title of the book" name="title" value="{{ book.title }}" required>
                 </div>
+                <label>Description <small>(optional)</small></label>
+                <div>
+                <text class="form-group">
+                    <textarea class="form-control" placeholder="Description of the book" name="desc"
+                              value="{{ book.description }}"></textarea>
+                </div>
                 <label>Author/s</label>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="author-1, author-2, ..." name="authors"
