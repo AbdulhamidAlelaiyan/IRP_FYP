@@ -91,6 +91,7 @@ class Profile extends Authenticated
             View::renderTemplate('Profile/view.html.twig',
                 [
                     'user' => $user,
+                    'current_user' => Auth::getUser(),
                 ]);
         }
         else

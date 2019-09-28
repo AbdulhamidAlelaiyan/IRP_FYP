@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Inbox</h1>
+    <div class="table-responsive">
+    <table class="table">
+        <thead class="text-primary">
+        <tr><th class="text-center">
+                From
+            </th>
+            <th class="text-center">
+                Title
+            </th>
+            <th class="text-center">
+                Sent At
+            </th>
+        </tr></thead>
+        <tbody>
+
+        {% for message in messages %}
+            <tr>
+                <td class="text-center">
+                    {{ message.username }}
+                </td>
+                <td class="text-center">
+                    <a href="/messages/view/{{ message.id }}">{{ message.title }}</a>
+                </td>
+                <td class="text-center">
+                    {{ message.created_at }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

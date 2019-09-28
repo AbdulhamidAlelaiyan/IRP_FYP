@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% if errors %}
+        {% for error in errors %}
+            <div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="nc-icon nc-simple-remove"></i>
+                </button>
+                <span> {{ error }} </span>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card card-nav-tabs mt-5">
+        <div class="card-header card-header-warning">
+            <h3 class="mb-2"> <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;
+                Send a message to <b>{{ user.name }}</b></h3>
+        </div>
+        <div class="card-body">
+            <form action="/messages/create" method="post" id="messageForm">
+                <div class="">
+                    <label for="inputTitle">Title</label>
+                    <input type="text" required class="form-control mb-2" name="title" value="{{ message.title }}" placeholder="Title of the message">
+                </div>
+                <div>
+                    <label for="inputText">Body</label>
+                    <textarea class="form-control" id="inputText" name="body" placeholder="Message Body" aria-describedby="helpBlock" maxlength="65500" required>{{ message.title }}</textarea>
+                </div>
+                <input type="hidden" name="from" value="{{ current_user.id }}">
+                <input type="hidden" name="to" value="{{ user.id }}">
+                <button class="btn btn-primary btn-lg mt-3" form="messageForm"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

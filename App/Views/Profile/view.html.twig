@@ -75,6 +75,9 @@ The above copyright notice and this permission notice shall be included in all c
                         {% if edit %}
                         <a class="btn btn-outline-default btn-round" href="/profile/edit"><i class="fa fa-cog"></i> Edit Profile</a>
                         {% endif %}
+                        {% if user.id != current_user.id %}
+                        <a class="btn btn-outline-default btn-round" href="/messages/new/{{ user.id }}"><i class="fa fa-envelope"></i> Send Message</a>
+                        {% endif %}
                     </div>
                 </div>
                 <br/>

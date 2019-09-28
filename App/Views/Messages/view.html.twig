@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card card-nav-tabs mt-5">
+        <div class="card-header card-header-warning">
+            <h3 class="mb-2"> <i class="fa fa-envelope-o" aria-hidden="true"></i> &nbsp;
+                {{ message.title }}</b></h3>
+        </div>
+        <div class="card-body">
+            {{ message.body }}
+        </div>
+        <hr>
+        <small class="d-inline-block m-1 mt-0">Sent At: {{ message.created_at }}</small>
+    </div>
+{% endblock %}
