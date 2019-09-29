@@ -1,0 +1,73 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title text-center">Messages</h4>
+        </div>
+        <div class="container">
+            <form method="get" action="/admin/messages/search">
+                <div class="form-group">
+                    <label for="InputEmail">Email</label>
+                    <input type="email" class="form-control" id="InputEmail" placeholder="Enter email of user inbox" name="email">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="text-primary">
+                    <tr><th class="text-center">
+                            From
+                        </th>
+                        <th class="text-center">
+                            To
+                        </th>
+                        <th class="text-center">
+                            Title
+                        </th>
+                        <th class="text-center">
+                            Created At
+                        </th>
+                        <th class="text-center">
+                            Actions
+                        </th>
+                    </tr></thead>
+                    <tbody>
+
+                    {% for message in messages %}
+                        <tr>
+                            <td class="text-center">
+                                {{ message.from_username }}
+                            </td>
+                            <td class="text-center">
+                                {{ message.to_username }}
+                            </td>
+                            <td class="text-center">
+                                {{ message.title }}
+                            </td>
+                            <td class="text-center">
+                                {{ message.created_at }}
+                            </td>
+                            <td class="text-center">
+                                <form action="/admin/messages/view/{{ message.id }}" class="mb-1 d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-info  btn-sm d-inline">
+                                        View
+                                    </button>
+                                </form>
+                                <form action="/admin/messages/delete/{{ message.id }}" class="d-inline">
+                                    <button type="submit" rel="tooltip" class="btn btn-danger btn-sm d-inline">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ paginator|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

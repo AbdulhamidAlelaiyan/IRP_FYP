@@ -24,7 +24,7 @@ class Message extends \Core\Model
     }
 
     /**
-     * Constructor for the Book model
+     * Constructor for the Message model
      *
      */
     public function __construct($data = [])
@@ -122,7 +122,7 @@ class Message extends \Core\Model
      *
      * @return mixed Message if found, False otherwise
      */
-    public static function getMessageByID($message_id)
+    public static function getMessageByID($message_id, $adminFlag = false)
     {
         $db = static::getDB();
         $sql = 'SELECT * FROM messages WHERE id = :id LIMIT 1';
@@ -135,13 +135,81 @@ class Message extends \Core\Model
         }
         $message = $stmt->fetch();
         $user = Auth::getUser();
-        if($user->id == $message->to_user)
+        if($user->id == $message->to_user || $adminFlag)
         {
+            $from_user = User::findByID($message->from_user);
+            $to_user = User::findByID($message->to_user);
+            $message->from_username = $from_user->name;
+            $message->to_username = $to_user->name;
             return $message;
         }
         else
         {
             return false;
         }
+    }
+
+    /**
+     * Get all the messages in the messages table
+     *
+     * @return mixed array of all the messages in messages and messages_replies table, False otherwise
+     */
+    public static function getAllMessages()
+    {
+        $db = static::getDB();
+        $numberOfMessages = 10;
+        $paginator = new \Zebra_Pagination();
+        $page = $paginator->get_page();
+        $paginator->records(static::getCountOfMessages());
+        $paginator->records_per_page($numberOfMessages);
+        $sqlPage = ($page - 1) * $numberOfMessages;
+        $sql = "SELECT * FROM messages LIMIT $sqlPage, $numberOfMessages";
+        $stmt = $db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        if(!$stmt->execute())
+        {
+            return false;
+        }
+        $messages = $stmt->fetchAll();
+        foreach($messages as $message)
+        {
+            $from_user = User::findByID($message->from_user);
+            $to_user = User::findByID($message->to_user);
+            $message->from_username = $from_user->name;
+            $message->to_username = $to_user->name;
+        }
+        return [$messages, $paginator->render(true)];
+    }
+
+    /**
+     * Return count of messages
+     *
+     * @return int number of messages
+     */
+    public static function getCountOfMessages()
+    {
+        $db = static::getDB();
+        $sql = "SELECT count(*) AS count FROM messages";
+        $stmt = $db->prepare($sql);
+        if(!$stmt->execute())
+        {
+            return false;
+        }
+        $result = $stmt->fetch();
+        return $result['count'];
+    }
+
+    /**
+     * Delete the current instance of the message from the messages table in the database
+     *
+     * @return boolean True if message deleted, False otherwise
+     */
+    public function delete()
+    {
+        $db = static::getDB();
+        $sql = 'DELETE FROM messages WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }
