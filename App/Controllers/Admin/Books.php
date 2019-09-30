@@ -363,7 +363,7 @@ class Books extends AdminController
         }
         $chapter_number = filter_input(INPUT_POST, 'chapter-number', FILTER_SANITIZE_NUMBER_INT);
         $chapter_video = filter_input(INPUT_POST, 'chapter-video', FILTER_SANITIZE_URL);
-
+        // TODO: Sanitize editordata using html5purifier
         if(Book::updateChapter($isbn, $title, $editordata, $chapter_number, $chapter_video))
         {
             View::renderTemplate('Admin/Books/update-chapter-success.html.twig');

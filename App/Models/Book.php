@@ -72,6 +72,7 @@ class Book extends \Core\Model
         if(!isset($this->edition) || empty($this->isbn))
         {
             $this->errors[] = 'Edition must be provided.';
+            // TODO: Sanitize edition
         }
 
         if(!isset($this->date) || empty($this->date))
@@ -264,6 +265,8 @@ edition = :edition, description = :desc WHERE isbn = :isbn';
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
         if($stmt->execute()) return static::deleteFiles(static::getBookFiles($isbn), $isbn);
+        // TODO: Delete file of books in the filesystem
+        // TODO: Delete cover images of books if exist
     }
 
     /**
@@ -358,7 +361,7 @@ edition = :edition, description = :desc WHERE isbn = :isbn';
         {
             $sql = "INSERT INTO books_content (isbn, chapter, title, content, video_id) 
                     VALUES (:isbn, :chapter, :title, :content, :chapter_video)";
-
+            // TODO: Sanitize data before storing
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
             $stmt->bindValue(':chapter', $chapter, PDO::PARAM_INT);
