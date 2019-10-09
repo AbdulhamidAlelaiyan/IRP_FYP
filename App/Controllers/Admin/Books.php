@@ -6,6 +6,7 @@ use App\Config;
 use App\Flash;
 use App\Models\Book;
 use \Core\View;
+use http\Client\Curl\User;
 use phpDocumentor\Reflection\Types\Void_;
 
 class Books extends AdminController
@@ -506,6 +507,37 @@ class Books extends AdminController
         {
             Flash::addMessage('Error in Removing Book Cover', Flash::DANGER);
             $this->redirect('/admin/books/index');
+        }
+    }
+
+    /**
+     * Show the history of edits for chapters
+     *
+     * @return void
+     */
+    public function historyChapter()
+    {
+        $isbn = filter_var($this->route_params['isbn'], FILTER_SANITIZE_STRING);
+        $chapter = filter_input(INPUT_GET, 'chapter', FILTER_VALIDATE_INT);
+        if($book = Book::getBookByISBN($isbn))
+        {
+            if($history = Book::getHistory($isbn, $chapter))
+            {
+                foreach($history as $record)
+                {
+                    $user = \App\Models\User::findByID($record->user_id);
+                    $record->username = $user->name;
+                }
+                View::renderTemplate('Admin/Books/chapter-history.html.twig',
+                    [
+                        'history' => $history,
+                        'book' => $book,
+                    ]);
+            }
+            else
+            {
+                Flash::addMessage('Book History not found', Flash::DANGER);
+            }
         }
     }
 }

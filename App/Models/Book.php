@@ -3,6 +3,7 @@
 
 namespace App\Models;
 
+use App\Auth;
 use App\Config;
 use Core\View;
 use \PDO;
@@ -443,7 +444,62 @@ edition = :edition, description = :desc WHERE isbn = :isbn';
         $stmt->bindValue(':content', $editordata, PDO::PARAM_STR);
         $stmt->bindValue(':chapter', $chapter_number, PDO::PARAM_INT);
         $stmt->bindValue(':video_id', $chapter_video, PDO::PARAM_STR);
-        return $stmt->execute();
+        $user = Auth::getUser();
+        if($stmt->execute())
+        {
+            static::addUpdateHistoryRecord($isbn, $chapter_number, $user->id);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Add a record to the history of chapter updates
+     *
+     * @param string $isbn ISBN of book
+     * @param int $chapter Chapter number
+     * @param User $user_id User object of admin who updated the chapter
+     *
+     * @return void
+     */
+    public static function addUpdateHistoryRecord($isbn, $chapter, $user_id)
+    {
+        $db = static::getDB();
+        $sql = 'INSERT INTO chapter_history (isbn, chapter_no, user_id) VALUES (:isbn, :chapter_no, :user_id)';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+        $stmt->bindValue(':chapter_no', $chapter, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    /**
+     * Get all history records of chapter edits
+     *
+     * @param string $isbn
+     * @param int $chapter
+     *
+     * @return mixed array of records if exist, False otherwise
+     */
+    public static function getHistory($isbn, $chapter)
+    {
+        $db = static::getDB();
+        $sql = 'SELECT * FROM chapter_history WHERE isbn = :isbn AND chapter_no = :chapter';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':isbn', $isbn, PDO::PARAM_STR);
+        $stmt->bindValue(':chapter', $chapter, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        if($stmt->execute())
+        {
+            return $stmt->fetchAll();
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
