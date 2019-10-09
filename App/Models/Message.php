@@ -212,4 +212,53 @@ class Message extends \Core\Model
         $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    /**
+     * Add a reply to the message
+     *
+     * @param int $message_id
+     * @param string $reply_body
+     *
+     * @return boolean True if added, False otherwise
+     */
+    public function addReply($message_id, $reply_body)
+    {
+        $db = static::getDB();
+        $sql = 'INSERT INTO messages_replies (message_id, user_id, textbody) 
+            VALUES (:message_id, :user_id, :textbody)';
+        $user = Auth::getUser();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':message_id', $message_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user->id, PDO::PARAM_INT);
+        $stmt->bindValue(':textbody', $reply_body, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+
+    /**
+     * Return all replies of message
+     *
+     * @return mixed array of replies, False otherwise
+     */
+    public function getAllReplies()
+    {
+        $db = static::getDB();
+        $sql = 'SELECT * FROM messages_replies WHERE message_id = :message_id ORDER BY created_at DESC';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':message_id', $this->id, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        if($stmt->execute())
+        {
+            $replies = $stmt->fetchAll();
+            foreach($replies as $reply)
+            {
+                $user = User::findByID($reply->user_id);
+                $reply->username = $user->name;
+            }
+            return $replies;
+        }
+        else
+        {
+            false;
+        }
+    }
 }

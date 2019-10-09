@@ -12,4 +12,24 @@
         <hr>
         <small class="d-inline-block m-1 mt-0">Sent At: {{ message.created_at }}</small>
     </div>
+
+    {% if replies %}
+        <h1>Replies</h1>
+        {% for reply in replies %}
+    <div class="card card-nav-tabs mt-5 border">
+        <div class="card-body">
+            {{ reply.textbody }}
+        </div>
+        <hr>
+        <small class="d-inline-block m-1 mt-0">By: {{ reply.username }} <br>Sent At: {{ reply.created_at }}</small>
+    </div>
+        {% endfor %}
+    {% endif %}
+
+    <form action="/messages/replies-create/{{ message.id }}" method="post">
+        <label for="reply" class="h4 mb-2">Add Reply</label>
+        <textarea class='form-control' name="reply" cols="30" rows="10"></textarea>
+        <input type="submit" value="Reply" class="btn btn-primary btn-lg mt-3 mb-3">
+    </form>
+
 {% endblock %}

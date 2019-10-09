@@ -104,9 +104,11 @@ class Messages extends \Core\Controller
         {
             if($message = Message::getMessageByID($message_id))
             {
+                $replies = $message->getAllReplies();
                 View::renderTemplate('Messages/view.html.twig',
                     [
                         'message' => $message,
+                        'replies' => $replies,
                     ]);
             }
             else
@@ -118,6 +120,35 @@ class Messages extends \Core\Controller
         else
         {
             Flash::addMessage('Message not found', Flash::DANGER);
+            $this->redirect('/');
+        }
+    }
+
+    /**
+     * Create a reply for messages
+     *
+     * @return void
+     */
+    public function repliesCreate()
+    {
+        $message_id = filter_var($this->route_params['isbn'], FILTER_VALIDATE_INT);
+        $textbody = filter_input(INPUT_POST, 'reply', FILTER_SANITIZE_STRING);
+        if($message = Message::getMessageByID($message_id))
+        {
+            if($message->addReply($message_id, $textbody))
+            {
+                Flash::addMessage('Reply was added', Flash::SUCCESS);
+                $this->redirect('/messages/view/' . $message_id);
+            }
+            else
+            {
+                Flash::addMessage('Reply was not added due to internal error!', Flash::DANGER);
+                $this->redirect('/messages/view/' . $message_id);
+            }
+        }
+        else
+        {
+            Flash::addMessage('Message was not found!', Flash::DANGER);
             $this->redirect('/');
         }
     }
