@@ -20,7 +20,7 @@ class Config
      * Database name
      * @var string
      */
-    const DB_NAME = 'IRP';
+    const DB_NAME = 'IRP_Migrations';
 
     /**
      * Database user

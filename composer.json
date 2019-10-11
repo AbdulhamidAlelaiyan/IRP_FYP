@@ -6,7 +6,8 @@
         "php-http/message": "^1.4",
         "stefangabos/zebra_pagination": "^2.3",
         "monolog/monolog": "^1.24",
-        "xemlock/htmlpurifier-html5": "^0.1.11"
+        "xemlock/htmlpurifier-html5": "^0.1.11",
+        "robmorgan/phinx": "^0.11.1"
     },
     "autoload": {
         "psr-4": {
