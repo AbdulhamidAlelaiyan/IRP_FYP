@@ -18,6 +18,8 @@ class CreateBooksContent extends AbstractMigration
                 ['null' => false, 'limit' => \Phinx\Db\Adapter\MysqlAdapter::TEXT_MEDIUM])
             ->addColumn('video_id', 'string', ['limit' => 255, 'null' => true])
             ->addTimestamps()
+            ->addForeignKey('isbn', 'books_information', 'isbn',
+                ['delete' => 'CASCADE', 'update' => 'CASCADE'])
             ->save()
             ;
     }

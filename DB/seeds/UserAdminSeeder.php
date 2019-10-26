@@ -16,13 +16,13 @@ class UserAdminSeeder extends AbstractSeed
     public function run()
     {
         $users = $this->table('users');
-        $users->insert([
+        $data[] = [
             'name' => 'Admin',
             'email' => 'admin@admin.admin',
             'password_hash' => password_hash('admin', PASSWORD_DEFAULT),
             'is_active' => true,
             'type' => 'admin',
-        ])
-        ->save();
+        ];
+        $users->insert($data)->save();
     }
 }

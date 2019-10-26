@@ -14,6 +14,10 @@ class CreateChapterHistory extends AbstractMigration
             ->addColumn('chapter_no', 'integer', ['limit' => \Phinx\Db\Adapter\MysqlAdapter::INT_SMALL])
             ->addColumn('user_id', 'integer')
             ->addTimestamps()
+            ->addForeignKey('isbn','books_information', 'isbn',
+                ['update' => 'CASCADE', 'delete' => 'CASCADE'])
+            ->addForeignKey('user_id', 'users', 'id',
+                ['delete' => 'CASCADE', 'update' => 'CASCADE'])
             ->save()
         ;
     }
