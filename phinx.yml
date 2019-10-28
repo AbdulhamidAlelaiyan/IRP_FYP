@@ -17,7 +17,7 @@ environments:
     development:
         adapter: mysql
         host: localhost
-        name: IRP_Migrations
+        name: IRP
         user: root
         pass: 'root'
         port: 3306

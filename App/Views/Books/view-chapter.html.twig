@@ -3,26 +3,26 @@
 {% block body %}
     <div class="row">
         {% if chapter.video_id %}
-    <div class=" col-md-8 border">
-{#        <div class="card-header">#}
-{#            <div class="card-title text-center"><h1>{{ chapter.title }}</h1></div>#}
-{#        </div>#}
-        <div class=" mt-5 container">
-            {{ chapter.content|raw }}
-        </div>
-    </div>
-    <div class="col-md-4 p-md-5 p-0">
-        <iframe style="position: sticky; right: 0; top: 30%; margin: auto auto;" width="560" height="315" src="https://www.youtube.com/embed/{{ chapter.video_id|raw }}" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"></iframe>
-    </div>
-        {% else %}
-            <div class="border">
-                {#        <div class="card-header">#}
-                {#            <div class="card-title text-center"><h1>{{ chapter.title }}</h1></div>#}
-                {#        </div>#}
-                <div class=" mt-5 container">
-                    {{ chapter.content|raw }}
-                </div>
+        <div class=" col-md-8 border">
+    {#        <div class="card-header">#}
+    {#            <div class="card-title text-center"><h1>{{ chapter.title }}</h1></div>#}
+    {#        </div>#}
+            <div class=" mt-5 container">
+                {{ chapter.content|raw }}
             </div>
-        {% endif %}
-    </div>
+        </div>
+        <div class="col-md-4 p-md-5 p-0">
+            <iframe style="position: sticky; right: 0; top: 30%; margin: auto auto;" width="560" height="315" src="https://www.youtube.com/embed/{{ chapter.video_id|raw }}" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+        {% else %}
+        <div class="border" style="width: 100%;">
+            {#        <div class="card-header">#}
+            {#            <div class="card-title text-center"><h1>{{ chapter.title }}</h1></div>#}
+            {#        </div>#}
+            <div class=" mt-5 container">
+                {{ chapter.content|raw }}
+            </div>
+        </div>
+            {% endif %}
+        </div>
 {% endblock %}

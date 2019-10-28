@@ -20,7 +20,7 @@ class Config
      * Database name
      * @var string
      */
-    const DB_NAME = 'IRP_Migrations';
+    const DB_NAME = 'IRP';
 
     /**
      * Database user
@@ -66,4 +66,11 @@ class Config
      * @var string
      */
     const APP_DIRECTORY = '/var/www/';
+
+    /**
+     * The name of the website
+     *
+     * @var string
+     */
+    const WEBSITE_NAME = 'Some Website';
 }

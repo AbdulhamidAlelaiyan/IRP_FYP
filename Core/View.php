@@ -5,6 +5,7 @@ namespace Core;
 use App\Auth;
 use App\Flash;
 use App\Token;
+use App\Config;
 
 /**
  * View
@@ -66,6 +67,7 @@ class View
             $twig->addGlobal('current_user', Auth::getUser());
             $twig->addGlobal('flash_messages', Flash::getMessages());
 			$twig->addGlobal('csrf_token', Token::getCsrfToken());
+            $twig->addGlobal('website_name', Config::WEBSITE_NAME);
 		}
 
         return $twig->render($template, $args);
