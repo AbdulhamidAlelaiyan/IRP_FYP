@@ -6,6 +6,7 @@ use \App\Auth;
 use \App\Flash;
 use GuzzleHttp\Psr7\Stream;
 use Monolog\Formatter\HtmlFormatter;
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\IntrospectionProcessor;
@@ -48,16 +49,16 @@ abstract class Controller
         // Set the loggers
         $this->logger = new Logger('Controller');
         // Info file handler
-        $infoFileHandler = new StreamHandler(dirname(__DIR__) . '/logs/INFO.html', Logger::INFO);
-        $infoFileHandler->setFormatter(new HtmlFormatter());
+        $infoFileHandler = new StreamHandler(dirname(__DIR__) . '/logs/INFO.log', Logger::INFO);
+        $infoFileHandler->setFormatter(new LineFormatter());
         $this->logger->pushHandler($infoFileHandler);
         // Debug file handler
-        $debugFileHandler = new StreamHandler(dirname(__DIR__) . '/logs/DEBUG.html', Logger::DEBUG);
-        $debugFileHandler->setFormatter(new HtmlFormatter());
+        $debugFileHandler = new StreamHandler(dirname(__DIR__) . '/logs/DEBUG.log', Logger::DEBUG);
+        $debugFileHandler->setFormatter(new LineFormatter());
         $this->logger->pushHandler($debugFileHandler);
         // Notice file handler
-        $noticeFileHandler = new StreamHandler(dirname(__DIR__) . '/logs/NOTICE.html', Logger::NOTICE);
-        $noticeFileHandler->setFormatter(new HtmlFormatter());
+        $noticeFileHandler = new StreamHandler(dirname(__DIR__) . '/logs/NOTICE.log', Logger::NOTICE);
+        $noticeFileHandler->setFormatter(new LineFormatter());
         $this->logger->pushHandler($noticeFileHandler);
         // Pushing processors of controller logger
         $this->logger->pushProcessor(new WebProcessor());
