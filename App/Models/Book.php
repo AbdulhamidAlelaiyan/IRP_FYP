@@ -539,7 +539,7 @@ edition = :edition, description = :desc WHERE isbn = :isbn';
             {
                 if(!file_exists(Config::APP_DIRECTORY . 'public/covers/' . $this->isbn  . '/'))
                 {
-                    mkdir(Config::APP_DIRECTORY . 'public/covers/' . $this->isbn  . '/', 0777, true);
+                    mkdir(Config::APP_DIRECTORY . 'public/covers/' . $this->isbn  . '/', 0775, true);
                 }
                 $new_name = sha1_file($_FILES['upload']['tmp_name']) . '.jpg';
                 if(move_uploaded_file($_FILES['upload']['tmp_name'],
