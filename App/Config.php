@@ -72,5 +72,5 @@ class Config
      *
      * @var string
      */
-    const WEBSITE_NAME = 'Some Website';
+    const WEBSITE_NAME = 'WebsiteName';
 }

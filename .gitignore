@@ -119,3 +119,7 @@ logs/
 public/resources/
 public/covers/
 public/profile/
+
+# Config file
+App/Config.php
+

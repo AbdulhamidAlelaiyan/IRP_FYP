@@ -10,7 +10,6 @@ class Home extends AdminController
 
     public function indexAction()
     {
-//        View::renderTemplate('Admin/base.html.twig');
         $this->redirect('/admin/books/index');
     }
 }

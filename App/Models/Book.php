@@ -45,6 +45,7 @@ class Book extends \Core\Model
      */
     protected function validate()
     {
+        $db = static::getDB();
         if(!isset($this->title) || empty($this->title))
         {
             $this->errors[] = 'Title must be provided.';
@@ -65,9 +66,12 @@ class Book extends \Core\Model
 
         if(!isset($this->isbn) || empty($this->isbn) || strlen($this->isbn) != 10 ||
             !filter_var($this->isbn, FILTER_VALIDATE_INT))
-        // TODO: Check if the book is already added
         {
             $this->errors[] = 'ISBN must be provided and must be 10 numbers.';
+        }
+        else
+        {
+            // TODO: Check if the book is already added
         }
 
         if(!isset($this->edition) || empty($this->isbn))

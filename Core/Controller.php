@@ -86,7 +86,7 @@ abstract class Controller
 
         if (method_exists($this, $method)) {
             $userEmail = Auth::getUserEmailForLogger();
-            $this->logger->addDebug($method . ' action was requested', ['user-email' => $userEmail]); // TODO: add the arguments in the log message.
+            $this->logger->addDebug($method . ' action was requested', ['user-email' => $userEmail]);
 
             // Call the action filters
             if ($this->before() !== false) {
