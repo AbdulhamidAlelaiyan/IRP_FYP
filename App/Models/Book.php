@@ -22,7 +22,7 @@ class Book extends \Core\Model
      *
      * @return array
      */
-    public function getErrors(): array
+    public function getErrors()
     {
         return $this->errors;
     }
