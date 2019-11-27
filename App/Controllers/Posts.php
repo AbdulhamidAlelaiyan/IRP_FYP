@@ -10,7 +10,7 @@ use App\Models\Reply;
 use App\Models\User;
 use \Core\View;
 
-class Posts extends \Core\Controller
+class Posts extends Authenticated
 {
     /**
      * Load the view of the posts index

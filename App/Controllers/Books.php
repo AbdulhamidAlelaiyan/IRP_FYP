@@ -6,7 +6,7 @@ namespace App\Controllers;
 use App\Models\Book;
 use Core\View;
 
-class Books extends \Core\Controller
+class Books extends Authenticated
 {
 
 	/**

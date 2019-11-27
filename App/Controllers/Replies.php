@@ -7,7 +7,7 @@ use App\Models\Post;
 use App\Models\Reply;
 use \Core\View;
 
-class Replies extends \Core\Controller
+class Replies extends Authenticated
 {
     /**
      * Add a reply from a user for a post

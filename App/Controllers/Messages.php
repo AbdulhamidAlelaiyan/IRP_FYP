@@ -10,7 +10,7 @@ use App\Models\User;
 use Core\View;
 use App\Models\Message;
 
-class Messages extends \Core\Controller
+class Messages extends Authenticated
 {
     /**
      * Load the new message view
