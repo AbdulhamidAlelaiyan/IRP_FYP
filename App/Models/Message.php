@@ -18,7 +18,7 @@ class Message extends \Core\Model
      *
      * @return array
      */
-    public function getErrors(): array
+    public function getErrors()
     {
         return $this->errors;
     }
@@ -44,11 +44,11 @@ class Message extends \Core\Model
         $this->errors = null;
         if(!($this->from = filter_var($this->from, FILTER_VALIDATE_INT)))
         {
-            $this->errors[] = 'From email must be specified and must be a string!';
+            $this->errors[] = 'From must be specified and must be a string!';
         }
         if(!($this->to = filter_var($this->to, FILTER_VALIDATE_INT)))
         {
-            $this->errors[] = 'To email must be specified and must be a valid email!';
+            $this->errors[] = 'To must be specified and must be a valid email!';
         }
         if(!($this->title = filter_var($this->title, FILTER_SANITIZE_STRING)))
         {
