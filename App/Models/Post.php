@@ -383,6 +383,21 @@ class Post extends \Core\Model
         $db = static::getDB();
         $sql = 'DELETE FROM posts WHERE id = :id';
         $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    /**
+     * Delete an existing Post
+     * Used only for testing
+     *
+     * @return boolean True if deleted, False otherwise
+     */
+    public function deleteByUserId()
+    {
+        $db = static::getDB();
+        $sql = 'DELETE FROM posts WHERE id = :id';
+        $stmt = $db->prepare($sql);
         $stmt->bindValue(':id', $this->user_id, PDO::PARAM_INT);
         return $stmt->execute();
     }

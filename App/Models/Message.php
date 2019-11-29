@@ -261,4 +261,19 @@ class Message extends \Core\Model
             false;
         }
     }
+
+    /**
+     * Delete the current instance of the message from the messages table in the database
+     * Used only for testing.
+     *
+     * @return void
+     */
+    public function deleteByFromAndTo()
+    {
+        $db = static::getDB();
+        $db->exec('SET foreign_key_checks = 0');
+        $db->exec("DELETE FROM messages WHERE from_user = {$this->from} AND to_user = {$this->to}");
+//        $db->exec('SET foreign_key_checks = 1');
+    }
+
 }

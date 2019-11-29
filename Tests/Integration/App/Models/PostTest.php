@@ -33,7 +33,7 @@ class PostTest extends TestCase
         $validateMethod = new \ReflectionMethod(Post::class, 'validate');
         $validateMethod->setAccessible(true);
         $this->post = new Post($this->correct_data);
-        $this->post->delete();
+        $this->post->deleteByUserId();
         $validateMethod->invoke($this->post);
         $this->IncorrectPost = new Post($this->incorrect_data);
         $validateMethod->invoke($this->IncorrectPost);
