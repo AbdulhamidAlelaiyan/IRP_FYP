@@ -1,5 +1,6 @@
 <?php
 
+namespace Tests\Integrtion\App\Controllers;
 
 use App\Models\User;
 use PHPUnit\Framework\TestCase;
@@ -31,61 +32,55 @@ class UserTest extends TestCase
         $this->IncorrectUser->validate();
     }
 
-    public function testUserValidationReturnNoErrorIfDataIsCorrect()
+    public function testUserWillBeSavedIfDataIsCorrect()
     {
-        $this->assertEmpty($this->user->errors);
+        $this->assertTrue($this->user->save());
     }
 
-    public function testUserValidationReturnsErrorMessagesIfDataIsIncorrect()
+    public function testUserWillNotBeSavedIfDataIsInCorrect()
     {
-        $this->assertNotEmpty($this->IncorrectUser->errors);
+        $this->assertFalse($this->IncorrectUser->save());
     }
 
-    public function testUserValidationReturnsErrorIfNameIsEmpty()
+    public function testUserWillNotBeSavedIfNameIsEmpty()
     {
         $this->data['name'] = '';
         $user = new \App\Models\User($this->data);
-        $user->validate();
-        $this->assertNotEmpty($user->errors);
+        $this->assertFalse($user->save());
     }
 
-    public function testUserValidationReturnsErrorIfEmailIsEmpty()
+    public function testUserWillNotBeSavedIfEmailIsEmpty()
     {
         $this->data['email'] = '';
         $user = new \App\Models\User($this->data);
-        $user->validate();
-        $this->assertNotEmpty($user->errors);
+        $this->assertFalse($user->save());
     }
 
-    public function testUserValidationReturnsErrorIfPasswordIsEmpty()
+    public function testUserWillNotBeSavedIfPasswordIsEmpty()
     {
         $this->data['password'] = '';
         $user = new \App\Models\User($this->data);
-        $user->validate();
-        $this->assertNotEmpty($user->errors);
+        $this->assertFalse($user->save());
     }
 
-    public function testUserValidationReturnsErrorIfPasswordIsLessThan6Characters()
+    public function testUserWillNotBeSavedIfPasswordIsShort()
     {
         $this->data['password'] = '111';
         $user = new \App\Models\User($this->data);
-        $user->validate();
-        $this->assertNotEmpty($user->errors);
+        $this->assertFalse($user->save());
     }
 
-    public function testUserValidationReturnsErrorIfPasswordDoesNotContainANumber()
+    public function testUserWillNotBeSavedIfPasswordDoesNotContainANumber()
     {
         $this->data['password'] = 'aaaaaa';
         $user = new \App\Models\User($this->data);
-        $user->validate();
-        $this->assertNotEmpty($user->errors);
+        $this->assertFalse($user->save());
     }
 
-    public function testUserValidationReturnsErrorIfPasswordDoesNotContainALetter()
+    public function testUserWillNotBeSavedIfPasswordDoesNotContainALetter()
     {
         $this->data['password'] = '123456';
         $user = new \App\Models\User($this->data);
-        $user->validate();
-        $this->assertNotEmpty($user->errors);
+        $this->assertFalse($user->save());
     }
 }

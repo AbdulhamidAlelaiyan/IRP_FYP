@@ -558,6 +558,22 @@ class User extends \Core\Model
     }
 
     /**
+     * Delete certain user by id
+     *
+     * @param string $email Email of the user
+     *
+     * @return boolean True if user deleted, False otherwise
+     */
+    public static function deleteUserByEmail($email)
+    {
+        $db = static::getDB();
+        $sql = 'DELETE FROM users WHERE email = :email';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+
+    /**
      * Find users by name
      *
      * @param string $name
