@@ -4,7 +4,10 @@
          bootstrap="vendor/autoload.php">
 	<testsuites>
 		<testsuite name="Test suite">
-			<directory>tests</directory>
+			<directory>Tests</directory>
 		</testsuite>
 	</testsuites>
+	<php>
+		<server name='HTTP_HOST' value='http://localhost'/>
+	</php>
 </phpunit>

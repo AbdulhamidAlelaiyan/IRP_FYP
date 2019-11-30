@@ -11,7 +11,7 @@ class UserTest extends TestCase
     protected $data;
     protected $incorrect_data;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->data = [

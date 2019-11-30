@@ -11,7 +11,7 @@ class MessageTest extends TestCase
     protected $correct_data;
     protected $incorrect_data;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->correct_data = [

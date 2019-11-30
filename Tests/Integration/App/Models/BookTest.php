@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integrtion\App\Controllers;
+namespace Tests\Integrtion\App\Models;
 
 use App\Models\Book;
 use PHPUnit\Framework\TestCase;
@@ -13,7 +13,7 @@ class BookTest extends TestCase
     protected $correct_data;
     protected $incorrect_data;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->incorrect_data = [

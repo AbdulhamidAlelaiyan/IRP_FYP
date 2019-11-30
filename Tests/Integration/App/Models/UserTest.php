@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Integrtion\App\Controllers;
+namespace Tests\Integrtion\App\Models;
 
 use App\Models\User;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +12,7 @@ class UserTest extends TestCase
     protected $data;
     protected $incorrect_data;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->data = [

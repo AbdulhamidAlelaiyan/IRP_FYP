@@ -14,7 +14,7 @@ class ReplyTest extends TestCase
 
     protected $backupGlobalsBlacklist = array( '_SESSION' );
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->correct_data = [

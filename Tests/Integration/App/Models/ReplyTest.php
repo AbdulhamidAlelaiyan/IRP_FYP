@@ -14,7 +14,7 @@ class ReplyTest extends TestCase
 
     protected $backupGlobalsBlacklist = array( '_SESSION' );
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->correct_data = [
@@ -31,12 +31,6 @@ class ReplyTest extends TestCase
         $this->reply->validate();
         $this->IncorrectReply->validate();
     }
-//
-//    public function testReplyWillBeSavedIfDataIsCorrect()
-//    {
-//        $this->assertTrue($this->reply->save());
-//    }
-// TODO Solve the weird issue above ^
 
     public function testReplyWillNotBeSavedIfDataIsInCorrect()
     {
