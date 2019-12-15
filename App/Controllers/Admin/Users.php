@@ -19,7 +19,7 @@ class Users extends AdminController
         $usersWithPaginator = User::getUsers();
         $users = $usersWithPaginator[0];
         $paginator = $usersWithPaginator[1];
-        View::renderTemplate('Admin/users/index.html.twig',
+        View::renderTemplate('Admin/Users/index.html.twig',
             [
                 'users' => $users,
                 'paginator' => $paginator,
